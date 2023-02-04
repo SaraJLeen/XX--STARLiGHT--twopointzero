@@ -24,7 +24,7 @@ local function RandomBPM(self, _)
 end
 
 local function textBPM(dispBPM)
-	return string.format("%03d", math.floor(dispBPM+0.5))
+	return string.format("%0d", math.floor(dispBPM+0.5))
 end
 
 local dispBPMs = {0,0}
@@ -61,7 +61,7 @@ return Def.ActorFrame{
 						s:GetParent():SetUpdateFunction(nil)
 					else
 						gmcmd(s, "SetChangeCommand")
-						s:settextf("%03d - %03d",math.floor(dispBPMs[1]+0.5),math.floor(dispBPMs[2]+0.5))
+						s:settextf("%0d - %0d",math.floor(dispBPMs[1]+0.5),math.floor(dispBPMs[2]+0.5))
 						s:GetParent():SetUpdateFunction(nil)
 					end
 				end

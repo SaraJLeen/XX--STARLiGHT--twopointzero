@@ -49,6 +49,8 @@ t[#t+1] = Def.ActorFrame{
 					text = "Long Version"
 				elseif song:IsMarathon() then
 					text = "Marathon Version"
+				elseif song:MusicLengthSeconds() < 70 then
+					text = "Short Cut"
 				else
 					text = ""
 				end

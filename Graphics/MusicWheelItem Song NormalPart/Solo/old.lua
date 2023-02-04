@@ -88,6 +88,8 @@ t[#t+1] = Def.ActorFrame{
                     s:settext("Long Version")
                 elseif song:IsMarathon() then
                     s:settext("Marathon Version")
+                elseif song:MusicLengthSeconds() < 70 then
+                    s:settext("Short Cut")
                 else
                     s:settext("")
                 end

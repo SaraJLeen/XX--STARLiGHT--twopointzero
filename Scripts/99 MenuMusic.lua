@@ -69,7 +69,9 @@ do
 		};
 		options = {
 			["Default"] = "MenuMusic/options/Default (loop).ogg";
-			["saiiko"] = "MenuMusic/options/Default (loop).ogg";
+			--["saiiko"] = "MenuMusic/options/Default (loop).ogg";
+			--["saiiko"] = "MenuMusic/options/SN3 (loop).ogg";
+			["saiiko"] = "MenuMusic/options/128beat (loop).ogg";
 			["vortivask"] = "MenuMusic/options/djvortivask (loop).ogg";
 			["inori"] = "MenuMusic/options/Default (loop).ogg";
 			["RGTM"] = "MenuMusic/options/128beat (loop).ogg";

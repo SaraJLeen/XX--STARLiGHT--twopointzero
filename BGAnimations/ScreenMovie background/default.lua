@@ -4,7 +4,12 @@ return Def.ActorFrame {
 	end;
 	Def.Sprite{
 		Texture="movie.avi",
-		InitCommand=function(s) s:zoomtoheight(1080):Center() end,
+		InitCommand=function(s)
+			s:zoomtoheight(1080):Center();
+			Trace("Resetting background settings");
+			SetUserPref("RandomRNG",false)
+			PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_RandomMovies');
+		end,
 	};
 	Def.Sound{
 		Name="BGM";

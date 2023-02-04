@@ -269,7 +269,11 @@ local function DrawDifListItem(diff, pn)
                   local topscore = 0
             
                   if scores[1] then
-                    topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+                    if ThemePrefs.Get("ConvertScoresAndGrades") then
+                      topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+                    else
+                      topscore = scores[1]:GetScore();
+                    end
                   end;
             
                   self:strokecolor(Color.Black)
@@ -366,13 +370,20 @@ local function DrawDifListItem(diff, pn)
         
                   local topscore=0
                   if scores[1] then
-                    topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+                    if ThemePrefs.Get("ConvertScoresAndGrades") then
+                      topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+                    else
+                      topscore = scores[1]:GetScore()
+                    end
                   end
         
                   local topgrade
                   if scores[1] then
                     topgrade = scores[1]:GetGrade();
-                    local tier = SN2Grading.ScoreToGrade(topscore, diff)
+                    local tier = scores[1]:GetGrade();
+                    if ThemePrefs.Get("ConvertScoresAndGrades") == true then
+                      tier = SN2Grading.ScoreToGrade(topscore, diff)
+                    end
                     assert(topgrade);
                     if scores[1]:GetScore()>1  then
                       if topgrade == 'Grade_Failed' then

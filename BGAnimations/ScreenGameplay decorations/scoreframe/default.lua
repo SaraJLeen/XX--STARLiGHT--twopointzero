@@ -131,6 +131,11 @@ t[#t+1] = Def.ActorFrame{
 					end;
 					SetCommand=function(s)
 						  local meter = GAMESTATE:GetCurrentSteps(pn):GetMeter()
+						local mt = '_MeterType_Default'
+						mt = LoadModule"SongAttributes.lua".GetMeterType(GAMESTATE:GetCurrentSong())
+						if (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
+							meter = GetConvertDifficulty_DDRX(GAMESTATE:GetCurrentSong(),GAMESTATE:GetCurrentSteps(pn),mt)
+						end
 						s:settext(meter)
 					end;
 					CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,

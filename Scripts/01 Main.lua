@@ -1,5 +1,9 @@
 DDR ={}
 
+Trace("Loading row prefs")
+LoadModule("Row.Prefs.lua")(LoadModule("Options.Prefs.lua"))
+Trace("Done")
+
 function DDRInput(self)
     return function(event)
         if not event.PlayerNumber then return end

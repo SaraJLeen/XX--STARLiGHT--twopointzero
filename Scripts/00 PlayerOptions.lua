@@ -69,7 +69,7 @@ end
 -- Parses a speed mod and returns the pair (type, number) or nil if parsing
 -- failed.
 local function CanonicalizeMod(mod)
-	num = tonumber(mod:match("^(%d+.?%d*)[xX]$"))
+	local num = tonumber(mod:match("^(%d+.?%d*)[xX]$"))
 	if num ~= nil then
 		return "x", num
 	end
@@ -82,6 +82,16 @@ local function CanonicalizeMod(mod)
 	num = tonumber(mod:match("^[mM](%d+.?%d*)$"))
 	if num ~= nil then
 		return "m", num
+	end
+
+	num = tonumber(mod:match("^[aA](%d+.?%d*)$"))
+	if num ~= nil then
+		return "a", num
+	end
+
+	num = tonumber(mod:match("^[cC][aA](%d+.?%d*)$"))
+	if num ~= nil then
+		return "ca", num
 	end
 
 	return nil
@@ -119,7 +129,7 @@ local function ModTableToList(mods)
 	end
 
 	-- C- and m-mods
-	for _, modtype in ipairs({"C", "m"}) do
+	for _, modtype in ipairs({"C", "m", "a", "ca"}) do
 		tmp = {}
 		for mod, _ in pairs(mods[modtype]) do
 			table.insert(tmp, mod)
@@ -152,6 +162,7 @@ local function ReadSpeedModFile(path)
 end
 
 -- Hook called during profile load
+local PreviousLoadProfileCustom = LoadProfileCustom
 function LoadProfileCustom(profile, dir)
 	-- This will be (intentionally) nil if the file is missing or bad
 	local mods = ReadSpeedModFile(dir .. "SpeedMods.txt")
@@ -169,12 +180,19 @@ function LoadProfileCustom(profile, dir)
 			break
 		end
 	end
+	if PreviousLoadProfileCustom then
+		PreviousLoadProfileCustom(profile, dir, pn)
+	end
 end
 
 -- Hook called during profile save
+local PreviousSaveProfileCustom = SaveProfileCustom
 function SaveProfileCustom(profile, dir)
 	-- Change this if a theme allows you to change and save custom
 	-- per-profile settings.
+	if PreviousSaveProfileCustom then
+		PreviousSaveProfileCustom(profile, dir, pn)
+	end
 end
 
 -- Returns a list of speed mods for the current round.
@@ -346,7 +364,16 @@ function GetSpeedModeAndValueFromPoptions(pn)
 	local poptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
 	local speed= nil
 	local mode= nil
-	if poptions:MaxScrollBPM() > 0 then
+	if poptions:AvarageScrollBPM() > 0 then
+		mode= "a"
+		speed= math.round(poptions:AvarageScrollBPM())
+	elseif poptions:AverageVelocityBPM() > 0 then
+		mode= "av"
+		speed= math.round(poptions:AverageVelocityBPM())
+	elseif poptions:ConstAverageScrollBPM() > 0 then
+		mode= "ca"
+		speed= math.round(poptions:ConstAverageScrollBPM())
+	elseif poptions:MaxScrollBPM() > 0 then
 		mode= "m"
 		speed= math.round(poptions:MaxScrollBPM())
 	elseif poptions:TimeSpacing() > 0 then
@@ -395,16 +422,31 @@ function ArbitrarySpeedMods()
 				stoptions:CMod(val.speed)
 				soptions:CMod(val.speed)
 				coptions:CMod(val.speed)
-			else
+			elseif val.mode == "m" then
 				poptions:MMod(val.speed)
 				stoptions:MMod(val.speed)
 				soptions:MMod(val.speed)
 				coptions:MMod(val.speed)
+			elseif val.mode == "a" then
+				poptions:AMod(val.speed)
+				stoptions:AMod(val.speed)
+				soptions:AMod(val.speed)
+				coptions:AMod(val.speed)
+			elseif val.mode == "av" then
+				poptions:AVMod(val.speed)
+				stoptions:AVMod(val.speed)
+				soptions:AVMod(val.speed)
+				coptions:AVMod(val.speed)
+			else
+				poptions:CAMod(val.speed)
+				stoptions:CAMod(val.speed)
+				soptions:CAMod(val.speed)
+				coptions:CAMod(val.speed)
 			end
             MESSAGEMAN:Broadcast("ArbitrarySpeedModsSaved",{Player=pn})
 		end,
 		NotifyOfSelection= function(self, pn, choice)
-			-- Adjust for the status elementsgit 
+			-- Adjust for the status elements
 			local real_choice= choice - self.NumPlayers
 			-- return true even though we didn't actually change anything so that
 			-- the underlines will stay correct.
@@ -417,7 +459,7 @@ function ArbitrarySpeedMods()
 					val.speed= math.round(new_val)
 				end
 			elseif real_choice >= 5 then
-				val.mode= ({"x", "C", "m"})[real_choice - 4]
+				val.mode= ({"x", "C", "m", "a", "ca"})[real_choice - 4]
 			end
 			self:GenChoices()
 			MESSAGEMAN:Broadcast("SpeedChoiceChanged", {pn= pn, mode= val.mode, speed= val.speed})
@@ -443,7 +485,7 @@ function ArbitrarySpeedMods()
 			end
 			self.Choices= {
 				"+" .. big_inc, "+" .. small_inc, "-" .. small_inc, "-" .. big_inc,
-				"Xmod", "Cmod", "Mmod"}
+				"Xmod", "Cmod", "Mmod", "Amod", "CAmod", "AVmod"}
 			-- Insert the status element for P2 first so it will be second
 			for i,pn in ipairs({PLAYER_2, PLAYER_1}) do
 				local val= self.CurValues[pn]
@@ -663,11 +705,12 @@ function OptionRowScreenFilter()
 			end
 		end,
 		SaveSelections = function(self, list, pn)
-			for i=1, #list do
+			local choiceToAlpha2 = {0, 20, 40, 60, 80, 100}
+			for i, value in ipairs(choiceToAlpha2) do
 				if list[i] then
 					local profileID = GetProfileIDForPlayer(pn)
 					local pPrefs = ProfilePrefs.Read(profileID)
-					pPrefs.filter = choiceToAlpha[i]
+					pPrefs.filter = choiceToAlpha2[i]
 					ProfilePrefs.Save(profileID)
 					break
 				end
@@ -688,6 +731,7 @@ local GetModsAndPlayerOptions = function(player)
 end
 
 function OptionRowGuideLine()
+	local ProfilePrefs = LoadModule"ProfilePrefs.lua"
 	local t = {
 		Name="GuideLine",
 		LayoutType = "ShowAllInRow",
@@ -723,6 +767,7 @@ function OptionRowGuideLine()
 end
 
 function OptionRowBias()
+	local ProfilePrefs = LoadModule"ProfilePrefs.lua"
 	local t = {
 		Name="Bias",
 		LayoutType = "ShowAllInRow",
@@ -758,6 +803,7 @@ function OptionRowBias()
 end
 
 function OptionRowEX()
+	local ProfilePrefs = LoadModule"ProfilePrefs.lua"
 	local t = {
 		Name="EX",
 		LayoutType = "ShowAllInRow",
@@ -765,7 +811,7 @@ function OptionRowEX()
 		OneChoiceForAllPlayers=false,
 		ExportOnChange=true,
 		Default = false,
-		Choices = {"Money Score","EXSCORE"},
+		Choices = {"Money Score","EX Score"},
 		Values = {false,true},
 		LoadSelections = function(self,list,pn)
 			local profileID = GetProfileIDForPlayer(pn)
@@ -794,6 +840,7 @@ function OptionRowEX()
 end
 
 function OptionRowScoreLab()
+	local ProfilePrefs = LoadModule"ProfilePrefs.lua"
 	local t = {
 		Name="ScoreLabel",
 		LayoutType = "ShowAllInRow",
@@ -877,6 +924,7 @@ function MiniSelector()
 			end
 		end,
 	}
+	setmetatable(t, t)
 	return t
 end
 
@@ -913,6 +961,7 @@ function MusicRate()
 			end
 		end,
 	};
+	setmetatable(t, t)
 	return t
 end
 
@@ -964,12 +1013,32 @@ function StepsListing()
     for v in ivalues(Steplist()) do
         if v:GetDifficulty() and v:GetStepsType() == GAMESTATE:GetCurrentStyle():GetStepsType() then
             conv[1][#conv[1]+1] = v
-            conv[2][#conv[2]+1] = ("%s %i"):format(THEME:GetString("CustomDifficulty",ToEnumShortString(v:GetDifficulty())), v:GetMeter())
+			local mt = '_MeterType_Default'
+			if not GAMESTATE:IsCourseMode() then
+				mt = LoadModule"SongAttributes.lua".GetMeterType(GAMESTATE:GetCurrentSong())
+				local meter = v:GetMeter()
+				if (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
+					meter = GetConvertDifficulty_DDRX(GAMESTATE:GetCurrentSong(),v,mt)
+					if v:IsAutogen() then
+						conv[2][#conv[2]+1] = ("%s ~%i (Autogen)"):format(THEME:GetString("CustomDifficulty",ToEnumShortString(v:GetDifficulty())), meter)
+					else
+						conv[2][#conv[2]+1] = ("%s ~%i"):format(THEME:GetString("CustomDifficulty",ToEnumShortString(v:GetDifficulty())), meter)
+					end
+				else
+					if v:IsAutogen() then
+						conv[2][#conv[2]+1] = ("%s %i (Autogen)"):format(THEME:GetString("CustomDifficulty",ToEnumShortString(v:GetDifficulty())), meter)
+					else
+						conv[2][#conv[2]+1] = ("%s %i"):format(THEME:GetString("CustomDifficulty",ToEnumShortString(v:GetDifficulty())), meter)
+					end
+				end
+			else
+				conv[2][#conv[2]+1] = ("%s %i"):format(THEME:GetString("CustomDifficulty",ToEnumShortString(v:GetDifficulty())), v:GetMeter())
+			end
         end
     end
 	local t = {
 		Name="Steps",
-		LayoutType = "ShowAllInRow",
+		LayoutType = "ShowOneInRow",
 		SelectType = "SelectOne",
 		ExportOnChange = true,
 		Choices = conv[2],
@@ -1109,7 +1178,8 @@ function ListChooser2()
 		Name="ListChooser2",
 		LayoutType="ShowAllInRow",
 		SelectType="SelectOne",
-		Choices={"Gameplay","Select Music","Main Modifiers","Uncommon Modifiers"},
+		--Choices={"Gameplay","Select Music","Main Modifiers","Uncommon Modifiers"},
+		Choices={"Gameplay","Select Music","Back to Main Modifiers"},
 		OneChoiceForAllPlayers=true,
 		LoadSelections=function(self,list,pn)
 			list[1] = true
@@ -1121,8 +1191,8 @@ function ListChooser2()
 			elseif list[2] then
 				screen:SetNextScreenName(SelectMusicOrCourse())
 			elseif list[3] then
-				screen:SetNextScreenName("ScreenPlayerOptions")
-			elseif list[4] then
+			--	screen:SetNextScreenName("ScreenPlayerOptions")
+			--elseif list[4] then
 				screen:SetNextScreenName("ScreenPlayerOptions3")
 			else
 				screen:SetNextScreenName("ScreenStageInformation")
@@ -1138,7 +1208,8 @@ function ListChooser3()
 		Name="ListChooser3",
 		LayoutType="ShowAllInRow",
 		SelectType="SelectOne",
-		Choices={"Gameplay","Select Music","Main Modifiers","Advanced Modifiers"},
+		--Choices={"Gameplay","Select Music","Main Modifiers","Advanced Modifiers"},
+		Choices={"Gameplay","Select Music","Advanced Modifiers"},
 		OneChoiceForAllPlayers=true,
 		LoadSelections=function(self,list,pn)
 			list[1] = true
@@ -1150,8 +1221,8 @@ function ListChooser3()
 			elseif list[2] then
 				screen:SetNextScreenName(SelectMusicOrCourse())
 			elseif list[3] then
-				screen:SetNextScreenName("ScreenPlayerOptions")
-			elseif list[4] then
+			--	screen:SetNextScreenName("ScreenPlayerOptions")
+			--elseif list[4] then
 				screen:SetNextScreenName("ScreenPlayerOptions2")
 			else
 				screen:SetNextScreenName("ScreenStageInformation")
@@ -1160,4 +1231,45 @@ function ListChooser3()
 	}
 	setmetatable(t,t)
 	return t
+end
+
+function OptionRowGameplayBackground()
+	local t = {
+		Name = "GameplayBackground";
+		LayoutType = "ShowAllInRow";
+		SelectType = "SelectOne";
+		OneChoiceForAllPlayers = true;
+		ExportOnChange = false;
+		Choices = {"Background", "DanceStages", "SNCharacters" };
+		LoadSelections = function(self, list, pn)
+			if ReadPrefFromFile("OptionRowGameplayBackground") ~= nil then
+				if GetUserPref("OptionRowGameplayBackground")=='Background' then
+					list[1] = true
+				elseif GetUserPref("OptionRowGameplayBackground")=='DanceStages' then
+					list[2] = true
+				elseif GetUserPref("OptionRowGameplayBackground")=='SNCharacters' then
+					list[3] = true
+				else
+					list[1] = true
+				end
+			else
+				WritePrefToFile("OptionRowGameplayBackground",'Background');
+				list[1] = true;
+			end;
+		end;
+		SaveSelections = function(self, list, pn)
+			if list[1] then
+				WritePrefToFile("OptionRowGameplayBackground",'Background');
+			elseif list[2] then
+				WritePrefToFile("OptionRowGameplayBackground",'DanceStages');
+			elseif list[3] then
+				WritePrefToFile("OptionRowGameplayBackground",'SNCharacters');
+			else
+				WritePrefToFile("OptionRowGameplayBackground",'Background');
+			end;
+			THEME:ReloadMetrics();
+		end;
+	};
+	setmetatable( t, t );
+	return t;
 end

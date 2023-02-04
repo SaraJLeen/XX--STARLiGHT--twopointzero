@@ -1,4 +1,5 @@
 --Update Internal Stuff
+local MyGrooveRadar = LoadModule "MyGrooveRadar.lua"
 local function UpdateInternal(self, Player)
 	--local pn = (Player == PLAYER_1) and 1 or 2
 	local style = (GAMESTATE:GetCurrentStyle():GetStepsType() == 'StepsType_Dance_Single') and 'S' or 'D'
@@ -10,6 +11,7 @@ local function UpdateInternal(self, Player)
 	local bigframe = self:GetChild('BigFrame')
 	local nodata = self:GetChild('NoData')
 	local SelectTimer = self:GetChild('SelectTimer')
+	local selimage = self:GetChild('SelectedProfileImage')
 	bigframe:visible(true)
 	card:visible(false)
 	SelectTimer:visible(true)
@@ -20,6 +22,8 @@ local function UpdateInternal(self, Player)
 		nodata:visible(false)
 		seltext:settext(PROFILEMAN:GetProfile(Player):GetDisplayName())
 		selectPlayerUID:settext(string.upper(string.sub(selPlayerUID,1,4)..'-'..string.sub(selPlayerUID,5,8)))
+		selimage:Load(LoadModule("Options.GetProfileData.lua")(GetProfileIDForPlayer(Player),true)["Image"]);
+		selimage:zoomtoheight(0):zoomtowidth(72)
 	else
 		card:visible(false)
 		nodata:visible(true)
@@ -34,6 +38,10 @@ local function UpdateInternal(self, Player)
 		and 'double'
 		or 'single'
 	GAMESTATE:StoreRankingName(Player,PROFILEMAN:GetProfile(Player):GetDisplayName())
+	GAMESTATE:SaveLocalData();
+	GAMESTATE:SaveProfiles();
+	MyGrooveRadar.SaveAllRadarData()
+	ProfilePrefs.SaveAll()
 end
 
 local function LoadCard(cColor,cColor2,Player,IsJoinFrame)
@@ -118,7 +126,7 @@ local function LoadPlayerStuff(Player)
 	x[#x+1] = LoadFont('_avenirnext lt pro bold/25px') .. {
 		Name='SelectedProfileText', 
 		InitCommand=function(self)
-			self:xy(-220,-15):halign(0):zoom(1.1):diffuse(color('#b5b5b5')):diffusetopedge(color('#e5e5e5')):diffusealpha(0):maxwidth(400)
+			self:xy(-160,-15):halign(0):zoom(1.1):diffuse(color('#b5b5b5')):diffusetopedge(color('#e5e5e5')):diffusealpha(0):maxwidth(400)
 		end,
 		OnCommand=function(s) s:sleep(0.7):linear(0.2):diffusealpha(1) end,
 		['Player' .. pname(Player) .. 'FinishMessageCommand']=function(s) s:sleep(0.3):diffusealpha(0) end,
@@ -126,12 +134,26 @@ local function LoadPlayerStuff(Player)
 	x[#x+1] = LoadFont('_avenirnext lt pro bold/25px') .. {
 		Name='selectPlayerUID', 
 		InitCommand=function(s) s:zoom(0.8):halign(0):diffuse(color('#b5b5b5')):diffusetopedge(color('#e5e5e5'))
-			:diffusealpha(0):xy(-220,18)
+			:diffusealpha(0):xy(-160,18)
 		end,
 		OnCommand=function(s)
 			s:sleep(0.7):linear(0.1):diffusealpha(1):zoom(1.1):linear(0.1):zoom(1)
 		end,
 		['Player' .. pname(Player) .. 'FinishMessageCommand']=function(s) s:sleep(0.3):diffusealpha(0) end,
+	};
+	x[#x+1] = Def.Sprite {
+		Name='SelectedProfileImage',
+		InitCommand=function(self)
+			self:xy( -204, 0 );
+			self:zoomtoheight(0)
+			self:zoomtowidth(72)
+		end,
+		OnCommand=function(s)
+			s:sleep(0.7):linear(0.1):diffusealpha(1):zoomtoheight(72):linear(0.1)
+		end,
+		OffCommand=function(s)
+			s:sleep(0.2):linear(0.1):diffusealpha(1):zoomtoheight(0):linear(0.1)
+		end,
 	};
 	x[#x+1] = Def.ActorFrame {
 		Name='SelectTimer', 

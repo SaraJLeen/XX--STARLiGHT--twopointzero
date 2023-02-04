@@ -27,7 +27,8 @@ return Def.ActorFrame{
 		OnCommand=function(s) s:diffusealpha(0):sleep(20):linear(0.297):diffusealpha(1) end,
 	  };
 	  Def.Sprite{
-		InitCommand=function(s) s:xy(_screen.cx,_screen.cy+340):diffuseshift():effectcolor1(Color.White):effectcolor2(color("#B4FF01")) end,
+		InitCommand=function(s) s:xy(_screen.cx,_screen.cy+340):diffuseshift():effectcolor1(Color.White):effectcolor2(color("#B4FF01"))
+		end,
 		BeginCommand=function(s) s:queuecommand("Set") end,
 		OnCommand=function(s) s:diffusealpha(0):linear(0.2):diffusealpha(1) end,
 		CoinInsertedMessageCommand=function(s) s:queuecommand("Set") end,

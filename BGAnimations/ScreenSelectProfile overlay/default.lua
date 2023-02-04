@@ -9,17 +9,25 @@ function GetLocalProfiles()
 			Def.BitmapText{
 				Font="_avenirnext lt pro bold/25px",
 				Text=profile:GetDisplayName(),
-				InitCommand=function(s) s:xy(-220,-15):halign(0):diffuse(color("#b5b5b5")):diffusetopedge(color("#e5e5e5"))
+				InitCommand=function(s) s:xy(-160,-15):halign(0):diffuse(color("#b5b5b5")):diffusetopedge(color("#e5e5e5"))
 					:maxwidth(400):zoom(1.1)
 				end,
 			};
 			Def.BitmapText{
 				Font="_avenirnext lt pro bold/25px",
 				Text=string.upper(string.sub(profile:GetGUID(),1,4).."-"..string.sub(profile:GetGUID(),5,8)),
-				InitCommand=function(s) s:xy(-220,18):halign(0):zoom(0.8):diffuse(color("#b5b5b5")):diffusetopedge(color("#e5e5e5"))
+				InitCommand=function(s) s:xy(-160,18):halign(0):zoom(0.8):diffuse(color("#b5b5b5")):diffusetopedge(color("#e5e5e5"))
 					:maxwidth(400)
 				end,
-			}
+			};
+			Def.Sprite {
+				Texture=LoadModule("Options.GetProfileData.lua")(p,true)["Image"],
+				InitCommand=function(self)
+					self:xy( -204, 0 );
+                        self:zoomtoheight(72)
+                        self:zoomtowidth(72)
+				end,
+			};
 		};
 		t[#t+1]=ProfileCard;
 	end

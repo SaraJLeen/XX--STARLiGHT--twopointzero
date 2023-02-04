@@ -417,7 +417,7 @@ group_colors= {
 	["13 - DDR X3 vs 2ndMIX"]= "#16b5ef",
 	["14 - DDR 2013"]= "#69ebca",
 	["15 - DDR 2014"]= "#69ebca",
-  ["16 - DDR A"]= "#16b5ef",
+	["16 - DDR A"]= "#16b5ef",
   ["18 - DDR SuperNOVA3"]= "#81f1a9",
   ["19 - DDR XX"]= "#16b5ef",
 	-- genre/bemani series sort

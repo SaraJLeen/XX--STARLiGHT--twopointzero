@@ -28,6 +28,19 @@ local RecordPane = Def.ActorFrame{
   InitCommand = function(s) s:xy(SCREEN_LEFT+470,SCREEN_BOTTOM-150) end,
 	OnCommand=function(s) s:addy(600):sleep(0.4):decelerate(0.3):addy(-600) end,
   OffCommand=function(s) s:sleep(0.3):decelerate(0.3):addy(600) end,
+          SetCommand=function(s)
+            local song = GAMESTATE:GetCurrentSong();
+            if song then
+              s:visible(true)
+            else
+              s:visible(false)
+            end
+          end,
+          CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
+	CurrentStepsP1ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentStepsP2ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentTrailP1ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentTrailP2ChangedMessageCommand=function(s) s:playcommand("Set") end,
   Def.Sprite{
     Texture=ex.."RadarBack",
   };
@@ -53,8 +66,29 @@ local RecordPane = Def.ActorFrame{
 for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
   t[#t+1] = Def.ActorFrame{
     loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/WheelDeco/RadarHandler.lua"))(pn)..{
-      InitCommand = function(s) s:xy(SCREEN_LEFT+172,SCREEN_BOTTOM-130):zoom(0.65) end,
+      InitCommand = function(s)
+      s:xy(SCREEN_LEFT+172,SCREEN_BOTTOM-130)
+      s:zoom(0.65)
+	--local profile = PROFILEMAN:GetProfile(pn) or PROFILEMAN:GetMachineProfile()
+	--if profile and PROFILEMAN:IsPersistentProfile(pn) then
+	--	profile:SetLastUsedHighScoreName(profile:GetDisplayName())
+	--	GAMESTATE:StoreRankingName(pn,profile:GetDisplayName())
+	--end
+      end,
     };
+          SetCommand=function(s)
+            local song = GAMESTATE:GetCurrentSong();
+            if song then
+              s:visible(true)
+            else
+              s:visible(false)
+            end
+          end,
+          CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
+	CurrentStepsP1ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentStepsP2ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentTrailP1ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentTrailP2ChangedMessageCommand=function(s) s:playcommand("Set") end,
     loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/WheelDeco/Pane.lua"))()..{
       InitCommand = function(s) s:xy(SCREEN_LEFT+480,SCREEN_BOTTOM-145) end,
 	    OnCommand=function(s) s:addy(600):sleep(0.4):decelerate(0.3):addy(-600) end,
@@ -118,7 +152,7 @@ return Def.ActorFrame{
   };
   Def.ActorFrame{
     Name="HLFrame",
-    InitCommand=function(s) s:xy(SCREEN_CENTER_X+436,_screen.cy+24) end,
+    InitCommand=function(s) s:xy(SCREEN_CENTER_X+436,_screen.cy+24):draworder(5):diffusealpha(0.9) end,
     OnCommand=function(s) s:addx(1100):sleep(0.5):decelerate(0.2):addx(-1100) end,
     OffCommand=function(s) s:sleep(0.3):decelerate(0.3):addx(1100) end,
     Def.Sprite{Texture=ex.."frame.png",};
@@ -132,6 +166,19 @@ return Def.ActorFrame{
     InitCommand=function(self) self:xy(IsUsingWideScreen() and SCREEN_LEFT+408 or SCREEN_LEFT+330,SCREEN_CENTER_Y+80) end,
     OnCommand=function(s) s:zoom(IsUsingWideScreen() and 1 or 0.8):addx(-800):sleep(0.3):decelerate(0.3):addx(800) end,
     OffCommand=function(s) s:sleep(0.3):decelerate(0.3):addx(-800) end,
+          SetCommand=function(s)
+            local song = GAMESTATE:GetCurrentSong();
+            if song then
+              s:visible(true)
+            else
+              s:visible(false)
+            end
+          end,
+          CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
+	CurrentStepsP1ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentStepsP2ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentTrailP1ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentTrailP2ChangedMessageCommand=function(s) s:playcommand("Set") end,
     Def.Sprite{
       Texture="DiffBacker",
     };
@@ -170,5 +217,50 @@ return Def.ActorFrame{
 			end
 		end,
 		CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
-	};
+  };
+  Def.BitmapText{
+    Font="_avenirnext lt pro bold/36px",
+    Name="LengthLabel";
+    InitCommand=function(s)
+      s:diffusealpha(0);
+      s:x(700);
+      s:y(400);
+      s:halign(0.5);
+      s:zoom(0.75)
+      s:strokecolor(Color.Black)
+      s:settext( "" );
+    end,
+    OnCommand=function(s)
+      s:sleep(0.5)
+      s:decelerate(0.5)
+      s:y(440);
+      s:zoom(1)
+      s:diffusealpha(1);
+    end,
+    OffCommand=function(s)
+      s:decelerate(0.0)
+      s:y(440);
+      s:zoom(1)
+      s:diffusealpha(1);
+      s:decelerate(0.2)
+      s:y(440);
+      s:zoom(0.75)
+      s:diffusealpha(0);
+    end,
+    CurrentSongChangedMessageCommand=function(s)
+      local song = GAMESTATE:GetCurrentSong()
+      if song then
+        if false and song:MusicLengthSeconds() < 60 then
+            resultxt, discardtxt = math.modf(song:MusicLengthSeconds());
+            s:settext( resultxt.."s" );
+        elseif song:MusicLengthSeconds() > 3600 then
+          s:settext( SecondsToHHMMSS(song:MusicLengthSeconds()) );
+        else
+          s:settext( SecondsToMSS(song:MusicLengthSeconds()) );
+        end
+      else
+        s:settext( "" );
+      end
+    end,
+  };
 }

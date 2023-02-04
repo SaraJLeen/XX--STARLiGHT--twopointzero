@@ -9,7 +9,31 @@ if not GAMESTATE:IsCourseMode() then
 	local diff2
 	local diffname = diff:GetDifficulty()
 	local diffname2
+	local mt = '_MeterType_Default'
+	mt = LoadModule"SongAttributes.lua".GetMeterType(GAMESTATE:GetCurrentSong())
 	local meter = diff:GetMeter()
+
+	if (GAMESTATE:GetCurrentSong() and GAMESTATE:GetCurrentSong():HasBGChanges()) then
+		Trace("Video RNG");
+		SetUserPref("RandomRNG",'false');
+		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_Off');
+	elseif (GetUserPref("OptionRowGameplayBackground")=='DanceStages') and math.random(1,100) <= 20 then
+		Trace("Dance stage RNG");
+		SetUserPref("RandomRNG",'true');
+		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_RandomMovies');
+	elseif GetUserPref("OptionRowGameplayBackground")=='DanceStages' then
+		Trace("Dance stage");
+		SetUserPref("RandomRNG",'false');
+		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_Off');
+	elseif GetUserPref("OptionRowGameplayBackground")=='SNCharacters' then
+		SetUserPref("RandomRNG",'false');
+		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_RandomMovies');
+	else
+		Trace("BG stage");
+		SetUserPref("RandomRNG",'false');
+		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_RandomMovies');
+	end;
+
 	local meter2
 	
 	if GAMESTATE:GetNumPlayersEnabled() == 2 then
@@ -18,7 +42,13 @@ if not GAMESTATE:IsCourseMode() then
 		diffname = diff:GetDifficulty()
 		diffname2 = diff2:GetDifficulty()
 		meter = diff:GetMeter()
+		if (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
+			meter = GetConvertDifficulty_DDRX(GAMESTATE:GetCurrentSong(),diff,mt)
+		end
 		meter2 = diff2:GetMeter()
+		if (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
+			meter2 = GetConvertDifficulty_DDRX(GAMESTATE:GetCurrentSong(),diff2,mt)
+		end
 		
 		if pass then
 			Handle:Write(art..' - '..song..' - '..THEME:GetString('CustomDifficulty',ToEnumShortString(diffname))..' '..meter..' | '..THEME:GetString('CustomDifficulty',ToEnumShortString(diffname2))..' '..meter2)

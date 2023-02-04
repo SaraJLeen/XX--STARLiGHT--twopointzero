@@ -23,7 +23,7 @@ local t = Def.ActorFrame{
 			:queuecommand("Play")
 		end,
 		PlayCommand=function(s)
-			if s:GetVisible() then SOUND:PlayAnnouncer("select style comment double") end
+			--if s:GetVisible() then SOUND:PlayAnnouncer("select style comment double") end --unneeded, adds repetition
 		end,LoseFocusCommand=function(s) s:stoptweening():smooth(0.3):zoom(0.825) end,
 		LoadActor("pad") ..{
 			InitCommand=function(s) s:diffusealpha(0):zoomx(1):xy(2,288) end,

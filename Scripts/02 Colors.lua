@@ -22,6 +22,9 @@ Color = {
 	Outline		=	color("0,0,0,1"),
 	Invisible	=	color("1,1,1,0"),
 	Stealth		=	color("0,0,0,0"),
+
+	AutogenStep	=	color("1,1,0,1"),
+	ConvDiffStep	=	color("0.75,0.75,1,1"),
 -- Color Functions
 -- These functions alter colors in a certain way so that you can make
 -- new ones without having to copy a color or find a new one.

@@ -28,7 +28,7 @@ return Def.ActorFrame{
 		setenv("OPList",0)
 	end,
 	PlayerJoinedMessageCommand=function(self,param)
-		SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectMusic"):StartTransitioningScreen("SM_GoToNextScreen")
+		SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectProfile"):StartTransitioningScreen("SM_GoToNextScreen")
   	end;
 	Deco;
 	loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/_OptionsList/default.lua"))();
@@ -47,11 +47,13 @@ return Def.ActorFrame{
 	CodeMessageCommand=function(s,p)
 		if p.PlayerNumber == PLAYER_1 then
 			if p.Name == "OpenOL" then
+				LoadFromProfilePrefs()
 				SCREENMAN:GetTopScreen():OpenOptionsList(PLAYER_1)
 			end
 		end
 		if p.PlayerNumber == PLAYER_2 then
 			if p.Name == "OpenOL" then
+				LoadFromProfilePrefs()
 				SCREENMAN:GetTopScreen():OpenOptionsList(PLAYER_2)
 			end
 		end

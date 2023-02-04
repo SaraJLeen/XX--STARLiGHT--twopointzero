@@ -2,6 +2,7 @@ local pn = ...
 
 local t = Def.ActorFrame {};
 -- Holy fcuk yes it's finally working (inefficient as it may be)
+local MyGrooveRadar = LoadModule "MyGrooveRadar.lua"
 local function RivalScore(pn,rival)
 	local t=Def.ActorFrame {
 		CurrentSongChangedMessageCommand=function(s) s:playcommand("Set") end,
@@ -34,16 +35,28 @@ local function RivalScore(pn,rival)
 						profile = PROFILEMAN:GetMachineProfile();
 					end;
 
-					scorelist = profile:GetHighScoreList(SongOrCourse,StepsOrTrail);
+					--This displays only personal scores...
+					--scorelist = PROFILEMGetHighScoreList(SongOrCourse,StepsOrTrail);
+					scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreList(SongOrCourse,StepsOrTrail);
 					assert(scorelist)
 					local scores = scorelist:GetHighScores();
 					local topscore=0;
 					if scores[rival] then
 						topscore = scores[rival]:GetScore();
+						if ThemePrefs.Get("ConvertScoresAndGrades") == true then
+							topscore = SN2Scoring.GetSN2ScoreFromHighScore(st, scores[rival]:GetScore())
+						end
 					end;
 					assert(topscore);
 					if topscore ~= 0  then
 						self:settext(scores[rival]:GetName());
+						self:diffuse( Color.White )
+						for _,pns in pairs(GAMESTATE:GetEnabledPlayers()) do
+							local prof = PROFILEMAN:GetProfile(pns)
+							if(scores[rival]:GetName() == prof:GetDisplayName()) then
+								self:diffuse( PlayerColor(pns) )
+							end
+						end
 					else
 						self:settext("");
 					end;
@@ -78,12 +91,21 @@ local function RivalScore(pn,rival)
 						profile = PROFILEMAN:GetMachineProfile();
 					end;
 
-					scorelist = profile:GetHighScoreList(SongOrCourse,StepsOrTrail);
+					--if profile ~= nil and profile
+			            profile:SetLastUsedHighScoreName(profile:GetDisplayName())
+			            GAMESTATE:StoreRankingName(pn,profile:GetDisplayName())
+					--end
+					--This is only personal scores
+					--scorelist = profile:GetHighScoreList(SongOrCourse,StepsOrTrail);
+					scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreList(SongOrCourse,StepsOrTrail);
 					assert(scorelist)
 					local scores = scorelist:GetHighScores();
 					local topscore=0;
 					if scores[rival] then
 						topscore = scores[rival]:GetScore();
+						if ThemePrefs.Get("ConvertScoresAndGrades") == true then
+							topscore = SN2Scoring.GetSN2ScoreFromHighScore(st, scores[rival]:GetScore())
+						end
 					end;
 					assert(topscore);
 					if topscore ~= 0  then
@@ -97,6 +119,10 @@ local function RivalScore(pn,rival)
 				else
 					text = "";
 				end;
+				GAMESTATE:SaveLocalData();
+				GAMESTATE:SaveProfiles();
+				MyGrooveRadar.SaveAllRadarData()
+				ProfilePrefs.SaveAll()
 				self:settext(text);
 			end;
 		};
@@ -130,18 +156,31 @@ local function RivalScore(pn,rival)
 								profile = PROFILEMAN:GetMachineProfile();
 							end;
 		
-							scorelist = profile:GetHighScoreList(SongOrCourse,StepsOrTrail);
+							--if profile ~= nil and profile
+					            profile:SetLastUsedHighScoreName(profile:GetDisplayName())
+					            GAMESTATE:StoreRankingName(pn,profile:GetDisplayName())
+							--end
+							--This is personal only
+							--scorelist = profile:GetHighScoreList(SongOrCourse,StepsOrTrail);
+							scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreList(SongOrCourse,StepsOrTrail);
 							assert(scorelist);
 								local scores = scorelist:GetHighScores();
 								assert(scores);
 								local topscore=0;
 								if scores[rival] then
 									topscore = scores[rival]:GetScore();
+									if ThemePrefs.Get("ConvertScoresAndGrades") == true then
+										topscore = SN2Scoring.GetSN2ScoreFromHighScore(st, scores[rival]:GetScore())
+									end
 								end;
 								assert(topscore);
 								local topgrade;
 								if scores[rival] then
 									topgrade = scores[rival]:GetGrade();
+									if ThemePrefs.Get("ConvertScoresAndGrades") == true then
+										topgrade = SN2Grading.ScoreToGrade(topscore, diff)
+									end
+									tier = topgrade
 									assert(topgrade);
 									if scores[rival]:GetScore()>1  then
 										if scores[rival]:GetScore()==1000000 and topgrade=="Grade_Tier07" then
@@ -160,6 +199,10 @@ local function RivalScore(pn,rival)
 						else
 							self:diffusealpha(0);
 						end;
+						GAMESTATE:SaveLocalData();
+						GAMESTATE:SaveProfiles();
+						MyGrooveRadar.SaveAllRadarData()
+						ProfilePrefs.SaveAll()
 					end;
 				};
 				Def.Sprite{
@@ -191,7 +234,13 @@ local function RivalScore(pn,rival)
 								profile = PROFILEMAN:GetMachineProfile();
 							end;
 		
-							scorelist = profile:GetHighScoreList(SongOrCourse,StepsOrTrail);
+							--if not(profile == nil)
+					            profile:SetLastUsedHighScoreName(profile:GetDisplayName())
+					            GAMESTATE:StoreRankingName(pn,profile:GetDisplayName())
+							--end
+							--This is personal only
+							--scorelist = profile:GetHighScoreList(SongOrCourse,StepsOrTrail);
+							scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreList(SongOrCourse,StepsOrTrail);
 							assert(scorelist);
 								local scores = scorelist:GetHighScores();
 								assert(scores);
@@ -230,6 +279,10 @@ local function RivalScore(pn,rival)
 						else
 							self:diffusealpha(0);
 						end;
+						GAMESTATE:SaveLocalData();
+						GAMESTATE:SaveProfiles();
+						MyGrooveRadar.SaveAllRadarData()
+						ProfilePrefs.SaveAll()
 					end;
 				};
 		}

@@ -25,15 +25,15 @@ return Def.ActorFrame{
         local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
         if not mw then return end
         if song then
-          self:Load(jk.GetSongGraphicPath(song,"Jacket"))
+          self:LoadFromCached("jacket",jk.GetSongGraphicPath(song,"Jacket"))
         elseif mw:GetSelectedType('WheelItemDataType_Section')  then
           if mw:GetSelectedSection() == "" then
-            self:Load(THEME:GetPathG("","_jackets/Random"))
+            self:LoadFromCached("jacket",THEME:GetPathG("","_jackets/Random"))
           else
-            self:Load(jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Jacket",so))
+            self:LoadFromCached("jacket",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Jacket",so))
           end
         else
-          self:Load( THEME:GetPathG("","MusicWheelItem fallback") );
+          self:LoadFromCached("jacket", THEME:GetPathG("","MusicWheelItem fallback") );
         end;
         self:scaletofit(-120,-120,120,120):xy(-2,-4)
           end;
@@ -45,7 +45,7 @@ return Def.ActorFrame{
         local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
         if not song and mw then
           if mw:GetSelectedType() == 'WheelItemDataType_Custom' then
-            self:Load(THEME:GetPathG("","_jackets/COURSE"))
+            self:LoadFromCached("jacket",THEME:GetPathG("","_jackets/COURSE"))
             self:visible(true)
           else
             self:visible(false)
@@ -93,15 +93,19 @@ return Def.ActorFrame{
         local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
         if not mw then return end
         if song then
-          self:Load(jk.GetSongGraphicPath(song,"Banner"))
+		  setenv("getgroupname","song");
+          self:LoadFromCached("banner",jk.GetSongGraphicPath(song,"Banner"))
         elseif mw:GetSelectedType('WheelItemDataType_Section') then
+		  setenv("getgroupname",mw:GetSelectedSection());
           if mw:GetSelectedSection() == "" then
-            self:Load(THEME:GetPathG("","_banners/Random"))
+			setenv("getgroupname","random");
+	        if mw:GetSelectedType() == 'WheelItemDataType_Custom' then setenv("getgroupname","course"); end
+            self:LoadFromCached("banner",THEME:GetPathG("","_banners/Random"))
           else
-            self:Load(jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Banner",so))
+            self:LoadFromCached("banner",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Banner",so))
           end
         else
-          self:visible(false)
+ self:visible(false)
         end;
         self:scaletofit(-239,-75,239,75):xy(-24,-20)
       end;
@@ -114,7 +118,7 @@ return Def.ActorFrame{
         local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
         if not song and mw then
           if mw:GetSelectedType() == 'WheelItemDataType_Custom' then
-            self:Load(THEME:GetPathG("","_banners/COURSE")):setsize(478,150)
+            self:LoadFromCached("banner",THEME:GetPathG("","_banners/COURSE")):setsize(478,150)
             self:visible(true)
           else
             self:visible(false)

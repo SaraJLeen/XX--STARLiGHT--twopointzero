@@ -1,11 +1,22 @@
 local jk = LoadModule "Jacket.lua"
 local outDelay = THEME:GetMetric('ScreenGameplay', 'OutTransitionSeconds')
+local t = Def.ActorFrame{};
 
 local List = {
 	'Tohoku EVOLVED',
 	'COVID',
 	'Outbreak'
 }
+
+if not GAMESTATE:IsDemonstration() then
+	if ThemePrefs.Get("FlashyCombo") == true and GetUserPref("OptionRowGameplayBackground")=='DanceStages' then
+		--if (not GetUserPref("SelectCharacter"..PLAYER_1) == "Random") or (not GetUserPref("SelectCharacter"..PLAYER_2) == "Random") then
+			t[#t+1] = LoadActor("Cut-In/DanceStages")
+		--end
+	elseif ThemePrefs.Get("FlashyCombo") == true and GetUserPref("OptionRowGameplayBackground")=='SNCharacters' then
+		t[#t+1] = LoadActor("Cut-In/SNCharacters")
+	end
+end
 
 local function get_UI_video_path()
 	local path = THEME:GetCurrentThemeDirectory() .. 'BGAnimations/ScreenWithMenuElements background/' .. ThemePrefs.Get('MenuBG') .. '/'
@@ -22,8 +33,6 @@ local function get_UI_video_path()
 	
 	return false
 end
-
-local t = Def.ActorFrame{};
 
 t[#t+1] = StatsEngine()
 

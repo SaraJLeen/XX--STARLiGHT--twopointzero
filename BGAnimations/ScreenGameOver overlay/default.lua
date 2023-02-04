@@ -3,6 +3,8 @@ return Def.ActorFrame{
     Texture="bg",
     InitCommand=function(s) s:Center():zoom(1.2)
       setenv("Credits",false)
+		SetUserPref("RandomRNG",'false');
+		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_RandomMovies');
     end,
     OnCommand=function(s) s:smooth(5):zoom(1) end,
   };

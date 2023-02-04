@@ -208,7 +208,11 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
           local HS = 0
   
           if scores[2] then
-            HS = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[2])
+            if ThemePrefs.Get("ConvertScoresAndGrades") then
+              HS = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[2])
+            else
+              HS = scores[2]:GetScore();
+            end
           end;
           local adjHS = Score-HS
           if adjHS > 0 then
@@ -307,6 +311,11 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
         OnCommand=function(self)
           self:y(36)
           local meter = GAMESTATE:GetCurrentSteps(pn):GetMeter();
+		local mt = '_MeterType_Default'
+		mt = LoadModule"SongAttributes.lua".GetMeterType(GAMESTATE:GetCurrentSong())
+		if (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
+			meter = GetConvertDifficulty_DDRX(GAMESTATE:GetCurrentSong(),GAMESTATE:GetCurrentSteps(pn),mt)
+		end
           self:settext(meter):strokecolor(Color.Black)
         end;
       };

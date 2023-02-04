@@ -100,22 +100,22 @@ return Def.ActorFrame{
   StartRepeatCommand=function(s)
     local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
     local song = GAMESTATE:GetCurrentSong()
-    if song then
-      if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
-        if ShowTwoPart() and getenv("OPStop") == 0 then
-          SCREENMAN:GetTopScreen():OpenOptionsList(PLAYER_1)
-        else
-          SCREENMAN:GetTopScreen():OpenOptionsList(PLAYER_1)
-        end
-      end
-      if GAMESTATE:IsPlayerEnabled(PLAYER_2) then 
-        if ShowTwoPart() and getenv("OPStop") == 0 then
-          SCREENMAN:GetTopScreen():OpenOptionsList(PLAYER_2)
-        else
-          SCREENMAN:GetTopScreen():OpenOptionsList(PLAYER_2)
-        end
-      end
-    end
+    --if song then
+    --  if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+    --    if ShowTwoPart() and getenv("OPStop") == 0 then
+    --      SCREENMAN:GetTopScreen():OpenOptionsList(PLAYER_1)
+    --    else
+    --      SCREENMAN:GetTopScreen():OpenOptionsList(PLAYER_1)
+    --    end
+    --  end
+    --  if GAMESTATE:IsPlayerEnabled(PLAYER_2) then 
+    --    if ShowTwoPart() and getenv("OPStop") == 0 then
+    --      SCREENMAN:GetTopScreen():OpenOptionsList(PLAYER_2)
+    --    else
+    --      SCREENMAN:GetTopScreen():OpenOptionsList(PLAYER_2)
+    --    end
+    --  end
+    --end
   end,
   PlayTopPressedActorCommand = function(self)
     playTopPressedActor()

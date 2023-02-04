@@ -148,7 +148,8 @@ end
 t[#t+1] = Def.ActorFrame {
 	Def.BitmapText{
 	Font="Common normal",
-	Text=themeInfo["Name"] .. " " .. themeInfo["Version"] .. " by " .. themeInfo["Author"] .. (SN3Debug and " (debug mode)" or "") ,
+	--Text=themeInfo["Name"] .. " " .. themeInfo["Version"] .. " by " .. themeInfo["Author"] .. (SN3Debug and " (debug mode)" or "") ,
+     Text="",
 	InitCommand=function(s) s:halign(1):xy(SCREEN_RIGHT-10,SCREEN_TOP+90):diffusealpha(0):wrapwidthpixels(400) end,
 	OnCommand=function(s) s:sleep(0.3):decelerate(0.6):diffusealpha(0.5) end,
   };}

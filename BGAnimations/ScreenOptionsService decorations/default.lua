@@ -4,6 +4,10 @@ local screenName = Var "LoadingScreen";
 
 local bars = Def.ActorFrame{}
 
+Trace("Loading row prefs")
+LoadModule("Row.Prefs.lua")(LoadModule("Options.Prefs.lua"))
+Trace("Done")
+
 for i=1,7 do
 	bars[#bars+1] = Def.Quad{
 		InitCommand=function(s) s:y(80*i):diffuse(Alpha(Color.White,0.2)):setsize(1276,34) end,
@@ -35,12 +39,12 @@ t[#t+1] = Def.ActorFrame{
 			InitCommand=function(s) s:y(-342) end,
 		}
 	};
-	Def.BitmapText{
-		Font="Common normal",
-		InitCommand=function(s)
-			s:xy(SCREEN_RIGHT,SCREEN_TOP+80):halign(1):settext(VersionDate().."\n"..ProductVersion()):diffusealpha(0.5)
-		end,
-	};
+	--Def.BitmapText{
+		--Font="Common normal",
+		--InitCommand=function(s)
+		--	s:xy(SCREEN_RIGHT,SCREEN_TOP+80):halign(1):settext(VersionDate().."\n"..ProductVersion()):diffusealpha(0.5)
+		--end,
+	--};
 	Def.Sprite{
 		Texture="explain.png",
 		InitCommand=function(s) s:xy(_screen.cx,SCREEN_BOTTOM-180) end,

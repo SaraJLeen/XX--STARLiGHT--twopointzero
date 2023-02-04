@@ -1,3 +1,13 @@
+local SBG = GAMESTATE:GetSongOptionsObject("ModsLevel_Preferred")
+
+if GetUserPref("OptionRowGameplayBackground")=='DanceStages' and GetUserPref("UseBGMovies")~='true' then
+	SBG:RandomBGOnly(false)
+	Trace("Setting DanceStage BG mode");
+else
+	SBG:RandomBGOnly(false)
+	Trace("Setting other BG mode");
+end
+
 local t = Def.ActorFrame {};
 local style = GAMESTATE:GetCurrentStyle():GetStyleType()
 local st = GAMESTATE:GetCurrentStyle():GetStepsType();
@@ -20,7 +30,7 @@ for _, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
 	else
 		song = GAMESTATE:GetCurrentSong()
 	end
-	if show_cutins and st ~= 'StepsType_Dance_Double' and ThemePrefs.Get("FlashyCombo") == true and song:HasBGChanges() == false then
+	if false and show_cutins and st ~= 'StepsType_Dance_Double' and ThemePrefs.Get("FlashyCombo") == true and song:HasBGChanges() == false then
 		--use ipairs here because i think it expects P1 is loaded before P2
 		if #Characters.GetAllCharacterNames() ~= 0 then
 			t[#t+1] = Def.ActorFrame {
@@ -147,7 +157,10 @@ for _, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
 			end,
 			BeginCommand=function(s,p)
 				s:setsize(width,_screen.h)
-				if screen == "ScreenDemonstration" then
+				-- Trace("Filter alf: "..tostring(alf)..".");
+                   if screen == "ScreenJukebox" then
+                        s:diffusealpha(0.0)
+				elseif screen == "ScreenDemonstration" then
 					s:diffusealpha(0.5)
 				else
 					s:diffusealpha(alf/100)

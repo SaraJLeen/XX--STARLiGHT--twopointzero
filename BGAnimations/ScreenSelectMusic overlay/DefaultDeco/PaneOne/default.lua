@@ -47,14 +47,19 @@ t[#t+1] = Def.ActorFrame{
           assert(scores);
           local topscore=0;
           if scores[1] then
-            topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+            if ThemePrefs.Get("ConvertScoresAndGrades") then
+              topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+            else
+              topscore = scores[1]:GetScore();
+            end
           end;
   
-          local topgrade;
           if scores[1] then
-            topgrade = scores[1]:GetGrade();
-            local tier = SN2Grading.ScoreToGrade(topscore, diff)
-            assert(topgrade);
+            local tier = scores[1]:GetGrade();
+            if ThemePrefs.Get("ConvertScoresAndGrades") == true then
+              tier = SN2Grading.ScoreToGrade(topscore, diff)
+            end
+            assert(tier);
             if scores[1]:GetScore()>1  then
               self:LoadBackground(THEME:GetPathB("ScreenEvaluationNormal overlay/grade/GradeDisplayEval",ToEnumShortString(tier)));
               self:diffusealpha(1):zoom(0.25):y(-15)
@@ -94,7 +99,11 @@ t[#t+1] = Def.ActorFrame{
             local topscore = 0
   
             if scores[1] then
-              topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+              if ThemePrefs.Get("ConvertScoresAndGrades") then
+                topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+              else
+                topscore = scores[1]:GetScores()
+              end
             end;
   
             self:diffusealpha(1)
@@ -111,7 +120,7 @@ t[#t+1] = Def.ActorFrame{
   };
 };
 
-function TopRecord(pn) --�^�ǳ̰��������Ӭ���
+function TopRecord(pn) -- ???
 	local myScoreSet = {
 		["HasScore"] = 0;
 		["SongOrCourse"] =0;

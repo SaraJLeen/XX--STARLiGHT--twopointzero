@@ -22,7 +22,7 @@ return Def.ActorFrame{
         Def.Sprite{
             CurrentSongChangedMessageCommand=function(s)
                 s:stoptweening():diffusealpha(0)
-                s:sleep(0.4):queuecommand("Load2")
+                        s:sleep(0.4):queuecommand("Load2")
             end,
             Load2Command=function(s)
                 local song = GAMESTATE:GetCurrentSong()
@@ -31,21 +31,21 @@ return Def.ActorFrame{
                 if not mw then return end
                 if song then
                     if song:HasBackground() then
-                        local bg = song:GetSongDir()
-                        local bgvideo = {}
-                        local listing = FILEMAN:GetDirListing(bg, false, true)
-                        if not listing then return nil end
-                        for _,file in pairs(listing) do
-                            if ActorUtil.GetFileType(file) == 'FileType_Movie' then
-                                table.insert(bgvideo,file)
+                            local bg = song:GetSongDir()
+                            local bgvideo = {}
+                            local listing = FILEMAN:GetDirListing(bg, false, true)
+                            if not listing then return nil end
+                            for _,file in pairs(listing) do
+                                if ActorUtil.GetFileType(file) == 'FileType_Movie' then
+                                    table.insert(bgvideo,file)
+                                end
+                            end
+                        if #bgvideo ~= 0 then
+                                s:Load(bgvideo[1])
+                            else
+                            s:Load(jk.GetSongGraphicPath(song,"Background"))
                             end
                         end
-                        if #bgvideo ~= 0 then
-                            s:Load(bgvideo[1])
-                        else
-                            s:Load(jk.GetSongGraphicPath(song,"Background"))
-                        end
-                    end
                 elseif mw:GetSelectedType('WheelItemDataType_Section') then
                     if mw:GetSelectedSection() == "" then
                         s:Load(THEME:GetPathG("","_jackets/Random"))
@@ -109,7 +109,7 @@ return Def.ActorFrame{
                 Def.BitmapText{
                     Font="_stagetext",
                     InitCommand=function(s) s:halign(0):xy(-156,0):skewx(-0.2) end,
-                    SetCommand=function(s)
+                    SetCommand=function(s) 
                         local song = GAMESTATE:GetCurrentSong();
                         local so = GAMESTATE:GetSortOrder();
                         local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")

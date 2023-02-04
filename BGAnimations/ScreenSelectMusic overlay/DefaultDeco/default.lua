@@ -298,7 +298,11 @@ for pn in EnabledPlayers() do
 			  assert(scores);
 			  local topscore=0;
 			  if scores[1] then
-				topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+                   if ThemePrefs.Get("ConvertScoresAndGrades") then
+				  topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+                   else
+				  topscore = scores[1]:GetScores();
+                   end
 			  end;
 	  
 			  local tier

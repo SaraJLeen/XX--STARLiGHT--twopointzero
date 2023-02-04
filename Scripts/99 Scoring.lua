@@ -35,6 +35,18 @@ local maxHoldValues =
 --This is a pretty bad function description, so just see how it's used.
 local function GetScoreDataFromThing(thing, tnsFuncName, hnsFuncName)
     local output = {}
+    if(thing == nil) then
+      output[tns] = 0
+      output[hns] = 0
+      output.Total = 0
+      return 0
+    end
+    if(type(thing)=="number") then
+      output[tns] = thing
+      output[hns] = 0
+      output.Total = thing
+      return 0
+    end
     --how class function lookup works internally in Lua
     local hnsFunc = thing[hnsFuncName]
     local tnsFunc = thing[tnsFuncName]
@@ -149,6 +161,9 @@ function SN2Scoring.ComputeEXScoreFromData(data,max)
 end
 
 function SN2Scoring.GetSN2ScoreFromHighScore(steps, highScore)
+    if(type(highScore)=="number") then
+      return highScore
+    end
     local scoreData = GetScoreDataFromThing(highScore, "GetTapNoteScore",
         "GetHoldNoteScore")
     local radar = steps:GetRadarValues(pn)

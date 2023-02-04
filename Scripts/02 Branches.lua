@@ -6,8 +6,10 @@ local function asdf()
     return _G[obf('VG9FbnVtU2hvcnRTdHJpbmc=')](_G[obf('R0FNRVNUQVRF')][obf('R2V0Q29pbk1vZGU=')](_G[obf('R0FNRVNUQVRF')]))
 end]]
 
+LoadModule("Row.Prefs.lua")(LoadModule("Options.Prefs.lua"))
+
 function Branch.FirstScreen()
-	return "ScreenMDSplash"
+	return "ScreenMovie"
 end
 
 function Branch.WarningOrAlert()

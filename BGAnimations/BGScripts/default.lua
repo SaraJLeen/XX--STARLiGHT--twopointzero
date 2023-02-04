@@ -26,7 +26,7 @@ t.CurrentSongChangedMessageCommand = setVisibility
 local charName = ResolveCharacterName(GAMESTATE:GetMasterPlayerNumber())
 
 local loadWorked = false
-local potentialVideo = Characters.GetDancerVideo(charName)
+local potentialVideo = false;--Characters.GetDancerVideo(charName)
 
 if potentialVideo then
     loadWorked = true

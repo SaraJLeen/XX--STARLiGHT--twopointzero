@@ -44,7 +44,7 @@ local fixedNS = OPTIONSLIST_NOTESKINS
 table.insert(fixedNS,"EXIT")
 
 
-local fixedChar = Characters.GetAllCharacterNames()
+local fixedChar = GetAllCharacterNames()
 table.insert(fixedChar, 1, "OFF")
 if #fixedChar > 0 then
     table.insert(fixedChar, 2, "RANDOM")
@@ -293,7 +293,7 @@ if THEME:GetMetric("ScreenSelectMusic","UseOptionsList") then
                         local OpListMax = {
                             ["Mini"] = getenv("NumMini"),
                             ["MusicRate"] = getenv("NumRate"),
-                            ["Characters"] = #Characters.GetAllCharacterNames()
+                            ["Characters"] = #GetAllCharacterNames()
                         }
                         if currentOpList == "SongMenu" or currentOpList == "AdvMenu" then
                             if p.Selection+1 <= numRows then
@@ -378,10 +378,10 @@ if THEME:GetMetric("ScreenSelectMusic","UseOptionsList") then
                     end,
                     OnCommand=function(s)
                         local charName = ResolveCharacterName(pn)
-                        if charName ~= "" and Characters.GetAssetPath(charName, "comboA.png") ~= nil then
-                            s:Load(Characters.GetAssetPath(charName, "comboA.png"))
-                            s:scaletoclipped(220,640)
-                        end
+                        --if charName ~= "" and Characters.GetAssetPath(charName, "comboA.png") ~= nil then
+                        --    s:Load(Characters.GetAssetPath(charName, "comboA.png"))
+                        --    s:scaletoclipped(220,640)
+                        --end
                     end,
                     OptionsMenuChangedMessageCommand=function(self,params)
                         local charName = ResolveCharacterName(pn)
@@ -396,17 +396,17 @@ if THEME:GetMetric("ScreenSelectMusic","UseOptionsList") then
                     end,
                     AdjustCommand=function(self,params)
                         if params.Player == pn and currentOpList == "Characters" then
-                            if params.Selection < #Characters.GetAllCharacterNames() and params.Selection > 1 then
+                            if params.Selection < #GetAllCharacterNames() and params.Selection > 1 then
                                 self:diffusealpha(1)
-                                local charName = Characters.GetAllCharacterNames()[params.Selection-1]
-                                if charName ~= "" then
-                                    local charVer = (Characters.GetConfig(charName).version)
-                                    self:Load(Characters.GetAssetPath(charName, "comboA.png"))
-                                    self:diffusealpha(0.7)
-                                     self:scaletoclipped(220,640)
-                                else
+                                local charName = GetAllCharacterNames()[params.Selection-1]
+                                --if charName ~= "" then
+                                --    local charVer = (Characters.GetConfig(charName).version)
+                                --    self:Load(Characters.GetAssetPath(charName, "comboA.png"))
+                                --    self:diffusealpha(0.7)
+                                --     self:scaletoclipped(220,640)
+                                --else
                                     self:diffusealpha(0)
-                                end
+                                --end
                             else
                                 self:diffusealpha(0)
                             end
@@ -421,8 +421,8 @@ if THEME:GetMetric("ScreenSelectMusic","UseOptionsList") then
                     end,
                     AdjustCommand=function(self,params)
                         if params.Player == pn and currentOpList == "Characters" then
-                            if Characters.GetAllCharacterNames()[params.Selection-1] ~= nil then
-                                self:settext("Select\n"..Characters.GetAllCharacterNames()[params.Selection-1].. "\nas your dancer.")
+                            if GetAllCharacterNames()[params.Selection-1] ~= nil then
+                                self:settext("Select\n"..GetAllCharacterNames()[params.Selection-1].. "\nas your dancer.")
                             elseif params.Selection == 0 then
                                 self:settext("Dancer is disabled.")
                             elseif params.Selection == 1 then

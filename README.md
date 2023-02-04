@@ -1,3 +1,10 @@
+Altered and customized version of XX--STARLiGHT--twopointzero theme, alterations by Saralene.<br>
+All rights, licenses, and all other aspects are applied solely according to what Midflight Digital has outlined below.<br>
+This is not my theme. This is not my work. Only the edits are my work, for personal use only.<br>
+If you want to copy anything regarding my personal alterations please do so freely as you like.<br>
+This repository pretty much exists entirely so that I can keep versioning for my own use.<br>
+-Sara<br>
+<br>
 <h1 align="center">
   <br>
   <img src="https://github.com/MidflightDigital/XX--STARLiGHT--twopointzero/blob/main/xxlogo.png?raw=true" alt="STARLiGHT Logo" width="600">

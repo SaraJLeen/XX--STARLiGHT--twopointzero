@@ -237,7 +237,7 @@ function OptionRowCharacters()
         LayoutType = "ShowAllInRow",
         SelectType = "SelectOne",
         OneChoiceForAllPlayers = false,
-        ExportOnChange = false,
+        ExportOnChange = true,
         Choices = choiceList,
         LoadSelections = function(self, list, pn)
             local pn = ToEnumShortString(pn)
@@ -298,7 +298,7 @@ function GetRandomCharacter(pn)
     return this_rc.char
 end
 
-function ResolveCharacterName(pn)
+function ResolveCharacterNameSN(pn)
     local name = (GAMESTATE:Env())['SNCharacter'..ToEnumShortString(pn)] or ""    
     if string.lower(name) ~= "random" then
         return name

@@ -84,59 +84,59 @@ function FindInTable(needle, haystack)
 	return nil
 end
 
-function VideoRenderer()
-
-	-- opengl is a valid VideoRenderer for all platforms right now
-	-- so start by assuming it is the only choice.
-	-- If there is a method available to Lua to get available renderers
-	-- from the engine, I haven't found it yet.
-	local choices = { "opengl" }
-	local values  = { "opengl" }
-
-	-- Windows also has d3d as a VideoRenderer on SM 5.1, and SM 5.3
-	-- features a modern OpenGL based backend (glad) on all supported
-	-- platforms. The convention(?) there is to list both available
-	-- backends in Preferences.ini, but only use the first
-	local architecture = HOOKS:GetArchName():lower()
-	if _VERSION == "Lua 5.3" then
-		table.insert(choices, "glad")
-		values = { "opengl,glad", "glad,opengl" }
-	elseif architecture:match("windows") then
-		table.insert(choices, "d3d")
-		values = { "opengl,d3d", "d3d,opengl" }
-	end
-
-	return {
-		Name = _VERSION == "Lua 5.3" and "VideoRendererSM5.3" or "VideoRenderer",
-		Choices = choices,
-		LayoutType = "ShowAllInRow",
-		SelectType = "SelectOne",
-		OneChoiceForAllPlayers = true,
-		ExportOnChange = false,
-		LoadSelections = function(self, list, pn)
-			local pref = PREFSMAN:GetPreference("VideoRenderers")
-
-			-- Multiple comma-delimited VideoRenderers may be listed, but
-			-- we only want the first because that's the one actually in use.
-			-- Split the string on commas, get the first match found, and
-			-- immediately break from the loop.
-			for renderer in pref:gmatch("(%w+),?") do
-				pref = renderer
-				break
-			end
-
-			if not pref then return end
-
-			local i = FindInTable(pref, self.Choices) or 1
-			list[i] = true
-		end,
-		SaveSelections = function(self, list, pn)
-			for i=1, #list do
-				if list[i] then
-					PREFSMAN:SetPreference("VideoRenderers", values[i])
-					break
-				end
-			end
-		end,
-	}
-end
+--function VideoRenderer()
+--
+--	-- opengl is a valid VideoRenderer for all platforms right now
+--	-- so start by assuming it is the only choice.
+--	-- If there is a method available to Lua to get available renderers
+--	-- from the engine, I haven't found it yet.
+--	local choices = { "opengl" }
+--	local values  = { "opengl" }
+--
+--	-- Windows also has d3d as a VideoRenderer on SM 5.1, and SM 5.3
+--	-- features a modern OpenGL based backend (glad) on all supported
+--	-- platforms. The convention(?) there is to list both available
+--	-- backends in Preferences.ini, but only use the first
+--	local architecture = HOOKS:GetArchName():lower()
+--	if _VERSION == "Lua 5.3" then
+--		table.insert(choices, "glad")
+--		values = { "opengl,glad", "glad,opengl" }
+--	elseif architecture:match("windows") then
+--		table.insert(choices, "d3d")
+--		values = { "opengl,d3d", "d3d,opengl" }
+--	end
+--
+--	return {
+--		Name = _VERSION == "Lua 5.3" and "VideoRendererSM5.3" or "VideoRenderer",
+--		Choices = choices,
+--		LayoutType = "ShowAllInRow",
+--		SelectType = "SelectOne",
+--		OneChoiceForAllPlayers = true,
+--		ExportOnChange = false,
+--		LoadSelections = function(self, list, pn)
+--			local pref = PREFSMAN:GetPreference("VideoRenderers")
+--
+--			-- Multiple comma-delimited VideoRenderers may be listed, but
+--			-- we only want the first because that's the one actually in use.
+--			-- Split the string on commas, get the first match found, and
+--			-- immediately break from the loop.
+--			for renderer in pref:gmatch("(%w+),?") do
+--				pref = renderer
+--				break
+--			end
+--
+--			if not pref then return end
+--
+--			local i = FindInTable(pref, self.Choices) or 1
+--			list[i] = true
+--		end,
+--		SaveSelections = function(self, list, pn)
+--			for i=1, #list do
+--				if list[i] then
+--					PREFSMAN:SetPreference("VideoRenderers", values[i])
+--					break
+--				end
+--			end
+--		end,
+--	}
+--end

@@ -4,9 +4,9 @@ local function CreditsText()
 		RefreshCommand=function(self)
 		--Other coin modes
 			if GAMESTATE:IsEventMode() then self:settext('EVENT MODE') return end
-			if GAMESTATE:GetCoinMode()=='CoinMode_Free' then self:settext('FREE PLAY') return end
-			if GAMESTATE:GetCoinMode()=='CoinMode_Home' then self:settext('HOME MODE') return end
-			if GAMESTATE:GetCoinMode()=='CoinMode_Pay' then self:settext("SUS MODE") return end
+			if GAMESTATE:GetCoinMode()=='CoinMode_Free' then self:settext(' ') return end
+			if GAMESTATE:GetCoinMode()=='CoinMode_Home' then self:settext(' ') return end
+			if GAMESTATE:GetCoinMode()=='CoinMode_Pay' then self:settext(" ") return end
 		end;
 		UpdateVisibleCommand=function(self)
 			local screen = SCREENMAN:GetTopScreen();

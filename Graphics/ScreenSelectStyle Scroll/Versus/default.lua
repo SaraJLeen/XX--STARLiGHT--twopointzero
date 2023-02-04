@@ -6,7 +6,7 @@ return Def.ActorFrame{
 			:queuecommand("Play")
 		end,
 		PlayCommand=function(s)
-			if s:GetVisible() then SOUND:PlayAnnouncer("select style comment versus") end
+			--if s:GetVisible() then SOUND:PlayAnnouncer("select style comment versus") end --unneeded, adds repetition
 		end,
 		LoseFocusCommand=function(s) s:stoptweening():smooth(0.3):zoom(0.825) end,
 		LoadActor("pad") ..{

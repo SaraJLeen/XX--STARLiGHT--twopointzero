@@ -5,7 +5,7 @@ local xPosPlayer = {
   P2 = -20
 };
 
-function TopRecord(pn) --�^�ǳ̰��������Ӭ���
+function TopRecord(pn) -- ???
 	local SongOrCourse, StepsOrTrail;
 	local myScoreSet = {
 		["HasScore"] = 0;
@@ -148,13 +148,20 @@ t[#t+1] = Def.ActorFrame{
         assert(scores);
         local topscore=0;
         if scores[1] then
-          topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+          if ThemePrefs.Get("ConvertScoresAndGrades") then
+            topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+          else
+            topscore = scores[1]:GetScore()
+          end
         end;
 
         local topgrade;
         if scores[1] then
           topgrade = scores[1]:GetGrade();
-          local tier = SN2Grading.ScoreToGrade(topscore, diff)
+          local tier = scores[1]:GetGrade();
+          if ThemePrefs.Get("ConvertScoresAndGrades") then
+            tier = SN2Grading.ScoreToGrade(topscore, diff)
+          end
           assert(topgrade);
           if scores[1]:GetScore()>1  then
             self:LoadBackground(THEME:GetPathB("ScreenEvaluationNormal decorations/grade/GradeDisplayEval",ToEnumShortString(tier)));
@@ -183,7 +190,7 @@ t[#t+1] = Def.ActorFrame{
       local st=GAMESTATE:GetCurrentStyle():GetStepsType()
       local song=GAMESTATE:GetCurrentSong()
       local steps = GAMESTATE:GetCurrentSteps(pn)
-      if song then
+      if song and steps then
         local diff = steps:GetDifficulty();
         if song:HasStepsTypeAndDifficulty(st,diff) then
           local steps = song:GetOneSteps(st,diff)
@@ -199,7 +206,11 @@ t[#t+1] = Def.ActorFrame{
           local topscore = 0
 
           if scores[1] then
-            topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+            if ThemePrefs.Get("ConvertScoresAndGrades") then
+              topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
+            else
+              topscore = scores[1]:GetScore();
+            end
           end;
 
           self:diffusealpha(1)
@@ -361,6 +372,53 @@ t[#t+1] = Def.ActorFrame{
           end;
         end;
       end;
+    };
+    Def.Sprite{
+      Texture=THEME:GetPathG("Player","Badge FullCombo"),
+      Name="Img_fc",
+      InitCommand=function(s) s:zoom(0.35):xy(130,-10):visible(false) end,
+	SetCommand=function(self)
+     	myScoreSet = TopRecord(pn);
+		local misses = 1
+		local boos = 0
+		local goods = 0
+		local greats = 0
+		local perfects = 0
+		local marvelous = 0
+		if myScoreSet then
+			misses = myScoreSet["topMiss"]
+			boos = myScoreSet["topW5"]
+			goods = myScoreSet["topW4"]
+			greats = myScoreSet["topW3"]
+			perfects = myScoreSet["topW2"]
+			marvelous = myScoreSet["topW1"]
+		end
+		if (misses+boos) == 0 and myScoreSet["topscore"] > 0 and (marvelous+perfects)>0 then
+			if (greats+perfects) == 0 then
+				self:visible(true):diffuse(GameColor.Judgment["JudgmentLine_W1"])
+				:glowblink():effectperiod(0.20)
+				--Trace("Marvelous combo")
+			elseif greats == 0 then
+				self:visible(true):diffuse(GameColor.Judgment["JudgmentLine_W2"])
+				:glowshift()
+				--Trace("Perfect combo")
+			elseif (misses+boos+goods) == 0 then
+				self:visible(true):diffuse(GameColor.Judgment["JudgmentLine_W3"])
+				:stopeffect()
+				--Trace("Great combo")
+			elseif (misses+boos) == 0 then
+				self:visible(true):diffuse(GameColor.Judgment["JudgmentLine_W4"])
+				:stopeffect()
+				--Trace("Good combo")
+			else
+				self:visible(false)
+				--Trace("No FC")
+			end;
+			self:diffusealpha(0.8);
+		else
+			self:visible(false)
+		end;
+	end;
     };
   };
 };
