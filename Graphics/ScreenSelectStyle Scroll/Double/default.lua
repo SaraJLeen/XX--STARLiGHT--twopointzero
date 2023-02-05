@@ -19,12 +19,13 @@ local Image = Def.ActorFrame{
 
 local t = Def.ActorFrame{
 	Def.ActorFrame{
-		GainFocusCommand=function(s) s:stoptweening():smooth(0.3):zoom(1) end,GainFocusCommand=function(s) s:stoptweening():smooth(0.3):zoom(1)
+        GainFocusCommand=function(s) s:stoptweening():smooth(0.3):zoom(1)
 			:queuecommand("Play")
 		end,
 		PlayCommand=function(s)
 			--if s:GetVisible() then SOUND:PlayAnnouncer("select style comment double") end --unneeded, adds repetition
-		end,LoseFocusCommand=function(s) s:stoptweening():smooth(0.3):zoom(0.825) end,
+		end,
+        LoseFocusCommand=function(s) s:stoptweening():smooth(0.3):zoom(0.825) end,
 		LoadActor("pad") ..{
 			InitCommand=function(s) s:diffusealpha(0):zoomx(1):xy(2,288) end,
 			OnCommand=function(s) s:zoom(0):sleep(0.5):linear(0.1):diffusealpha(1.0):zoom(1):smooth(0.1):zoom(0.9):smooth(0.1):zoom(1) end,
@@ -51,7 +52,13 @@ local t = Def.ActorFrame{
     	MenuUpP2MessageCommand=function(s) s:playcommand("Change1") end,
     	MenuDownP2MessageCommand=function(s) s:playcommand("Change1") end,
 		OnCommand=function(self)
+		  if NumPlayers == 2 then
+			local env = GAMESTATE:Env()
+			env.DOUBLESELECT = false
 			self:playcommand("Change1")
+		  else
+			self:sleep(0.6):linear(0.2):diffusealpha(1)
+		  end;
 		end;
 		Change1Command=function(self)
 		  local env = GAMESTATE:Env()

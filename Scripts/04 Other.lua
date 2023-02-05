@@ -51,11 +51,20 @@ function dofile_safer(path, env)
 end
 
 function PrepareAllMainScreens()
-	return ""
+	return "ScreenWithMenuElements"
 	-- return "ScreenMovie,ScreenTitleJoin,ScreenTitleMenu,ScreenWithMenuElements,ScreenCaution,ScreenMDSplash"
 end
 
 function PersistAllMainScreens()
-	return ""
+	return "ScreenWithMenuElements"
 	-- return "ScreenMovie,ScreenOptions,ScreenTitleMenu,ScreenSelectMode,ScreenProfileLoad,ScreenGameOver,ScreenSelectCourse,ScreenSelectProfile,ScreenSelectPlayCourseMode,ScreenPHOTwON,ScreenOptionsService,ScreenOptionsCustomize,ScreenOptionsCustomizeProfile,ScreenMapControllers,ScreenLogo,ScreenGraphicsAlert,ScreenGameplayHowTo,ScreenEditProfileList,ScreenDataSaveSummary,ScreenClear,ScreenAvatarImageSelection,ScreenCaution,ScreenSortList,ScreenTitleJoin,ScreenWarning,ScreenWithMenuElements,ScreenStageInformation,ScreenSelectMusic,ScreenPlayerOptions,ScreenEvaluation,ScreenEvaluationNormal,ScreenEvaluationSummary,ScreenProfileSave,ScreenProfileSaveSummary,ScreenMDSplash"
+end
+
+function GetValidStyleSelect()
+	if (GAMESTATE:GetNumPlayersEnabled() > 1) then
+		return "Versus"
+	elseif (GAMESTATE:GetNumPlayersEnabled() == 1) then
+		return "Single,Versus,Double"
+	end
+	return "Single,Versus,Double"
 end

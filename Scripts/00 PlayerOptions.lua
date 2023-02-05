@@ -693,7 +693,6 @@ function OptionRowScreenFilter()
 		ExportOnChange = true,
 		Choices = { "0%", "20%", "40%", "60%", "80%", "100%"},
 		LoadSelections = function(self, list, pn)
-			local pName = ToEnumShortString(pn)
 			local profileID = GetProfileIDForPlayer(pn)
 			local pPrefs = ProfilePrefs.Read(profileID)
 			local filterValue = pPrefs.filter
@@ -731,7 +730,6 @@ local GetModsAndPlayerOptions = function(player)
 end
 
 function OptionRowGuideLine()
-	local ProfilePrefs = LoadModule"ProfilePrefs.lua"
 	local t = {
 		Name="GuideLine",
 		LayoutType = "ShowAllInRow",
@@ -767,7 +765,6 @@ function OptionRowGuideLine()
 end
 
 function OptionRowBias()
-	local ProfilePrefs = LoadModule"ProfilePrefs.lua"
 	local t = {
 		Name="Bias",
 		LayoutType = "ShowAllInRow",
@@ -803,7 +800,6 @@ function OptionRowBias()
 end
 
 function OptionRowEX()
-	local ProfilePrefs = LoadModule"ProfilePrefs.lua"
 	local t = {
 		Name="EX",
 		LayoutType = "ShowAllInRow",
@@ -840,7 +836,6 @@ function OptionRowEX()
 end
 
 function OptionRowScoreLab()
-	local ProfilePrefs = LoadModule"ProfilePrefs.lua"
 	local t = {
 		Name="ScoreLabel",
 		LayoutType = "ShowAllInRow",
@@ -924,7 +919,6 @@ function MiniSelector()
 			end
 		end,
 	}
-	setmetatable(t, t)
 	return t
 end
 
@@ -961,7 +955,6 @@ function MusicRate()
 			end
 		end,
 	};
-	setmetatable(t, t)
 	return t
 end
 

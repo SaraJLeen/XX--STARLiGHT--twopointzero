@@ -2,6 +2,7 @@ local NumPlayers = GAMESTATE:GetNumPlayersEnabled()
 
 return Def.ActorFrame{
 	Def.ActorFrame{
+		OnCommand=function(s) s:sleep(2):queuecommand("Play") end,
 		GainFocusCommand=function(s) s:stoptweening():smooth(0.3):zoom(1)
 			:queuecommand("Play")
 		end,
@@ -17,7 +18,7 @@ return Def.ActorFrame{
 			end,
 			LoseFocusCommand=function(s) s:stopeffect():diffuse(color("0.75,0.75,0.75,1")) end,
 		};
-		LoadActor("Char.png") ..{
+		LoadActor("Char") ..{
 			InitCommand=function(s) s:diffusealpha(0):basezoom(0.6) end,
 			OnCommand=function(s) s:sleep(0.6):linear(0.1):diffusealpha(1):zoomy(0.5)
 				:linear(0.1):zoomy(1):zoomx(1.5):linear(0.1):zoomx(1)
@@ -35,9 +36,13 @@ return Def.ActorFrame{
     	MenuUpP2MessageCommand=function(s) s:playcommand("Change1") end,
     	MenuDownP2MessageCommand=function(s) s:playcommand("Change1") end,
 		OnCommand=function(self)
-		  if GAMESTATE:GetNumPlayersEnabled() == 1 then
+		  if NumPlayers == 1 then
+			local env = GAMESTATE:Env()
+			env.VERSUSSELECT = false
 			self:playcommand("Change1")
-		  else return end
+		  else
+			self:sleep(0.6):linear(0.2):diffusealpha(1)
+		  end;
 		end;
 		Change1Command=function(self)
 		  local env = GAMESTATE:Env()

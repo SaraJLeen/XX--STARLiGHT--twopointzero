@@ -292,24 +292,36 @@ function SelectDanceStage()
             Name = "DanceStage";
             LayoutType = "ShowAllInRow";
             SelectType = "SelectOne";
-            OneChoiceForAllPlayers = true;
-            ExportOnChange = false;
+            OneChoiceForAllPlayers = false;
+            ExportOnChange = true;
             Choices = choiceListDS;
 
             LoadSelections = 
-            function(self, list, pn)
-				local DScfg = GetUserPref("SelectDanceStage") 
+            	function(self, list, pn)
+				local pName = ToEnumShortString(pn)
+				local profileID = GetProfileIDForPlayer(pn)
+				local pPrefs = ProfilePrefs.Read(profileID)
+				local filterValue = pPrefs.filter
+				--local DScfg = GetUserPref("SelectDanceStage") 
+				local DScfg = pPrefs.dancestage
                 if DScfg == nil or tonumber(DScfg) then
-                    SetUserPref("SelectDanceStage","DEFAULT")
+                    pPrefs.dancestage = "DEFAULT"
+					DScfg = pPrefs.dancestage
+					--SetUserPref("SelectDanceStage","DEFAULT")
                 end
-                local DSLoad=GetUserPref("SelectDanceStage")
-                list[IndexKey(choiceListDS,DSLoad)]=true
+                --local DSLoad=GetUserPref("SelectDanceStage")
+                list[IndexKey(choiceListDS,DScfg)]=true
             end;
     
             SaveSelections = 
             function(self, list, pn)
                 for number=0,999 do
-                    if list[number] then WritePrefToFile("SelectDanceStage",choiceListDS[number]);
+                    if list[number] then
+						local profileID = GetProfileIDForPlayer(pn)
+						local pPrefs = ProfilePrefs.Read(profileID)
+						pPrefs.dancestage = choiceListDS[number]
+						ProfilePrefs.Save(profileID)
+						--WritePrefToFile("SelectDanceStage",choiceListDS[number]);
                     end;
                 end;
             end;
@@ -572,16 +584,35 @@ function DSLoader()
 	local DanceStagesDir = GetAllDanceStagesNames()
 	table.remove(DanceStagesDir,IndexKey(DanceStagesDir,"DEFAULT"))
 	table.remove(DanceStagesDir,IndexKey(DanceStagesDir,"RANDOM"))
-	local DanceStageSelected = GetUserPref("SelectDanceStage")
 
 	local DanceStage
 	if not GAMESTATE:IsDemonstration() then
+		local DanceStageSelected = "DEFAULT"
+		if BothPlayersEnabled() then
+			if math.random(0,1) == 0 then
+				local profileID = GetProfileIDForPlayer(PLAYER_1)
+				local pPrefs = ProfilePrefs.Read(profileID)
+				DanceStageSelected = pPrefs.dancestage
+			else
+				local profileID = GetProfileIDForPlayer(PLAYER_2)
+				local pPrefs = ProfilePrefs.Read(profileID)
+				DanceStageSelected = pPrefs.dancestage
+			end
+		elseif GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+			local profileID = GetProfileIDForPlayer(PLAYER_1)
+			local pPrefs = ProfilePrefs.Read(profileID)
+			DanceStageSelected = pPrefs.dancestage
+		elseif GAMESTATE:IsPlayerEnabled(PLAYER_2) then
+			local profileID = GetProfileIDForPlayer(PLAYER_2)
+			local pPrefs = ProfilePrefs.Read(profileID)
+			DanceStageSelected = pPrefs.dancestage
+		end
 		if DanceStageSelected == "DEFAULT" then
 			DanceStage = DanceStageSong()
 		elseif DanceStageSelected == "RANDOM" then
 			DanceStage = DanceStagesDir[math.random(#DanceStagesDir)]
 		else
-			DanceStage = GetUserPref("SelectDanceStage")
+			DanceStage = DanceStageSelected
 		end
 	else
 	DanceStage = DanceStageSong()
@@ -590,6 +621,7 @@ function DSLoader()
 end
 
 function VideoStage()
+	-- Trace("Stage name: "..DSLoader()..".");
 	if		string.match(DSLoader(), "MOVIE") 
 	or 		string.match(DSLoader(), "REPLICANT") 
 	or 		string.match(DSLoader(), "CAPTURE ME") 
@@ -598,8 +630,10 @@ function VideoStage()
 	or 		string.match(DSLoader(), "WIRED") 
 	or 		string.match(DSLoader(), "Success Colors") 
 	then
+		-- Trace("It's a match.");
 		return true
 	else
+		-- Trace("Not a match.");
 		return false
 	end
 end

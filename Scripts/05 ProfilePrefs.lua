@@ -27,6 +27,7 @@ local defaultPrefs =
 	evalpane2 = 0,
 	guidelines_top_aligned = false,
 	scorelabel = "profile",
+	dancestage = "DEFAULT",
 }
 local gameSeed = nil
 local machinePrefs = DeepCopy(defaultPrefs)

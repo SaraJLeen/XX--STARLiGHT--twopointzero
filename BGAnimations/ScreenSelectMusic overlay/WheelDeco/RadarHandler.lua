@@ -70,17 +70,21 @@ for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
             s:diffuse(Color.White)
             if song then
               local steps = GAMESTATE:GetCurrentSteps(pn)
-              local value = steps:GetMeter()
-			local diff = steps:GetDifficulty();
-			local mt = '_MeterType_Default'
-			mt = LoadModule"SongAttributes.lua".GetMeterType(song)
-              s:settext("Diff "..value.."")
-			if mt == '_MeterType_Pump' then
-				s:settext("PIU "..value.."")
-			elseif mt == '_MeterType_ITG' then
-				s:settext("ITG "..value.."")
-			elseif mt == '_MeterType_DDR' then
-				s:settext("Old "..value.."")
+			if steps ~= nil then
+	              local value = steps:GetMeter()
+				local diff = steps:GetDifficulty();
+				local mt = '_MeterType_Default'
+				mt = LoadModule"SongAttributes.lua".GetMeterType(song)
+	              s:settext("Diff "..value.."")
+				if mt == '_MeterType_Pump' then
+					s:settext("PIU "..value.."")
+				elseif mt == '_MeterType_ITG' then
+					s:settext("ITG "..value.."")
+				elseif mt == '_MeterType_DDR' then
+					s:settext("Old "..value.."")
+				end
+			else
+				s:settext("")
 			end
 			--Trace("Diff: "..tostring(diff)..".")
               if steps and steps:IsAutogen() then
@@ -101,8 +105,12 @@ for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
             local song = GAMESTATE:GetCurrentSong();
             if song then
               local steps = GAMESTATE:GetCurrentSteps(pn)
-              local value = steps:GetAuthorCredit()
-              s:settext(""..value.."")
+			  if steps ~= nil then
+	                local value = steps:GetAuthorCredit()
+	                s:settext(""..value.."")
+			  else
+	                s:settext("")
+			  end
             else
               s:settext("")
             end
@@ -142,8 +150,12 @@ for i,v in ipairs(GR) do
                 local song = GAMESTATE:GetCurrentSong();
                     if song then
                         local steps = GAMESTATE:GetCurrentSteps(pn)
-                        local value = lookup_ddr_radar_values(song, steps, pn)[i]
-                        s:settext(math.floor(value*100+0.5))
+						if steps ~= nil then
+							local value = lookup_ddr_radar_values(song, steps, pn)[i]
+							s:settext(math.floor(value*100+0.5))
+						else
+							s:settext("")
+						end
                     else
                         s:settext("")
                     end
@@ -218,7 +230,7 @@ end
 				end
 				local topscore = 0
 				local RStats = nil
-				if scores[rival] then
+				if scores and scores[rival] then
 					if ThemePrefs.Get("ConvertScoresAndGrades") then
 						topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[rival])
 						topgrade = SN2Grading.ScoreToGrade(topscore,steps)

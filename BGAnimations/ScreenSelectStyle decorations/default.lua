@@ -1,4 +1,5 @@
 local t = LoadFallbackB();
+local startplayercount = GAMESTATE:GetNumPlayersEnabled();
 
 CustStage = 1
 
@@ -11,7 +12,7 @@ for i=1,2 do
     PlayerJoinedMessageCommand=function(s,p)
       if p.Player then
         s:queuecommand("Off")
-      end
+        end
     end,
     OffCommand=function(s) s:smooth(0.2):diffusealpha(0) end,
     Def.Sprite{
@@ -107,21 +108,6 @@ end
 
 t[#t+1] = Def.ActorFrame{
   OffCommand=function(self)
-    local ind = SCREENMAN:GetTopScreen():GetSelectionIndex(GAMESTATE:GetMasterPlayerNumber())
-    local styles = {
-      "single",
-      "versus",
-      "double"
-    }
-      if styles[ind+1] ~= nil then
-        GAMESTATE:SetCurrentStyle(styles[ind+1])
-      else
-        SCREENMAN:SystemMessage("Couldn't find a proper style for this gamemode. STARLiGHT only supports Dance.")
-        GAMESTATE:Reset()
-        SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectMode")
-      end
-	end,
-  OffCommand=function(self)
     --Starting with Outfox 4.13, gamecommands for setting the current style is broken.
     --As a fix, we now just apply the style via lua. -Inori
     local ind = SCREENMAN:GetTopScreen():GetSelectionIndex(GAMESTATE:GetMasterPlayerNumber())
@@ -131,7 +117,12 @@ t[#t+1] = Def.ActorFrame{
       "double"
     }
       if styles[ind+1] ~= nil then
-        GAMESTATE:SetCurrentStyle(styles[ind+1])
+        if styles[ind+1] == "versus" and startplayercount <= 1 then
+          SCREENMAN:GetTopScreen():SetPrevScreenName("ScreenSelectProfile")
+          SCREENMAN:GetTopScreen():Cancel()
+        else
+          GAMESTATE:SetCurrentStyle(styles[ind+1])
+        end
       else
         SCREENMAN:SystemMessage("Couldn't find a proper style for this gamemode. STARLiGHT only supports Dance.")
         GAMESTATE:Reset()

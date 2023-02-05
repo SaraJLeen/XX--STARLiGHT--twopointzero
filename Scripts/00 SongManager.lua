@@ -1490,7 +1490,9 @@
 ----------------------------------------------------------------------------- RandomStage ---------------------------------------------------------------------------
 
 	else
-		local RDS = math.random(1,7)
+		-- Extended random -- all official stages
+		-- local RDS = math.random(1,7)
+		local RDS = math.random(1,54)
 			if RDS == 1 then
 			return "(X) BOOM BOOM BOOM"
 		elseif RDS == 2 then
@@ -1505,6 +1507,100 @@
 			return "(X) DAWN STREETS"
 		elseif RDS == 7 then
 			return "(X) LOVE SWEETS"
+		elseif RDS == 8 then
+			return "(2014) BOOM BLUE"
+		elseif RDS == 9 then
+			return "(2014) BOOM DARK"
+		elseif RDS == 10 then
+			return "(2014) BOOM GREEN"
+		elseif RDS == 11 then
+			return "(2014) BOOM RED"
+		elseif RDS == 12 then
+			return "(2014) BOOM WHITE"
+		elseif RDS == 13 then
+			return "(2014) BOOM YELLOW"
+		elseif RDS == 14 then
+			return "(A) BOOM BLUE"
+		elseif RDS == 15 then
+			return "(A) BOOM DARK"
+		elseif RDS == 16 then
+			return "(A) BOOM GREEN"
+		elseif RDS == 17 then
+			return "(A) BOOM RED"
+		elseif RDS == 18 then
+			return "(A) BOOM WHITE"
+		elseif RDS == 19 then
+			return "(A) BOOM YELLOW"
+		elseif RDS == 20 then
+			return "(HP) CYBERIUM"
+		elseif RDS == 21 then
+			return "(HP) DEVIATE"
+		elseif RDS == 22 then
+			return "(HP) EMERGENCE"
+		elseif RDS == 23 then
+			return "(HP) EXPRESSION"
+		elseif RDS == 24 then
+			return "(HP) INTROVEX"
+		elseif RDS == 25 then
+			return "(HP) LOST FUTURE"
+		elseif RDS == 26 then
+			return "(HP) MOMIJI"
+		elseif RDS == 27 then
+			return "(HP) MOON"
+		elseif RDS == 28 then
+			return "(HP) OSCILLATOR"
+		elseif RDS == 29 then
+			return "(HP) SAFETY"
+		elseif RDS == 30 then
+			return "(HP) SENSOR"
+		elseif RDS == 31 then
+			return "(HP) SILIBRIUM"
+		elseif RDS == 32 then
+			return "(HP) SUBSTANCE"
+		elseif RDS == 33 then
+			return "(HP) WAVE CELL"
+		elseif RDS == 34 then
+			return "(HP2) COSMISPHERE"
+		elseif RDS == 35 then
+			return "(HP2) ECHOS"
+		elseif RDS == 36 then
+			return "(HP2) PSYCHE"
+		elseif RDS == 37 then
+			return "(HP2) REFLEXION"
+		elseif RDS == 38 then
+			return "(HP2) WIRED"
+		elseif RDS == 39 then
+			return "(HP3) Success Colors"
+		elseif RDS == 40 then
+			return "(HP3) Underground"
+		elseif RDS == 41 then
+			return "(HP4) Infernal White"
+		elseif RDS == 42 then
+			return "(HP4) Mainframe"
+		elseif RDS == 43 then
+			return "(REPLICANT) DARK BLUE"
+		elseif RDS == 44 then
+			return "(REPLICANT) DARK PURPLE"
+		elseif RDS == 45 then
+			return "(REPLICANT) LIGHT BLUE"
+		elseif RDS == 46 then
+			return "(REPLICANT) LIGHT GRAY"
+		elseif RDS == 47 then
+			return "(REPLICANT) LIGHT PURPLE"
+		elseif RDS == 48 then
+			return "(REPLICANT) RED"
+		elseif RDS == 49 then
+			return "(X) CAPTURE ME"
+		elseif RDS == 50 then
+			return "(X2) CLUB"
+		elseif RDS == 51 then
+			return "(X2) FLOOR"
+		elseif RDS == 52 then
+			return "(X2) MOVIE BLACK"
+		elseif RDS == 53 then
+			return "(X2) MOVIE WHITE"
+		elseif RDS == 54 then
+			return "(X2) UMU MOVIE"
 		end;
 	end;
 ----------------------------------------------------------------------------- END OF SONG LIST
