@@ -395,7 +395,7 @@ function ArbitrarySpeedMods()
 		LayoutType= "ShowAllInRow",
 		SelectType= "SelectMultiple",
 		OneChoiceForAllPlayers= false,
-		ExportOnChange = false,
+		ExportOnChange = true,
 		LoadSelections= function(self, list, pn)
 			-- The first values display the current status of the speed mod.
 			if pn == PLAYER_1 or self.NumPlayers == 1 then
@@ -1232,7 +1232,7 @@ function OptionRowGameplayBackground()
 		LayoutType = "ShowAllInRow";
 		SelectType = "SelectOne";
 		OneChoiceForAllPlayers = true;
-		ExportOnChange = false;
+		ExportOnChange = true;
 		Choices = {"Background", "DanceStages", "SNCharacters" };
 		LoadSelections = function(self, list, pn)
 			if ReadPrefFromFile("OptionRowGameplayBackground") ~= nil then

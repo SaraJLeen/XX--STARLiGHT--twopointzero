@@ -165,6 +165,84 @@ for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
 				s:sleep(0.2)
 				s:decelerate(0.2)
 				s:diffusealpha(1)
+				s:xy(pn == PLAYER_1 and _screen.cx-800 or _screen.cx+800,SCREEN_TOP+896)
+			end,
+			OffCommand=function(s)
+				s:accelerate(0.2)
+				s:diffusealpha(0)
+				if pn == PLAYER_1 then
+					s:addx(-500)
+				else
+					s:addx(500)
+				end
+			end,
+  			SetCommand=function(self)
+				if GetUserPref("OptionRowGameplayBackground")=='DanceStages' then
+					local profileID = GetProfileIDForPlayer(pn)
+					local pPrefs = ProfilePrefs.Read(profileID)
+					local stageName = pPrefs.dancestage
+					local name = stageName
+					-- Trace("Charname: "..charName..". Name: "..name)
+					-- Trace("Name: "..name)
+					if (name) and (name ~= "") and (string.lower(name) ~= "default") and (string.lower(name) ~= "random") then
+						if FILEMAN:DoesFileExist("/DanceStages/"..name.."/card.png") then
+							self:Load("/DanceStages/"..name.."/card.png")
+			    	 			self:scaletofit(0,0,268,640)
+							self:xy(pn == PLAYER_1 and _screen.cx-800 or _screen.cx+800,SCREEN_TOP+896)
+				    			self:finishtweening();
+						else
+							-- Trace("It doesn't exist...")
+							self:visible(false);
+						end
+						self:visible(true);
+					else
+						self:visible(false);
+					end
+				else
+					self:visible(false);
+				end
+  			end,
+	    	MenuLeftP1MessageCommand=function(s) 
+				if pn == PLAYER_1 then
+					s:playcommand("Set")
+				end
+			end,
+			MenuRightP1MessageCommand=function(s) 
+				if pn == PLAYER_1 then
+					s:playcommand("Set")
+				end
+			end,
+			MenuLeftP2MessageCommand=function(s) 
+				if pn == PLAYER_2 then
+					s:playcommand("Set")
+				end
+			end,
+			MenuRightP2MessageCommand=function(s) 
+				if pn == PLAYER_2 then
+					s:playcommand("Set")
+				end
+			end,
+	    	ChangeRowMessageCommand=function(s,param)
+        	    if param.PlayerNumber == pn then s:playcommand "Set"; end;
+        	end;
+		};
+	};
+	t[#t+1] = Def.ActorFrame{
+		Def.Sprite {
+			Name="100 char",
+  			InitCommand=function(self)
+				self:diffusealpha(0)
+				self:playcommand("Set")
+				if pn == PLAYER_1 then
+					self:addx(-500)
+				else
+					self:addx(500)
+				end
+  			end,
+			OnCommand=function(s)
+				s:sleep(0.2)
+				s:decelerate(0.2)
+				s:diffusealpha(1)
 				s:xy(pn == PLAYER_1 and _screen.cx-800 or _screen.cx+800,SCREEN_TOP+424)
 			end,
 			OffCommand=function(s)

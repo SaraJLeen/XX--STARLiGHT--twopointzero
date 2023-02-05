@@ -337,7 +337,7 @@ function BoomSync()
 		LayoutType = "ShowAllInRow";
 		SelectType = "SelectOne";
 		OneChoiceForAllPlayers = true;
-		ExportOnChange = false;
+		ExportOnChange = true;
 		Choices = {"Normal", "BPM Sync" };
 		LoadSelections = 
 		function(self, list, pn)
@@ -375,7 +375,7 @@ function CharacterSync()
 		LayoutType = "ShowAllInRow";
 		SelectType = "SelectOne";
 		OneChoiceForAllPlayers = true;
-		ExportOnChange = false;
+		ExportOnChange = true;
 		Choices = {"Normal", "BPM Sync" };
 		LoadSelections = 
 		function(self, list, pn)
@@ -412,7 +412,7 @@ function DiscoStars()
 		LayoutType = "ShowAllInRow";
 		SelectType = "SelectOne";
 		OneChoiceForAllPlayers = true;
-		ExportOnChange = false;
+		ExportOnChange = true;
 		Choices = {"Normal", "A few", "None"};
 		LoadSelections = 
 		function(self, list, pn)
@@ -453,7 +453,7 @@ function RMStage()
 		LayoutType = "ShowAllInRow";
 		SelectType = "SelectOne";
 		OneChoiceForAllPlayers = true;
-		ExportOnChange = false;
+		ExportOnChange = true;
 		Choices = {"Random Movies", "Jacket" };
 		LoadSelections = 
 		function(self, list, pn)
@@ -493,7 +493,7 @@ function Mate1()
 		LayoutType = "ShowAllInRow";
 		SelectType = "SelectOne";
 		OneChoiceForAllPlayers = true;
-		ExportOnChange = false;
+		ExportOnChange = true;
 		Choices = choiceList;
 
 		LoadSelections = 
@@ -525,7 +525,7 @@ function Mate2()
 		LayoutType = "ShowAllInRow";
 		SelectType = "SelectOne";
 		OneChoiceForAllPlayers = true;
-		ExportOnChange = false;
+		ExportOnChange = true;
 		Choices = choiceList;
 
 		LoadSelections = 
@@ -556,7 +556,7 @@ function Mate3()
 		LayoutType = "ShowAllInRow";
 		SelectType = "SelectOne";
 		OneChoiceForAllPlayers = true;
-		ExportOnChange = false;
+		ExportOnChange = true;
 		Choices = choiceList;
 
 		LoadSelections = 
