@@ -119,9 +119,11 @@ for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
             if (pn==PLAYER_1) then
               s:x(30)
               s:halign(1)
+              s:maxwidth(150)
             else
               s:x(-35)
               s:halign(0)
+              s:maxwidth(150)
             end
           end,
           CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,

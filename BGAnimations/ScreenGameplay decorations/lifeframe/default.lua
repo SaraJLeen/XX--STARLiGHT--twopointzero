@@ -32,7 +32,7 @@ return Def.ActorFrame{
 			end
 			s:MaskDest():ztestmode("ZTestMode_WriteOnFail"):customtexturerect(0,0,1,1)
 			if GAMESTATE:GetNumPlayersEnabled() <= 1 then
-				:texcoordvelocity(pn=="PlayerNumber_P2" and 0.5 or -0.5,0)
+				s:texcoordvelocity(pn=="PlayerNumber_P2" and 0.5 or -0.5,0)
 			end
 		end;
 		HealthStateChangedMessageCommand=function(self, param)

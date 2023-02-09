@@ -120,7 +120,7 @@ t[#t+1] = Def.ActorFrame{
     end;
   };
   Def.Sprite{
-    Texture="Judge Inner",
+    Texture="Judge Stroke",
     InitCommand=function(s) s:xy(230,5) end,
   };
   Def.Quad{
@@ -186,6 +186,7 @@ t[#t+1] = Def.ActorFrame{
     BeginCommand=function(s) s:playcommand("Set") end,
     SetCommand=function(self)
       self:settext("")
+      self:strokecolor(Color.Black)
 
       local st=GAMESTATE:GetCurrentStyle():GetStepsType()
       local song=GAMESTATE:GetCurrentSong()
@@ -240,6 +241,7 @@ t[#t+1] = Def.ActorFrame{
       InitCommand=function(s) s:xy(-65,-66):zoom(0.5) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
+        self:strokecolor(Color.Black)
         myScoreSet = TopRecord(pn);
         local temp = myScoreSet["topDate"];
         if (myScoreSet["SongOrCourse"]==1) then
@@ -259,6 +261,7 @@ t[#t+1] = Def.ActorFrame{
       InitCommand=function(s) s:halign(1):y(-50):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
+        self:strokecolor(Color.Black)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then
@@ -276,6 +279,7 @@ t[#t+1] = Def.ActorFrame{
       InitCommand=function(s) s:halign(1):y(-35):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
+        self:strokecolor(Color.Black)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then
@@ -293,6 +297,7 @@ t[#t+1] = Def.ActorFrame{
       InitCommand=function(s) s:halign(1):y(-18):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
+        self:strokecolor(Color.Black)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then
@@ -310,6 +315,7 @@ t[#t+1] = Def.ActorFrame{
       InitCommand=function(s) s:halign(1):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
+        self:strokecolor(Color.Black)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then
@@ -327,6 +333,7 @@ t[#t+1] = Def.ActorFrame{
       InitCommand=function(s) s:halign(1):y(16):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
+        self:strokecolor(Color.Black)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then
@@ -344,6 +351,7 @@ t[#t+1] = Def.ActorFrame{
       InitCommand=function(s) s:halign(1):y(32):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
+        self:strokecolor(Color.Black)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then
@@ -361,6 +369,7 @@ t[#t+1] = Def.ActorFrame{
       InitCommand=function(s) s:halign(1):y(48):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
+        self:strokecolor(Color.Black)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then

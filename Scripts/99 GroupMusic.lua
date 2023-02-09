@@ -21,6 +21,7 @@ do
 			["17 - ddr a3"]			= "GroupMusic/group/DDR A3 (loop).ogg";
 			["50 - ddr supernova 3"]	= "GroupMusic/group/DDR SuperNOVA 3 (loop).ogg";
 			["51 - ddr xx"]			= "GroupMusic/group/DDR XX (loop).ogg";
+			["ace of arrows"]			= "GroupMusic/group/Connect -Arcade-.ogg";
 			["ddr club version"]		= "GroupMusic/group/IIDX 3rd Style (loop).ogg";
 			["dancing stage collection"]	= "GroupMusic/group/DDR STRIKE (loop).ogg";
 			["ddr disney"]				= "GroupMusic/group/DDR Disney's Rave (loop).ogg";
