@@ -1013,19 +1013,19 @@ function StepsListing()
 				if (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
 					meter = GetConvertDifficulty_DDRX(GAMESTATE:GetCurrentSong(),v,mt)
 					if v:IsAutogen() then
-						conv[2][#conv[2]+1] = ("%s ~%i (Autogen)"):format(THEME:GetString("CustomDifficulty",ToEnumShortString(v:GetDifficulty())), meter)
+						conv[2][#conv[2]+1] = ("%s ~%i (Autogen)"):format(GetDifficultyName(v:GetDifficulty(),GAMESTATE:GetCurrentSong()), meter)
 					else
-						conv[2][#conv[2]+1] = ("%s ~%i"):format(THEME:GetString("CustomDifficulty",ToEnumShortString(v:GetDifficulty())), meter)
+						conv[2][#conv[2]+1] = ("%s ~%i"):format(GetDifficultyName(v:GetDifficulty(),GAMESTATE:GetCurrentSong()), meter)
 					end
 				else
 					if v:IsAutogen() then
-						conv[2][#conv[2]+1] = ("%s %i (Autogen)"):format(THEME:GetString("CustomDifficulty",ToEnumShortString(v:GetDifficulty())), meter)
+						conv[2][#conv[2]+1] = ("%s %i (Autogen)"):format(GetDifficultyName(v:GetDifficulty(),GAMESTATE:GetCurrentSong()), meter)
 					else
-						conv[2][#conv[2]+1] = ("%s %i"):format(THEME:GetString("CustomDifficulty",ToEnumShortString(v:GetDifficulty())), meter)
+						conv[2][#conv[2]+1] = ("%s %i"):format(GetDifficultyName(v:GetDifficulty(),GAMESTATE:GetCurrentSong()), meter)
 					end
 				end
 			else
-				conv[2][#conv[2]+1] = ("%s %i"):format(THEME:GetString("CustomDifficulty",ToEnumShortString(v:GetDifficulty())), v:GetMeter())
+				conv[2][#conv[2]+1] = ("%s %i"):format(GetDifficultyName(v:GetDifficulty(),GAMESTATE:GetCurrentSong()), v:GetMeter())
 			end
         end
     end

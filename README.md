@@ -3,6 +3,7 @@ All rights, licenses, and all other aspects are applied solely according to what
 This is not my theme. This is not my work. Only the edits are my work, for personal use only.<br>
 If you want to copy anything regarding my personal alterations please do so freely as you like.<br>
 This repository pretty much exists entirely so that I can keep versioning for my own use.<br>
+Music select should be set to wheel to enjoy the vast majority of my changes.<br>
 -Sara<br>
 <br>
 <h1 align="center">

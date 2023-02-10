@@ -152,7 +152,7 @@ local function LoadPlayerStuff(Player)
 			s:sleep(0.7):linear(0.1):diffusealpha(1):zoomtoheight(72):linear(0.1)
 		end,
 		OffCommand=function(s)
-			s:sleep(0.2):linear(0.1):diffusealpha(1):zoomtoheight(0):linear(0.1)
+			linear(0.1):diffusealpha(1):zoomtoheight(0):linear(0.1)
 		end,
 	};
 	x[#x+1] = Def.ActorFrame {

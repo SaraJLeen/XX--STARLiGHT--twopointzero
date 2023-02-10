@@ -85,7 +85,7 @@ for pn in EnabledPlayers() do
 			SetCommand=function(s)
 				if GAMESTATE:GetCurrentSong() then
 					if GAMESTATE:GetCurrentSteps(pn) then
-						s:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(GAMESTATE:GetCurrentSteps(pn):GetDifficulty())))
+						s:settext(GetDifficultyName(GAMESTATE:GetCurrentSteps(pn):GetDifficulty(),GAMESTATE:GetCurrentSong()))
 						s:diffuse(CustomDifficultyToColor(ToEnumShortString(GAMESTATE:GetCurrentSteps(pn):GetDifficulty())))
 					end
 				else

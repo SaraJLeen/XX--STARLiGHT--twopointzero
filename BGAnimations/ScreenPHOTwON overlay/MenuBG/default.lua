@@ -11,7 +11,7 @@ local frames = {
   {"SN2", "SuperNOVA2"},
   {"X1", "X"},
   {"X2", "X2"},
-  {"SN3","SuperNOVA 3"},
+  {"SN3","SuperNOVA3"},
   {"NG2","Next Generation 2"},
   {"Retrowave","Retrowave"},
 };

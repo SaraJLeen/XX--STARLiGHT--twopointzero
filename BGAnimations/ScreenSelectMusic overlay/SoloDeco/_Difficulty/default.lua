@@ -12,7 +12,11 @@ local function DrawDiffListItem(diff)
       Name="DiffLabel";
       InitCommand=function(self)
         self:y(-15):zoomx(0.6):zoomy(0.7)
-        self:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff)))
+        if GAMESTATE:GetCurrentSong() then
+          self:settext(GetDifficultyName(diff,GAMESTATE:GetCurrentSong()))
+        else
+          self:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff)))
+        end
       end;
       SetCommand=function(self)
         local st=GAMESTATE:GetCurrentStyle():GetStepsType()

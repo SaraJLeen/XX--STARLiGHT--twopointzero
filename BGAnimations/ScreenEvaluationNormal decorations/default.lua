@@ -302,8 +302,12 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
         Font="_handel gothic itc std Bold/32px";
         OnCommand=function(self)
           local diff = GAMESTATE:GetCurrentSteps(pn):GetDifficulty();
-          self:uppercase(true):settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff)))
-          :diffuse(CustomDifficultyToColor(diff)):strokecolor(Color.Black)
+          if GAMESTATE:GetCurrentSong() then
+            self:uppercase(true):settext(GetDifficultyName(diff,GAMESTATE:GetCurrentSong()))
+          else
+            self:uppercase(true):settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff)))
+          end
+          self:diffuse(CustomDifficultyToColor(diff)):strokecolor(Color.Black)
         end;
       };
       Def.BitmapText{

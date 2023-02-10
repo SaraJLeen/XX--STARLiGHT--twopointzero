@@ -68,3 +68,91 @@ function GetValidStyleSelect()
 	end
 	return "Single,Versus,Double"
 end
+
+function GetDifficultyName(diff,song)
+	local diffn = ToEnumShortString(diff)
+	local res = THEME:GetString("CustomDifficulty",diffn)
+     if not song then return string.upper(res); end
+	local groupn = song:GetGroupName()
+	if
+		   groupn == "01 - DDR 1st"
+		or groupn == "02 - DDR 2ndMIX"
+		or groupn == "DDR Club Version"
+		then
+		-- if diffn == 'Beginner' then res = "Beginner"; end
+		if diffn == 'Easy' then res = "Basic"; end
+		if diffn == 'Medium' then res = "Another"; end
+		if diffn == 'Hard' then res = "Maniac"; end
+		-- if diffn == 'Challenge' then res = "Challenge"; end
+	elseif
+		   groupn == "03 - DDR 3rdMIX"
+		then
+		if diffn == 'Easy' then res = "Basic"; end
+		if diffn == 'Medium' then res = "Another"; end
+		if diffn == 'Hard' then res = "SSR"; end
+	elseif
+		   groupn == "04 - DDR 4thMIX"
+		or groupn == "DDR Solo"
+		or groupn == "05 - DDR 5thMIX"
+		then
+		if diffn == 'Easy' then res = "Basic"; end
+		if diffn == 'Medium' then res = "Trick"; end
+		if diffn == 'Hard' then res = "Maniac"; end
+	elseif
+		   groupn == "06 - DDR MAX"
+		or groupn == "07 - DDR MAX2"
+		or groupn == "08 - DDR EXTREME"
+		or groupn == "Sara's Classics"
+		then
+		if diffn == 'Easy' then res = "Light"; end
+		if diffn == 'Medium' then res = "Standard"; end
+		if diffn == 'Hard' then res = "Heavy"; end
+	elseif
+		   groupn == "DDR ULTRAMIX"
+		or groupn == "DDR UNIVERSE"
+		then
+		if diffn == 'Easy' then res = "Light"; end
+		if diffn == 'Medium' then res = "Standard"; end
+		if diffn == 'Hard' then res = "Heavy"; end
+		if diffn == 'Challenge' then res = "Oni"; end
+	elseif
+		   groupn == "ITG 01 - 1"
+		or groupn == "ITG 02 - 2"
+		or groupn == "ITG 03 - 3"
+		or groupn == "ITG 04 - Rebirth"
+		or groupn == "ITG 05 - Rebirth 2"
+		or groupn == "Ace of Arrows"
+		or groupn == "SPEIRMIX GALAXY"
+		or groupn == "Sudziosis"
+		then
+		if diffn == 'Beginner' then res = "Novice"; end
+		if diffn == 'Easy' then res = "Easy"; end
+		if diffn == 'Medium' then res = "Medium"; end
+		if diffn == 'Hard' then res = "Hard"; end
+		if diffn == 'Challenge' then res = "Expert"; end
+	elseif
+		   groupn == "PIU 01 - 1st ~ Perf"
+		or groupn == "PIU 02 - Extra ~ PREX3"
+		or groupn == "PIU 03 - Exceed ~ Zero"
+		or groupn == "PIU 04 - NX ~ NX Absolute"
+		or groupn == "PIU 05 - Fiesta ~ Fiesta 2"
+		or groupn == "PIU 06 - Prime"
+		or groupn == "PIU 07 - Prime 2"
+		or groupn == "PIU 08 - XX"
+		or groupn == "PIU 50 - Pro ~ Pro 2"
+		or groupn == "PIU 51 - Infinity"
+		then
+		if diffn == 'Beginner' then res = "Easy"; end
+		if diffn == 'Easy' then res = "Normal"; end
+		if diffn == 'Medium' then res = "Hard"; end
+		if diffn == 'Hard' then res = "Crazy"; end
+		if diffn == 'Challenge' then res = "Extra"; end
+		if diffn == 'Edit' then res = "Pump"; end
+	end
+	if song:GetMainTitle() == "ayu trance 2" then
+		if diffn == 'Easy' then res = "Marathon"; end
+		if diffn == 'Medium' then res = "Excessive"; end
+		if diffn == 'Hard' then res = "Inhumane"; end
+	end
+	return string.upper(res);
+end

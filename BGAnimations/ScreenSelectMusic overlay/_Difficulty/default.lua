@@ -47,7 +47,11 @@ local function DrawDiffListItem(diff)
       InitCommand=function(self)
         self:halign(pn=='pnNumber_P2' and 1 or 0):draworder(99):diffuse(CustomDifficultyToColor(diff)):strokecolor(Color.Black)
         self:x(pn=="pnNumber_P2" and 164 or -164)
-        self:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff)))
+        if GAMESTATE:GetCurrentSong() then
+          self:settext(GetDifficultyName(diff,GAMESTATE:GetCurrentSong()))
+        else
+          self:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff)))
+        end
       end;
     };
     Def.BitmapText{

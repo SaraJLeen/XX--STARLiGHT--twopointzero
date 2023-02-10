@@ -127,7 +127,11 @@ t[#t+1] = Def.ActorFrame{
         diff = GAMESTATE:GetCurrentSteps(pn):GetDifficulty();
       end;
       s:maxwidth(270);
-      s:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff))):uppercase(true):diffuse(CustomDifficultyToColor(diff))
+      if GAMESTATE:GetCurrentSong() then
+        s:settext(GetDifficultyName(diff,GAMESTATE:GetCurrentSong())):uppercase(true):diffuse(CustomDifficultyToColor(diff))
+      else
+        s:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff))):uppercase(true):diffuse(CustomDifficultyToColor(diff))
+      end
     end;
   };
   Def.ActorFrame{

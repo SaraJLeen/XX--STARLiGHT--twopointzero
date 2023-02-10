@@ -238,7 +238,11 @@ local function MakeRow(rownames, idx)
 					elseif name == "Steps" then
 						local difftable = SongOrCourse:GetStepsByStepsType(GAMESTATE:GetCurrentStyle():GetStepsType())
 						local diff = difftable[choice+1]
-						self:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff:GetDifficulty())));
+                             if not GAMESTATE:IsCourseMode() or not SongOrCourse then
+						  self:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff:GetDifficulty())));
+                             else
+						  self:settext(GetDifficultyName(diff:GetDifficulty(),SongOrCourse));
+                             end
 						self:diffuse(CustomDifficultyToColor(diff:GetDifficulty()))
 						--self:diffuse(color(diffcolor[limited_choice]));
 					elseif name == "Characters" then

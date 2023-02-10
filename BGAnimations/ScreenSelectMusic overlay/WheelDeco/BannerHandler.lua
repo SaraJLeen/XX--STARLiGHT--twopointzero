@@ -25,36 +25,36 @@ return Def.ActorFrame{
         local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
         if not mw then return end
         if song then
-          self:LoadFromCached("jacket",jk.GetSongGraphicPath(song,"Jacket"))
-        elseif mw:GetSelectedType('WheelItemDataType_Section')  then
-          if mw:GetSelectedSection() == "" then
-            self:LoadFromCached("jacket",THEME:GetPathG("","_jackets/Random"))
+          local bg = song:GetSongDir()
+          local bgvideo = {}
+          local listing = FILEMAN:GetDirListing(bg, false, true)
+          if listing then
+            for _,file in pairs(listing) do
+              if ActorUtil.GetFileType(file) == 'FileType_Movie' then
+                table.insert(bgvideo,file)
+              end
+            end
+            if #bgvideo ~= 0 then
+              self:Load(bgvideo[1])
+            else
+              self:LoadFromCached("jacket",jk.GetSongGraphicPath(song,"Jacket"))
+            end
           else
-            self:LoadFromCached("jacket",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Jacket",so))
+            self:LoadFromCached("jacket",jk.GetSongGraphicPath(song,"Jacket"))
           end
+        elseif mw:GetSelectedType() == 'WheelItemDataType_Random' then
+          self:LoadFromCached("jacket",THEME:GetPathG("","_jackets/Random"))
+        elseif mw:GetSelectedType() == 'WheelItemDataType_Roulette' then
+          self:LoadFromCached("jacket",THEME:GetPathG("","_jackets/Roulette"))
+        elseif mw:GetSelectedType() == 'WheelItemDataType_Custom' then
+          self:LoadFromCached("jacket",THEME:GetPathG("","_jackets/COURSE"))
+        elseif mw:GetSelectedType() == 'WheelItemDataType_Section' then
+          self:LoadFromCached("jacket",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Jacket",so))
         else
           self:LoadFromCached("jacket", THEME:GetPathG("","MusicWheelItem fallback") );
         end;
         self:scaletofit(-120,-120,120,120):xy(-2,-4)
           end;
-    };
-    Def.Sprite{
-      SetCommand=function(self)
-        local song = GAMESTATE:GetCurrentSong();
-        local so = GAMESTATE:GetSortOrder();
-        local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
-        if not song and mw then
-          if mw:GetSelectedType() == 'WheelItemDataType_Custom' then
-            self:LoadFromCached("jacket",THEME:GetPathG("","_jackets/COURSE"))
-            self:visible(true)
-          else
-            self:visible(false)
-          end;
-        else
-          self:visible(false)
-        end;
-        self:scaletofit(-120,-120,120,120):xy(-2,-4)
-      end;
     };
     LoadFont("_avenirnext lt pro bold/46px")..{
         InitCommand=function(s) s:y(-20):diffusealpha(1):maxwidth(200):diffusebottomedge(color("#d8d8d8")):diffusetopedge(color("#8c8c8c")):strokecolor(Color.Black) end,
@@ -95,37 +95,22 @@ return Def.ActorFrame{
         if song then
 		  setenv("getgroupname","song");
           self:LoadFromCached("banner",jk.GetSongGraphicPath(song,"Banner"))
-        elseif mw:GetSelectedType('WheelItemDataType_Section') then
-		  setenv("getgroupname",mw:GetSelectedSection());
-          if mw:GetSelectedSection() == "" then
-			setenv("getgroupname","random");
-	        if mw:GetSelectedType() == 'WheelItemDataType_Custom' then setenv("getgroupname","course"); end
-            self:LoadFromCached("banner",THEME:GetPathG("","_banners/Random"))
-          else
-            self:LoadFromCached("banner",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Banner",so))
-          end
+        elseif mw:GetSelectedType() == 'WheelItemDataType_Random' then
+		setenv("getgroupname","random");
+		self:LoadFromCached("banner",THEME:GetPathG("","_banners/Random"))
+        elseif mw:GetSelectedType() == 'WheelItemDataType_Roulette' then
+		setenv("getgroupname","random");
+		self:LoadFromCached("banner",THEME:GetPathG("","_banners/Roulette"))
+        elseif mw:GetSelectedType() == 'WheelItemDataType_Custom' then
+		setenv("getgroupname","course");
+		self:LoadFromCached("banner",THEME:GetPathG("","_banners/COURSE"))
+        elseif mw:GetSelectedType() == 'WheelItemDataType_Section' then
+		setenv("getgroupname",mw:GetSelectedSection());
+          self:LoadFromCached("banner",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Banner",so))
         else
- self:visible(false)
+		self:visible(false)
         end;
         self:scaletofit(-239,-75,239,75):xy(-24,-20)
-      end;
-    };
-    Def.Sprite{
-      InitCommand=function(s) s:xy(-24,-20) end,
-      SetCommand=function(self)
-        local song = GAMESTATE:GetCurrentSong();
-        local so = GAMESTATE:GetSortOrder();
-        local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
-        if not song and mw then
-          if mw:GetSelectedType() == 'WheelItemDataType_Custom' then
-            self:LoadFromCached("banner",THEME:GetPathG("","_banners/COURSE")):setsize(478,150)
-            self:visible(true)
-          else
-            self:visible(false)
-          end;
-        else
-          self:visible(false)
-        end;
       end;
     };
     Def.Sprite{
@@ -149,7 +134,7 @@ return Def.ActorFrame{
         local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
         local so = GAMESTATE:GetSortOrder();
         if mw and mw:GetSelectedType() == "WheelItemDataType_Section" then
-			    if so == "SortOrder_Genre" then
+		if so == "SortOrder_Genre" then
             self:settext(mw:GetSelectedSection())
             self:visible(true)
 			    else

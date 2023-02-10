@@ -160,7 +160,11 @@ local function DifficultyPanel()
                         if not GAMESTATE:IsCourseMode() then
                             c.Text_meter:settext(steps:GetMeter()):visible(true)
                         end
-                        c.Text_difficulty:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff))):visible(true)
+                        if GAMESTATE:GetCurrentSong() then
+                          c.Text_difficulty:settext(GetDifficultyName(diff,GAMESTATE:GetCurrentSong())):visible(true)
+                        else
+                          c.Text_difficulty:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff))):visible(true)
+                        end
                         c.Text_difficulty:diffuse(CustomDifficultyToColor(diff))
                         local cursteps = GAMESTATE:GetCurrentSteps(pn) or GAMESTATE:GetCurrentTrail(player)
                         if cursteps then

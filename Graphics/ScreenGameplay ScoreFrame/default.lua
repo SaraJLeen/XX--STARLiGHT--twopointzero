@@ -116,7 +116,11 @@ t[#t+1]=Def.ActorFrame{
 					SetCommand=function(s)
 						s:halign(1)
 						local diff = GAMESTATE:GetCurrentSteps(pn):GetDifficulty();
-						s:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff))):uppercase(true):diffuse(CustomDifficultyToColor(diff))
+						if GAMESTATE:GetCurrentSong() then
+							s:settext(GetDifficultyName(diff,GAMESTATE:GetCurrentSong())):uppercase(true):diffuse(CustomDifficultyToColor(diff))
+						else
+							s:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff))):uppercase(true):diffuse(CustomDifficultyToColor(diff))
+						end
 					end;
 					CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
 				};

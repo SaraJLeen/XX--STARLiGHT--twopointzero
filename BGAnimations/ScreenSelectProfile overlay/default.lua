@@ -252,6 +252,30 @@ function LoadPlayerStuff(Player)
 				end;
 			}
 		end
+		t[#t+1] = Def.BitmapText{
+			Name="TTP"..ToEnumShortString(Player),
+			Font="Common normal",
+			InitCommand=function(s) s:halign(0):diffuse(Color.White):strokecolor(Color.Black) end,
+			OnCommand=function(s)
+				s:xy(-250,268)
+				:diffusealpha(0):addx(-10):sleep(0.1*5):linear(0.1):diffusealpha(1):addx(10)
+			end,
+			OffCommand=function(s)
+				linear(0.1):diffusealpha(0):addx(-10)
+			end;
+		}
+		t[#t+1] = Def.BitmapText{
+			Name="TSP"..ToEnumShortString(Player),
+			Font="Common normal",
+			InitCommand=function(s) s:halign(1):diffuse(Color.White):strokecolor(Color.Black) end,
+			OnCommand=function(s)
+				s:xy(250,268)
+				:diffusealpha(0):addx(-10):sleep(0.1*5):linear(0.1):diffusealpha(1):addx(10)
+			end,
+			OffCommand=function(s)
+				linear(0.1):diffusealpha(0):addx(-10)
+			end;
+		}
 	end
 
 	return t;
@@ -299,6 +323,9 @@ function UpdateInternal3(self, Player)
 	local selGVRDoubleValue_Air = (Player==PLAYER_1) and frame:GetChild('GVRDP1DoubleValue_Air') or frame:GetChild('GVRDP2DoubleValue_Air');
 	local selGVRDoubleValue_Freeze = (Player==PLAYER_1) and frame:GetChild('GVRDP1DoubleValue_Freeze') or frame:GetChild('GVRDP2DoubleValue_Freeze');
 	local selGVRDoubleValue_Chaos = (Player==PLAYER_1) and frame:GetChild('GVRDP1DoubleValue_Chaos') or frame:GetChild('GVRDP2DoubleValue_Chaos');
+
+	local selTTP = (Player==PLAYER_1) and frame:GetChild('TTPP1') or frame:GetChild('TTPP2');
+	local selTSP = (Player==PLAYER_1) and frame:GetChild('TSPP1') or frame:GetChild('TSPP2');
 
 	if GAMESTATE:IsHumanPlayer(Player) then
 		frame:visible(true);
@@ -348,6 +375,8 @@ function UpdateInternal3(self, Player)
 			selGVRDoubleValue_Air:visible(true)
 			selGVRDoubleValue_Freeze:visible(true)
 			selGVRDoubleValue_Chaos:visible(true)
+			selTTP:visible(true)
+			selTSP:visible(true)
 			
 			if ind > 0 then
 				scroller:SetDestinationItem(ind-1);
@@ -394,6 +423,24 @@ function UpdateInternal3(self, Player)
         --Chaos--
                 RadarValueTableDouble[5] = MyGrooveRadar.GetRadarData(profileID, 'double', 'chaos')
 				selGVRDoubleValue_Chaos:settext(string.format("%0.0f", RadarValueTableDouble[5]*100));
+
+				local time_secs = PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetTotalGameplaySeconds()
+				local days = math.floor(time_secs/86400)
+				local hours = math.floor(math.mod(time_secs, 86400)/3600)
+				local minutes = math.floor(math.mod(time_secs,3600)/60)
+				local seconds = math.floor(math.mod(time_secs,60))
+				if days > 0 then
+					selTTP:settext(string.format("%d:%02d:%02d:%02d",days,hours,minutes,seconds));
+				elseif hours > 0 then
+					selTTP:settext(string.format("%d:%02d:%02d",hours,minutes,seconds));
+				elseif minutes > 0 then
+					selTTP:settext(string.format("%d:%02d",minutes,seconds));
+				elseif seconds > 0 then
+					selTTP:settext(string.format("0:%02d",seconds));
+				else
+					selTTP:settext("No gameplay time");
+				end
+				selTSP:settext(tostring(PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetTotalNumSongsPlayed()).." songs played");
 				
 				-- Save the past values, which we will need later
 				local pastValues = GetOrCreateChild(GAMESTATE:Env(), 'PastRadarValues')
@@ -424,6 +471,8 @@ function UpdateInternal3(self, Player)
 					selGVRDoubleValue_Air:visible(false)
 					selGVRDoubleValue_Freeze:visible(false)
 					selGVRDoubleValue_Chaos:visible(false)
+					selTTP:visible(false)
+					selTSP:visible(false)
 				end;
 			end;
 		else
@@ -447,6 +496,8 @@ function UpdateInternal3(self, Player)
 			selGVRDoubleValue_Air:visible(true)
 			selGVRDoubleValue_Freeze:visible(true)
 			selGVRDoubleValue_Chaos:visible(true)
+			selTTP:visible(true)
+			selTSP:visible(true)
 			SCREENMAN:GetTopScreen():SetProfileIndex(Player, 0);
 		end;
 	else
@@ -471,6 +522,8 @@ function UpdateInternal3(self, Player)
 		selGVRDoubleValue_Air:visible(false)
 		selGVRDoubleValue_Freeze:visible(false)
 		selGVRDoubleValue_Chaos:visible(false)
+		selTTP:visible(false)
+		selTSP:visible(false)
 	end;
 end;
 

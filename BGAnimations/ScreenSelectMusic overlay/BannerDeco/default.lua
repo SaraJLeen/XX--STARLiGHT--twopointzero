@@ -19,7 +19,7 @@ for pn in EnabledPlayers() do
 		  OffCommand=function(s) s:sleep(0.5):bouncebegin(0.25):zoom(0) end,
 			SetCommand=function(s)
 				if GAMESTATE:GetCurrentSong() and GAMESTATE:GetCurrentSteps(pn) then
-					s:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(GAMESTATE:GetCurrentSteps(pn):GetDifficulty())))
+					s:settext(GetDifficultyName(GAMESTATE:GetCurrentSetps(pn):GetDifficulty(),GAMESTATE:GetCurrentSong()))
 					s:diffuse(CustomDifficultyToColor(ToEnumShortString(GAMESTATE:GetCurrentSteps(pn):GetDifficulty())))
 				else
 					s:settext("")

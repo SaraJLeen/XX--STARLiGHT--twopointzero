@@ -71,7 +71,11 @@ local function DrawDifListItem(diff)
     Def.BitmapText{
       Font="_avenirnext lt pro bold/25px",
       Name="DiffLabel";
-      Text=THEME:GetString("CustomDifficulty",ToEnumShortString(diff)),
+      if GAMESTATE:GetCurrentSong() then
+        Text=THEME:GetString(GetDifficultyName(diff,GAMESTATE:GetCurrentSong()))
+      else
+        Text=THEME:GetString("CustomDifficulty",ToEnumShortString(diff))
+      end
       InitCommand=function(s) s:halign(player==PLAYER_1 and 0 or 1):diffuse(CustomDifficultyToColor(diff)):x(player == PLAYER_1 and -120 or 120) end,
     };
     Def.BitmapText{

@@ -58,7 +58,20 @@ local function DrawDiffListItem(diff)
       InitCommand=function(self)
         self:halign(0):draworder(99):diffuse(CustomDifficultyToColor(diff)):strokecolor(Color.Black):zoom(1.2)
         self:x(-210)
-        self:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff)))
+	   local song=GAMESTATE:GetCurrentSong()
+	   if song then
+          self:settext(string.upper(GetDifficultyName(diff,song)))
+        else
+          self:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff)))
+        end
+      end;
+      SetCommand=function(self)
+	   local song=GAMESTATE:GetCurrentSong()
+	   if song then
+          self:settext(string.upper(GetDifficultyName(diff,song)))
+        else
+          self:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff)))
+        end
       end;
     };
     Def.BitmapText{
@@ -77,8 +90,8 @@ local function DrawDiffListItem(diff)
 			self:halign(0.50)
 			self:y(-9)
 			self:x(224)
-			steps1 = GAMESTATE:GetCurrentSteps(0);
-			steps2 = GAMESTATE:GetCurrentSteps(1);
+			steps1 = GAMESTATE:GetCurrentSteps(PLAYER_1);
+			steps2 = GAMESTATE:GetCurrentSteps(PLAYER_2);
 			name1 = nil
 			name2 = nil
 			desc1 = nil
@@ -102,7 +115,7 @@ local function DrawDiffListItem(diff)
 					meter1 = GetConvertDifficulty_DDRX(song,steps1,mt)
 					meter2 = GetConvertDifficulty_DDRX(song,steps2,mt)
 				end
-				workstring = "&UP;&UP; 1P: "..meter2.."/2P: "..meter2.." &DOWN;&DOWN;"
+				workstring = "&UP;&UP; 1P: "..meter1.."/2P: "..meter2.." &DOWN;&DOWN;"
 				if mt == '_MeterType_DDR' then
 					--workstring = "&UP;&UP; 1P: Classic "..meter1.."/2P: Classic "..steps2:GetMeter().." &DOWN;&DOWN;"
 				elseif mt == '_MeterType_DDRX' then
@@ -159,10 +172,22 @@ local function DrawDiffListItem(diff)
 					end
 				end
 				self:settext( workstring )
-	              if(steps1:IsAutogen() or steps2:IsAutogen()) then
-					self:diffuse(Color.AutogenStep)
+				self:ClearAttributes()
+				self:diffuse(Color.White)
+				if steps1:IsAutogen() then
+					self:AddAttribute(7,{ Diffuse = Color.AutogenStep, Length = #tostring(meter1); });
+				elseif convert_meters and (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
+					self:AddAttribute(7,{ Diffuse = Color.ConvDiffStep, Length = #tostring(meter1); });
 				end
-			elseif GAMESTATE:GetNumPlayersEnabled() < 2 and GAMESTATE:IsPlayerEnabled(0) and steps1 and steps1:GetDifficulty() == "Difficulty_Edit" then
+				if steps2:IsAutogen() then
+					self:AddAttribute(12+#tostring(meter1),{ Diffuse = Color.AutogenStep, Length = #tostring(meter2); });
+				elseif convert_meters and (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
+					self:AddAttribute(12+#tostring(meter1),{ Diffuse = Color.ConvDiffStep, Length = #tostring(meter2); });
+				end
+	              --if(steps1:IsAutogen() or steps2:IsAutogen()) then
+				--	self:diffuse(Color.AutogenStep)
+				--end
+			elseif GAMESTATE:IsPlayerEnabled(PLAYER_1) and steps1 and steps1:GetDifficulty() == "Difficulty_Edit" then
 				local meter1 = steps1:GetMeter()
 				if convert_meters and (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
 					meter1 = GetConvertDifficulty_DDRX(song,steps1,mt)
@@ -187,10 +212,17 @@ local function DrawDiffListItem(diff)
 					needlines = needlines-1
 				end
 				self:settext( workstring )
-	              if(steps1:IsAutogen()) then
-					self:diffuse(Color.AutogenStep)
+				self:ClearAttributes()
+				self:diffuse(Color.White)
+				if steps1:IsAutogen() then
+					self:AddAttribute(7,{ Diffuse = Color.AutogenStep, Length = #tostring(meter1); });
+				elseif convert_meters and (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
+					self:AddAttribute(7,{ Diffuse = Color.ConvDiffStep, Length = #tostring(meter1); });
 				end
-			elseif GAMESTATE:GetNumPlayersEnabled() < 2 and GAMESTATE:IsPlayerEnabled(1) and steps2 and steps2:GetDifficulty() == "Difficulty_Edit" then
+	              --if(steps1:IsAutogen()) then
+				--	self:diffuse(Color.AutogenStep)
+				--end
+			elseif GAMESTATE:IsPlayerEnabled(PLAYER_2) and steps2 and steps2:GetDifficulty() == "Difficulty_Edit" then
 				local meter2 = steps2:GetMeter()
 				if convert_meters and (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
 					meter2 = GetConvertDifficulty_DDRX(song,steps2,mt)
@@ -215,10 +247,18 @@ local function DrawDiffListItem(diff)
 					needlines = needlines-1
 				end
 				self:settext( workstring )
-	              if(steps2:IsAutogen()) then
-					self:diffuse(Color.AutogenStep)
+				self:ClearAttributes()
+				self:diffuse(Color.White)
+				if steps1:IsAutogen() then
+					self:AddAttribute(7,{ Diffuse = Color.AutogenStep, Length = #tostring(meter2); });
+				elseif convert_meters and (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
+					self:AddAttribute(7,{ Diffuse = Color.ConvDiffStep, Length = #tostring(meter2); });
 				end
+	              --if(steps2:IsAutogen()) then
+				--	self:diffuse(Color.AutogenStep)
+				--end
 			else
+				self:diffuse(Color.White)
 				self:valign(0.50)
 				self:halign(0.50)
 				self:x(224)
@@ -232,12 +272,11 @@ local function DrawDiffListItem(diff)
               self:x(-30)
               self:settext( steps:GetMeter() )
 			self:diffuse(Color.White)
-			if convert_meters and (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
-				self:settext( tostring(GetConvertDifficulty_DDRX(song,steps,mt)) )
-				self:diffuse(Color.ConvDiffStep)
-			end
               if(steps:IsAutogen()) then
 				self:diffuse(Color.AutogenStep)
+			elseif convert_meters and (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
+				self:settext( tostring(GetConvertDifficulty_DDRX(song,steps,mt)) )
+				self:diffuse(Color.ConvDiffStep)
 			end
 			if false and mt == '_MeterType_Pump' then
 	              self:settext( "Pump "..tostring(steps:GetMeter()).."" )

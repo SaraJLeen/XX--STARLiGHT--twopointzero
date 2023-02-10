@@ -26,6 +26,9 @@ local function SmartSort(input, rawvalue)
 		local temp = {}
 		for _,v in ipairs(input) do
 			local diffnametranslit = THEME:GetString("CustomDifficulty",ToEnumShortString(v:GetDifficulty()))
+			if GAMESTATE:GetCurrentSong() then
+				diffnametranslit = GetDifficultyName(v:GetDifficulty(),GAMESTATE:GetCurrentSong())
+			end
 			local result = rawvalue and v or v:GetMeter().." "..diffnametranslit
 			if v:GetDifficulty() == d then 
 				local numberround = string.format("%.4g", v:GetMeter())

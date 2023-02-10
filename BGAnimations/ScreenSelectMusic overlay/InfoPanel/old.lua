@@ -192,7 +192,11 @@ local function DifficultyPanel()
                         if not GAMESTATE:IsCourseMode() then
                             c.Text_meter:settext(steps:GetMeter()):visible(true)
                         end
-                        c.Text_difficulty:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff))):visible(true)
+                        if GAMESTATE:GetCurrentSong() then
+                          c.Text_difficulty:settext(GetDifficultyName(diff,GAMESTATE:GetCurrentSong())):visible(true)
+                        else
+                          c.Text_difficulty:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff))):visible(true)
+                        end
                         local cursteps = GAMESTATE:GetCurrentSteps(pn) or GAMESTATE:GetCurrentTrail(player)
                         if steps:GetRadarValues(pn):GetValue('RadarCategory_Mines') ~= 0 then
                             c.Img_important:visible(true)

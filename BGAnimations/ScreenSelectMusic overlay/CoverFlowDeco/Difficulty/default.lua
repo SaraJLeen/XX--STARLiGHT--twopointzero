@@ -218,7 +218,11 @@ local function DrawDifListItem(diff, pn)
             Font="_avenirnext lt pro bold/20px";
             InitCommand=function(s)
                 s:diffuse(CustomDifficultyToColor(diff)):strokecolor(Color.Black):x(-20)
-                s:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff)))
+                if GAMESTATE:GetCurrentSong() then
+                  s:settext(GetDifficultyName(diff,GAMESTATE:GetCurrentSong()))
+                else
+                  s:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff)))
+                end
             end,
         };
         Def.BitmapText{

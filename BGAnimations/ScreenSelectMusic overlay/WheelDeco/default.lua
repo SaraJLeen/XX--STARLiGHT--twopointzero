@@ -25,6 +25,12 @@ local t = Def.ActorFrame{
   };
 }
 
+local DescPane = Def.ActorFrame{
+	InitCommand = function(s) s:xy(SCREEN_LEFT+0,SCREEN_TOP+0):visible(true) end,
+	CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
+	loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/WheelDeco/GroupDesc.lua"))();
+}
+
 local RecordPane = Def.ActorFrame{
   InitCommand = function(s) s:xy(SCREEN_LEFT+470,SCREEN_BOTTOM-150) end,
 	OnCommand=function(s) s:addy(600):sleep(0.4):decelerate(0.3):addy(-600) end,
@@ -143,6 +149,7 @@ return Def.ActorFrame{
   StandardDecorationFromFileOptional("StageDisplay","StageDisplay")..{
     InitCommand=function(s) s:xy(SCREEN_LEFT+340,_screen.cy-160):zoom(1) end,
   };
+  DescPane;
   RecordPane;
   t;
   Def.Sprite{
