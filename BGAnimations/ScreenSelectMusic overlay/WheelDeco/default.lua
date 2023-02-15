@@ -59,8 +59,9 @@ local RecordPane = Def.ActorFrame{
   Def.ActorFrame{
     Def.Quad {
     	InitCommand = function(s) s:zoomto(916,204):y(-10) end,
-    	OnCommand = function(s) s:bounce():effectclock("beat")
-        :effectperiod(2):effectmagnitude(0,254,0):MaskSource(true)
+    	OnCommand = function(s) s:bounce():effectclock("beatnooffset")
+		s:effectperiod(1) -- Change this to 2 to pump every 2 beats instead - Sara
+		s:effectmagnitude(0,254,0):MaskSource(true)
       end,
     };
     Def.Sprite{

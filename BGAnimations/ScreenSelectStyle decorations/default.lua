@@ -108,27 +108,32 @@ end
 
 t[#t+1] = Def.ActorFrame{
   OffCommand=function(self)
-    --Starting with Outfox 4.13, gamecommands for setting the current style is broken.
-    --As a fix, we now just apply the style via lua. -Inori
-    local ind = SCREENMAN:GetTopScreen():GetSelectionIndex(GAMESTATE:GetMasterPlayerNumber())
-    local styles = {
-      "single",
-      "versus",
-      "double"
-    }
-      if styles[ind+1] ~= nil then
-        if styles[ind+1] == "versus" and startplayercount <= 1 then
+    --Only 'versus' style is possible if there are two players.
+    if startplayercount == 2 then
+      GAMESTATE:SetCurrentStyle("versus")
+    else
+      local ind = 1 + (SCREENMAN:GetTopScreen():GetSelectionIndex(GAMESTATE:GetMasterPlayerNumber()))
+      local styles = {
+        "single",
+        "versus",
+        "double"
+      }
+      local style = styles[ind]
+      
+      if style ~= nil then
+        if style == "versus" and startplayercount < 2 then
           SCREENMAN:GetTopScreen():SetPrevScreenName("ScreenSelectProfile")
           SCREENMAN:GetTopScreen():Cancel()
         else
-          GAMESTATE:SetCurrentStyle(styles[ind+1])
+          GAMESTATE:SetCurrentStyle(style)
         end
       else
         SCREENMAN:SystemMessage("Couldn't find a proper style for this gamemode. STARLiGHT only supports Dance.")
         GAMESTATE:Reset()
         SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectMode")
       end
-	end,
+    end
+  end,
   Def.Quad{
 		InitCommand=function(s) s:FullScreen():diffuse(Alpha(Color.Black,0)) end,
 		OnCommand=function(s)

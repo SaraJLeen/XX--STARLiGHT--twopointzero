@@ -261,7 +261,7 @@ function LoadPlayerStuff(Player)
 				:diffusealpha(0):addx(-10):sleep(0.1*5):linear(0.1):diffusealpha(1):addx(10)
 			end,
 			OffCommand=function(s)
-				linear(0.1):diffusealpha(0):addx(-10)
+				s:linear(0.1):diffusealpha(0):addx(-10)
 			end;
 		}
 		t[#t+1] = Def.BitmapText{
@@ -273,7 +273,7 @@ function LoadPlayerStuff(Player)
 				:diffusealpha(0):addx(-10):sleep(0.1*5):linear(0.1):diffusealpha(1):addx(10)
 			end,
 			OffCommand=function(s)
-				linear(0.1):diffusealpha(0):addx(-10)
+				s:linear(0.1):diffusealpha(0):addx(-10)
 			end;
 		}
 	end

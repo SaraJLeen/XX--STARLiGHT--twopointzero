@@ -83,18 +83,33 @@ function setenv(name,value) GAMESTATE:Env()[name] = value end
 function getenv(name) return GAMESTATE:Env()[name] end
 
 function HasVideo()
+	local song = nil
+	if GAMESTATE:IsCourseMode() then
+		song = GAMESTATE:GetCurrentCourse():GetCourseEntry(GAMESTATE:GetCourseSongIndex()):GetSong()
+	else
+		song = GAMESTATE:GetCurrentSong()
+	end
 	VideoFileType = {"mp4","avi","mov","m2ts","m2v","wmv","mpg","mpeg","mkv"}
-	Z=0
-	for i=1,#VideoFileType do
-		if FILEMAN:DoesFileExist(GAMESTATE:GetCurrentSong():GetMusicPath():sub(1, -4)..VideoFileType[i]) then
-			Z=Z+1
+	local videoPath = ""
+	for _,v in pairs(VideoFileType) do
+		if song:HasBGChanges() then
+			local changes = song:GetBGChanges()
+			if changes[1] then
+				local ext = changes[1].file1:match("[^.]+$") or ""
+				if ext == v then
+					videoPath = "/SongMovies/" .. changes[1].file1
+					if FILEMAN:DoesFileExist(videoPath) then
+						return videoPath
+					end
+				end
+			end
+		end
+		videoPath = song:GetMusicPath():sub(1, -4)..v
+		if FILEMAN:DoesFileExist(videoPath) then
+			return videoPath
 		end
 	end
-	if Z > 0 then
-		return true
-	else
-		return false
-	end
+    return nil
 end
 
 function PotentialModSong()
