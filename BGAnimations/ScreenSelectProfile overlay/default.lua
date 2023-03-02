@@ -1,3 +1,17 @@
+local SongAttributes = LoadModule "SongAttributes.lua"
+local fsp_on_top = false
+local fsp_nudge = 0
+if not fsp_on_top then
+	fsp_nudge = 32
+end
+local LastColorP1 = nil
+local LastColorP2 = nil
+local FaveColorP1 = nil
+local FaveColorP2 = nil
+local NoSingle = false
+local NoDouble = false
+local radar_nudge = 32
+
 function GetLocalProfiles()
 	local t = {}
 	for p = 0,PROFILEMAN:GetNumLocalProfiles()-1 do
@@ -98,7 +112,7 @@ function LoadPlayerStuff(Player)
 	};
 	t[#t+1] = Def.ActorFrame {
 		Name = 'SmallFrame';
-		InitCommand=function(s) s:y(120):hibernate(0.2) end,
+		InitCommand=function(s) s:y(120-fsp_nudge):hibernate(0.2) end,
 		OnCommand=function(s) s:zoom(0):rotationz(-360):decelerate(0.4):zoom(1):rotationz(0) end,
         OffCommand=function(s) s:decelerate(0.3):rotationz(-360):zoom(0) end,
 		Def.Sprite{Texture=THEME:GetPathB("","ScreenSelectMusic overlay/RadarHandler/GrooveRadar base"),};
@@ -200,14 +214,14 @@ function LoadPlayerStuff(Player)
 
 	for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 		t[#t+1] = LoadActor( THEME:GetPathG("ScreenSelectProfile", "GrooveRadar" ),1,0.2,0.2,0.2,0.5,Player,'single')..{
-			Name = "GVR"..ToEnumShortString(Player).."S";
-			InitCommand=function(s) s:xy(0,120):zoom(1):diffusealpha(0):diffuse(PlayerColor(PLAYER_1)) end,
+			--Name = "GVR"..ToEnumShortString(Player).."S"; --Removal fixes warning -- No apparent ill effects...
+			InitCommand=function(s) s:xy(0,120-fsp_nudge):zoom(1):diffusealpha(0):diffuse(PlayerColor(PLAYER_1)) end,
 			OnCommand=function(s) s:sleep(0.9):linear(0.05):diffusealpha(1) end,
 			OffCommand=function(s) s:sleep(0.2):linear(0.2):diffusealpha(0) end,
 		};
 		t[#t+1] = LoadActor( THEME:GetPathG("ScreenSelectProfile", "GrooveRadar" ),1,0.2,0.2,0.2,0.5,Player,'double')..{
-			Name = "GVR"..ToEnumShortString(Player).."D";
-			InitCommand=function(s) s:xy(0,120):zoom(1):diffusealpha(0):diffuse(PlayerColor(PLAYER_2)) end,
+			--Name = "GVR"..ToEnumShortString(Player).."D"; --Removal fixes warning -- No apparent ill effects...
+			InitCommand=function(s) s:xy(0,120-fsp_nudge):zoom(1):diffusealpha(0):diffuse(PlayerColor(PLAYER_2)) end,
 			OnCommand=function(s) s:sleep(0.9):linear(0.05):diffusealpha(1) end,
 			OffCommand=function(s) s:sleep(0.2):linear(0.2):diffusealpha(0) end,
 		};
@@ -216,7 +230,7 @@ function LoadPlayerStuff(Player)
 			t[#t+1] = Def.ActorFrame{
 				Name="GVRD"..ToEnumShortString(Player).."Value_"..v[3],
 				OnCommand=function(s)
-					s:xy(v[1],v[2]+140)
+					s:xy(v[1],v[2]+140-fsp_nudge)
 					:diffusealpha(0):addx(-10):sleep(0.1+i/10):linear(0.1):diffusealpha(1):addx(10)
 				end,
 				OffCommand=function(s)
@@ -232,7 +246,7 @@ function LoadPlayerStuff(Player)
 				Font="Common normal",
 				InitCommand=function(s) s:halign(1):diffuse(PlayerColor(PLAYER_1)):strokecolor(Color.Black) end,
 				OnCommand=function(s)
-					s:xy(v[1]-20,v[2]+110)
+					s:xy(v[1]-20,v[2]+110-fsp_nudge)
 					:diffusealpha(0):addx(-10):sleep(0.1+i/10):linear(0.1):diffusealpha(1):addx(10)
 				end,
 				OffCommand=function(s)
@@ -244,7 +258,7 @@ function LoadPlayerStuff(Player)
 				Font="Common normal",
 				InitCommand=function(s) s:halign(1):diffuse(PlayerColor(PLAYER_2)):strokecolor(Color.Black) end,
 				OnCommand=function(s)
-					s:xy(v[1]+40,v[2]+110)
+					s:xy(v[1]+40,v[2]+110-fsp_nudge)
 					:diffusealpha(0):addx(-10):sleep(0.1+i/10):linear(0.1):diffusealpha(1):addx(10)
 				end,
 				OffCommand=function(s)
@@ -258,10 +272,10 @@ function LoadPlayerStuff(Player)
 			InitCommand=function(s) s:halign(0):diffuse(Color.White):strokecolor(Color.Black) end,
 			OnCommand=function(s)
 				s:xy(-250,268)
-				:diffusealpha(0):addx(-10):sleep(0.1*5):linear(0.1):diffusealpha(1):addx(10)
+				:diffusealpha(0):addx(10):sleep(0.1*5):linear(0.1):diffusealpha(1):addx(-10)
 			end,
 			OffCommand=function(s)
-				s:linear(0.1):diffusealpha(0):addx(-10)
+				s:linear(0.1):diffusealpha(0):addx(10)
 			end;
 		}
 		t[#t+1] = Def.BitmapText{
@@ -270,6 +284,57 @@ function LoadPlayerStuff(Player)
 			InitCommand=function(s) s:halign(1):diffuse(Color.White):strokecolor(Color.Black) end,
 			OnCommand=function(s)
 				s:xy(250,268)
+				:diffusealpha(0):addx(-10):sleep(0.1*5):linear(0.1):diffusealpha(1):addx(10)
+			end,
+			OffCommand=function(s)
+				s:linear(0.1):diffusealpha(0):addx(-10)
+			end;
+		}
+		t[#t+1] = Def.BitmapText{
+			Name="LSP"..ToEnumShortString(Player),
+			Font="Common normal",
+			InitCommand=function(s) s:halign(0.5):diffuse(Color.White):strokecolor(Color.Black):maxwidth(520) end,
+			OnCommand=function(s)
+				s:xy(0,244-2)
+				s:diffusealpha(0):addy(10):sleep(0.1*5):linear(0.1):diffusealpha(1):addy(-10)
+			end,
+			OffCommand=function(s)
+				s:linear(0.1):diffusealpha(0):addy(10)
+			end;
+		}
+		t[#t+1] = Def.BitmapText{
+			Name="FSP"..ToEnumShortString(Player),
+			Font="Common normal",
+			InitCommand=function(s) s:halign(0.5):diffuse(Color.White):strokecolor(Color.Black):maxwidth(520) end,
+			OnCommand=function(s)
+				s:xy(0,-40)
+				if not fsp_on_top then
+					s:xy(0,244-fsp_nudge+3)
+				end
+				s:diffusealpha(0):addy(-10):sleep(0.1*5):linear(0.1):diffusealpha(1):addy(10)
+			end,
+			OffCommand=function(s)
+				s:linear(0.1):diffusealpha(0):addy(-10)
+			end;
+		}
+		t[#t+1] = Def.BitmapText{
+			Name="Single"..ToEnumShortString(Player),
+			Font="Common normal",
+			InitCommand=function(s) s:halign(0.5):diffuse(PlayerColor(PLAYER_1)):strokecolor(Color.Black):maxwidth(520) end,
+			OnCommand=function(s)
+				s:xy(-120,20-fsp_nudge)
+				:diffusealpha(0):addx(10):sleep(0.1*5):linear(0.1):diffusealpha(1):addx(-10)
+			end,
+			OffCommand=function(s)
+				s:linear(0.1):diffusealpha(0):addx(10)
+			end;
+		}
+		t[#t+1] = Def.BitmapText{
+			Name="Double"..ToEnumShortString(Player),
+			Font="Common normal",
+			InitCommand=function(s) s:halign(0.5):diffuse(PlayerColor(PLAYER_2)):strokecolor(Color.Black):maxwidth(520) end,
+			OnCommand=function(s)
+				s:xy(120,20-fsp_nudge)
 				:diffusealpha(0):addx(-10):sleep(0.1*5):linear(0.1):diffusealpha(1):addx(10)
 			end,
 			OffCommand=function(s)
@@ -326,6 +391,10 @@ function UpdateInternal3(self, Player)
 
 	local selTTP = (Player==PLAYER_1) and frame:GetChild('TTPP1') or frame:GetChild('TTPP2');
 	local selTSP = (Player==PLAYER_1) and frame:GetChild('TSPP1') or frame:GetChild('TSPP2');
+	local selLSP = (Player==PLAYER_1) and frame:GetChild('LSPP1') or frame:GetChild('LSPP2');
+	local selFSP = (Player==PLAYER_1) and frame:GetChild('FSPP1') or frame:GetChild('FSPP2');
+	local selSingle = (Player==PLAYER_1) and frame:GetChild('SingleP1') or frame:GetChild('SingleP2');
+	local selDouble = (Player==PLAYER_1) and frame:GetChild('DoubleP1') or frame:GetChild('DoubleP2');
 
 	if GAMESTATE:IsHumanPlayer(Player) then
 		frame:visible(true);
@@ -377,6 +446,10 @@ function UpdateInternal3(self, Player)
 			selGVRDoubleValue_Chaos:visible(true)
 			selTTP:visible(true)
 			selTSP:visible(true)
+			selLSP:visible(true)
+			selFSP:visible(true)
+			selSingle:visible(true)
+			selDouble:visible(true)
 			
 			if ind > 0 then
 				scroller:SetDestinationItem(ind-1);
@@ -440,7 +513,106 @@ function UpdateInternal3(self, Player)
 				else
 					selTTP:settext("No gameplay time");
 				end
-				selTSP:settext(tostring(PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetTotalNumSongsPlayed()).." songs played");
+				if PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetTotalNumSongsPlayed() > 1 then
+					selTSP:settext(tostring(PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetTotalNumSongsPlayed()).." songs played");
+				elseif PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetTotalNumSongsPlayed() > 0 then
+					selTSP:settext(tostring(PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetTotalNumSongsPlayed()).." song played");
+				else
+					selTSP:settext("No songs played");
+				end
+				--selLSP:settext("DDR 1st - Butterfly");
+				if PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetLastPlayedSong() then
+					local lastsong = PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetLastPlayedSong()
+					selLSP:settext(lastsong:GetDisplayArtist().." - "..lastsong:GetDisplayMainTitle())
+					if (Player==PLAYER_1 and LastColorP1 ~= SongAttributes.GetMenuColor(lastsong)) or (Player==PLAYER_2 and LastColorP2 ~= SongAttributes.GetMenuColor(lastsong)) then
+						selLSP:diffuse(SongAttributes.GetMenuColor(lastsong)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(lastsong)))
+						if Player==PLAYER_1 then LastColorP1 = SongAttributes.GetMenuColor(lastsong) end
+						if Player==PLAYER_2 then LastColorP2 = SongAttributes.GetMenuColor(lastsong) end
+					end
+					selLSP:visible(true)
+				else
+					selLSP:visible(false)
+				end
+				if PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetMostPopularSong() then
+					local favesong = PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetMostPopularSong()
+					selFSP:settext(favesong:GetDisplayArtist().." - "..favesong:GetDisplayMainTitle())
+					if (Player==PLAYER_1 and FaveColorP1 ~= SongAttributes.GetMenuColor(favesong)) or (Player==PLAYER_2 and FaveColorP2 ~= SongAttributes.GetMenuColor(favesong)) then
+						selFSP:diffuse(SongAttributes.GetMenuColor(favesong)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(favesong)))
+						if Player==PLAYER_1 then FaveColorP1 = SongAttributes.GetMenuColor(favesong) end
+						if Player==PLAYER_2 then FaveColorP2 = SongAttributes.GetMenuColor(favesong) end
+					end
+					selFSP:visible(true)
+				else
+					selFSP:visible(false)
+				end
+				local singleTotalTrue = MyGrooveRadar.GetRadarData(profileID, 'single', 'stream') + MyGrooveRadar.GetRadarData(profileID, 'single', 'voltage') + MyGrooveRadar.GetRadarData(profileID, 'single', 'air') + MyGrooveRadar.GetRadarData(profileID, 'single', 'freeze') + MyGrooveRadar.GetRadarData(profileID, 'single', 'chaos')
+				local singleTotal = math.floor((singleTotalTrue*100)/20)
+				if singleTotalTrue > 0 then
+					selSingle:settext(string.format("Single\nLv.%2d",math.max(singleTotal,1)))
+					selSingle:visible(true)
+					selGVRSingleValue_Stream:visible(true)
+					selGVRSingleValue_Voltage:visible(true)
+					selGVRSingleValue_Air:visible(true)
+					selGVRSingleValue_Freeze:visible(true)
+					selGVRSingleValue_Chaos:visible(true)
+				else
+					selSingle:visible(false)
+					selGVRSingleValue_Stream:visible(false)
+					selGVRSingleValue_Voltage:visible(false)
+					selGVRSingleValue_Air:visible(false)
+					selGVRSingleValue_Freeze:visible(false)
+					selGVRSingleValue_Chaos:visible(false)
+				end
+				local doubleTotalTrue = MyGrooveRadar.GetRadarData(profileID, 'double', 'stream') + MyGrooveRadar.GetRadarData(profileID, 'double', 'voltage') + MyGrooveRadar.GetRadarData(profileID, 'double', 'air') + MyGrooveRadar.GetRadarData(profileID, 'double', 'freeze') + MyGrooveRadar.GetRadarData(profileID, 'double', 'chaos')
+				local doubleTotal = math.floor((doubleTotalTrue*100)/20)
+				if doubleTotalTrue > 0 then
+					selDouble:settext(string.format("Double\nLv.%2d",math.max(doubleTotal,1)))
+					selDouble:visible(true)
+					selGVRDoubleValue_Stream:visible(true)
+					selGVRDoubleValue_Voltage:visible(true)
+					selGVRDoubleValue_Air:visible(true)
+					selGVRDoubleValue_Freeze:visible(true)
+					selGVRDoubleValue_Chaos:visible(true)
+				else
+					selDouble:visible(false)
+					selGVRDoubleValue_Stream:visible(false)
+					selGVRDoubleValue_Voltage:visible(false)
+					selGVRDoubleValue_Air:visible(false)
+					selGVRDoubleValue_Freeze:visible(false)
+					selGVRDoubleValue_Chaos:visible(false)
+				end
+
+				if (not NoSingle) and singleTotalTrue <= 0 then
+					NoSingle = true
+					selGVRDoubleValue_Stream:addx(-radar_nudge)
+					selGVRDoubleValue_Voltage:addx(-radar_nudge)
+					selGVRDoubleValue_Air:addx(-radar_nudge)
+					selGVRDoubleValue_Freeze:addx(-radar_nudge)
+					selGVRDoubleValue_Chaos:addx(-radar_nudge)
+				elseif NoSingle and singleTotalTrue > 0 then
+					NoSingle = false
+					selGVRDoubleValue_Stream:addx(radar_nudge)
+					selGVRDoubleValue_Voltage:addx(radar_nudge)
+					selGVRDoubleValue_Air:addx(radar_nudge)
+					selGVRDoubleValue_Freeze:addx(radar_nudge)
+					selGVRDoubleValue_Chaos:addx(radar_nudge)
+				end
+
+				if (not NoDouble) and doubleTotalTrue <= 0 then
+					NoDouble = true
+					selGVRSingleValue_Stream:addx(radar_nudge)
+					selGVRSingleValue_Voltage:addx(radar_nudge)
+					selGVRSingleValue_Air:addx(radar_nudge)
+					selGVRSingleValue_Freeze:addx(radar_nudge)
+					selGVRSingleValue_Chaos:addx(radar_nudge)
+				elseif NoDouble and doubleTotalTrue > 0 then
+					NoDouble = false
+					selGVRSingleValue_Stream:addx(-radar_nudge)
+					selGVRSingleValue_Voltage:addx(-radar_nudge)
+					selGVRSingleValue_Air:addx(-radar_nudge)
+					selGVRSingleValue_Freeze:addx(-radar_nudge)
+					selGVRSingleValue_Chaos:addx(-radar_nudge)
+				end
 				
 				-- Save the past values, which we will need later
 				local pastValues = GetOrCreateChild(GAMESTATE:Env(), 'PastRadarValues')
@@ -473,6 +645,10 @@ function UpdateInternal3(self, Player)
 					selGVRDoubleValue_Chaos:visible(false)
 					selTTP:visible(false)
 					selTSP:visible(false)
+					selLSP:visible(false)
+					selFSP:visible(false)
+					selSingle:visible(false)
+					selDouble:visible(false)
 				end;
 			end;
 		else
@@ -498,6 +674,10 @@ function UpdateInternal3(self, Player)
 			selGVRDoubleValue_Chaos:visible(true)
 			selTTP:visible(true)
 			selTSP:visible(true)
+			selLSP:visible(true)
+			selFSP:visible(true)
+			selSingle:visible(true)
+			selDouble:visible(true)
 			SCREENMAN:GetTopScreen():SetProfileIndex(Player, 0);
 		end;
 	else
@@ -524,6 +704,10 @@ function UpdateInternal3(self, Player)
 		selGVRDoubleValue_Chaos:visible(false)
 		selTTP:visible(false)
 		selTSP:visible(false)
+		selLSP:visible(false)
+		selFSP:visible(false)
+		selSingle:visible(false)
+		selDouble:visible(false)
 	end;
 end;
 
@@ -613,11 +797,13 @@ local t = Def.ActorFrame{
 		Def.ActorFrame{
 			Name="P1Frame";
 			InitCommand=function(s) s:xy(IsUsingWideScreen() and _screen.cx-480 or _screen.cx-400,_screen.cy-2) end,
+			OnCommand=function(s) s:diffusealpha(0):linear(0.2):diffusealpha(1) end,
 			children = LoadPlayerStuff(PLAYER_1);
 		};
 		Def.ActorFrame{
 			Name="P2Frame";
 			InitCommand=function(s) s:xy(IsUsingWideScreen() and _screen.cx+480 or _screen.cx+400,_screen.cy-2) end,
+			OnCommand=function(s) s:diffusealpha(0):linear(0.2):diffusealpha(1) end,
 			children = LoadPlayerStuff(PLAYER_2);
 		};
 		-- sounds
@@ -630,12 +816,12 @@ local t = Def.ActorFrame{
 		LoadActor( THEME:GetPathS("Common","value") )..{
 			DirectionButtonMessageCommand=function(self) self:play() end;
 		};
-		Def.Quad{
+		--[[Def.Quad{
 			InitCommand=function(s) s:FullScreen():diffuse(Color.Black) end,
 			OnCommand=function(s)
 				s:diffusealpha(1):sleep(0.1):linear(0.2):diffusealpha(0)
 			end,
-		}
+		}]]
 	};
 }
 

@@ -13,8 +13,10 @@ return Def.ActorFrame{
 		InitCommand=function(s)
 		  if MonthOfYear() == 4 and DayOfMonth() == 1 then
 			s:Load(THEME:GetPathB("","_Logo/itglogo.png"))
+			if ANNOUNCER:GetCurrentAnnouncer() == "DDR Extreme Customized" then ANNOUNCER:SetCurrentAnnouncer("DDR Extreme Customized AF") end
 		  else
 			s:Load(THEME:GetPathB("","_Logo/xxlogo.png"))
+			if ANNOUNCER:GetCurrentAnnouncer() == "DDR Extreme Customized AF" then ANNOUNCER:SetCurrentAnnouncer("DDR Extreme Customized") end
 		  end
 		  s:xy(_screen.cx+104,_screen.cy+16):blend(Blend.Add):diffusealpha(0)
 		end,

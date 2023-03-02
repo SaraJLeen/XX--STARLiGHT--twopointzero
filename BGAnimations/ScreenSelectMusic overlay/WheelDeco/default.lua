@@ -33,7 +33,10 @@ local DescPane = Def.ActorFrame{
 
 local RecordPane = Def.ActorFrame{
   InitCommand = function(s) s:xy(SCREEN_LEFT+470,SCREEN_BOTTOM-150) end,
-	OnCommand=function(s) s:addy(600):sleep(0.4):decelerate(0.3):addy(-600) end,
+  OnCommand=function(s) s:addy(600):sleep(0.4):decelerate(0.3):addy(-600)
+    MESSAGEMAN:Broadcast("HelpText",{Text=THEME:GetString(Var "LoadingScreen","HelpText")})
+    if #GAMESTATE:GetEnabledPlayers() < 2 then MESSAGEMAN:Broadcast("HelpText",{Text=THEME:GetString(Var "LoadingScreen","HelpText1P")}); end
+  end,
   OffCommand=function(s) s:sleep(0.3):decelerate(0.3):addy(600) end,
           SetCommand=function(s)
             local song = GAMESTATE:GetCurrentSong();

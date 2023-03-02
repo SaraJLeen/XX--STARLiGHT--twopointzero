@@ -51,13 +51,13 @@ function dofile_safer(path, env)
 end
 
 function PrepareAllMainScreens()
-	return "ScreenWithMenuElements"
-	-- return "ScreenMovie,ScreenTitleJoin,ScreenTitleMenu,ScreenWithMenuElements,ScreenCaution,ScreenMDSplash"
+	return "ScreenWithMenuElements,ScreenMovie"
+	--return "ScreenMovie,ScreenTitleJoin,ScreenTitleMenu,ScreenWithMenuElements,ScreenCaution,ScreenMDSplash,ScreenSelectMusic,ScreenSelectCourse"
 end
 
 function PersistAllMainScreens()
-	return "ScreenWithMenuElements"
-	-- return "ScreenMovie,ScreenOptions,ScreenTitleMenu,ScreenSelectMode,ScreenProfileLoad,ScreenGameOver,ScreenSelectCourse,ScreenSelectProfile,ScreenSelectPlayCourseMode,ScreenPHOTwON,ScreenOptionsService,ScreenOptionsCustomize,ScreenOptionsCustomizeProfile,ScreenMapControllers,ScreenLogo,ScreenGraphicsAlert,ScreenGameplayHowTo,ScreenEditProfileList,ScreenDataSaveSummary,ScreenClear,ScreenAvatarImageSelection,ScreenCaution,ScreenSortList,ScreenTitleJoin,ScreenWarning,ScreenWithMenuElements,ScreenStageInformation,ScreenSelectMusic,ScreenPlayerOptions,ScreenEvaluation,ScreenEvaluationNormal,ScreenEvaluationSummary,ScreenProfileSave,ScreenProfileSaveSummary,ScreenMDSplash"
+	return "ScreenWithMenuElements,ScreenMovie,ScreenTitle,ScreenTitleJoin,ScreenTitleMenu"
+	--return "ScreenMovie,ScreenOptions,ScreenTitleMenu,ScreenSelectMode,ScreenProfileLoad,ScreenGameOver,ScreenSelectCourse,ScreenSelectProfile,ScreenSelectPlayCourseMode,ScreenPHOTwON,ScreenOptionsService,ScreenOptionsCustomize,ScreenOptionsCustomizeProfile,ScreenMapControllers,ScreenLogo,ScreenGraphicsAlert,ScreenGameplayHowTo,ScreenEditProfileList,ScreenDataSaveSummary,ScreenClear,ScreenAvatarImageSelection,ScreenCaution,ScreenSortList,ScreenTitleJoin,ScreenWarning,ScreenWithMenuElements,ScreenStageInformation,ScreenSelectMusic,ScreenPlayerOptions,ScreenEvaluation,ScreenEvaluationNormal,ScreenEvaluationSummary,ScreenProfileSave,ScreenProfileSaveSummary,ScreenMDSplash"
 end
 
 function GetValidStyleSelect()
@@ -150,6 +150,10 @@ function GetDifficultyName(diff,song)
 		if diffn == 'Edit' then res = "Pump"; end
 	end
 	if song:GetMainTitle() == "ayu trance 2" then
+		if diffn == 'Easy' then res = "Marathon"; end
+		if diffn == 'Medium' then res = "Excessive"; end
+		if diffn == 'Hard' then res = "Inhumane"; end
+	elseif song:GetMainTitle() == "DDR EXTREME NONSTOP MEGAMIX" then
 		if diffn == 'Easy' then res = "Marathon"; end
 		if diffn == 'Medium' then res = "Excessive"; end
 		if diffn == 'Hard' then res = "Inhumane"; end

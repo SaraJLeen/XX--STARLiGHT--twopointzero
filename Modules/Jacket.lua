@@ -23,6 +23,34 @@ local Jacket = {
             elseif song:HasBanner() then
                 return song:GetBannerPath()
             end
+        elseif type == "CD" then
+            local rcdimage
+            local paths = {};
+            if FILEMAN:DoesFileExist(string.gsub(song:GetSongFilePath(),".sm","")..".sm") then
+                local png = string.gsub(song:GetSongFilePath(),".sm","-cd.png")
+                local jpg = string.gsub(song:GetSongFilePath(),".sm","-cd.jpg")
+                table.insert(paths,png)
+                table.insert(paths,jpg)
+                
+            end
+            if FILEMAN:DoesFileExist(string.gsub(song:GetSongFilePath(),".ssc","")..".ssc") then
+                local png = string.gsub(song:GetSongFilePath(),".ssc","-cd.png")
+                local jpg = string.gsub(song:GetSongFilePath(),".ssc","-cd.jpg")
+                table.insert(paths,png)
+                table.insert(paths,jpg)
+            end
+            for path in ivalues(paths) do
+                if FILEMAN:DoesFileExist(path) then
+                    rcdimage = path
+                end
+            end
+            if song.HasCDImage and song:HasCDImage() then
+                return song:GetCDImagePath()
+            elseif rcdimage ~= nil then
+                    return rcdimage
+            elseif song.HasJacket and song:HasJacket() then
+                return song:GetJacketPath()
+            end
         else
             if song.HasJacket and song:HasJacket() then
                 return song:GetJacketPath()
@@ -39,6 +67,32 @@ local Jacket = {
             end
         end
         return fallback or fbg
+    end,
+    DoesSongHaveCD=function(song)
+        local paths = {};
+            if FILEMAN:DoesFileExist(string.gsub(song:GetSongFilePath(),".sm","")..".sm") then
+                local png = string.gsub(song:GetSongFilePath(),".sm","-cd.png")
+                local jpg = string.gsub(song:GetSongFilePath(),".sm","-cd.jpg")
+                table.insert(paths,png)
+                table.insert(paths,jpg)
+                
+            end
+            if FILEMAN:DoesFileExist(string.gsub(song:GetSongFilePath(),".ssc","")..".ssc") then
+                local png = string.gsub(song:GetSongFilePath(),".ssc","-cd.png")
+                local jpg = string.gsub(song:GetSongFilePath(),".ssc","-cd.jpg")
+                table.insert(paths,png)
+                table.insert(paths,jpg)
+            end
+        if song.HasCDImage and song:HasCDImage() then
+            return true
+        else
+            for path in ivalues(paths) do
+                if FILEMAN:DoesFileExist(path) then
+                    return true
+                end
+            end
+        end
+        return false
     end,
     GetGroupGraphicPath=function(text,type,so,fallback)
         if not text or text=="" then

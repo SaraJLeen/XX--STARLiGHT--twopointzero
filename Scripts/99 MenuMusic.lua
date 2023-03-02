@@ -88,6 +88,15 @@ do
 		end
 	end
 	function GetMenuMusicPath(type, relative)
+		--Trace("GetMusicPath1");
+		if MonthOfYear() == 4 and DayOfMonth() == 1 then
+			local new_file_af = nil
+			if type == "common" or type == "music" then new_file_af = "GroupMusic/group/IIDX Gold (loop).ogg" end
+			if type == "profile" or type == "results" then new_file_af = "GroupMusic/group/IIDX Gold Alt (loop).ogg" end
+			if type == "options" then new_file_af = "MenuMusic/options/djvortivask (loop).ogg" end
+			if type == "stage" then new_file_af = "MenuMusic/StageInfo/leeium.ogg" end
+			if new_file_af ~= nil then return relative and new_file_af or THEME:GetPathS("", new_file_af) end
+		end
 		local possibles = music[type]
 			or error("GetMenuMusicPath: unknown menu music type "..type, 2)
 		local selection = ThemePrefs.Get("MenuMusic")
@@ -122,6 +131,7 @@ do
 
 	}
 	function GetMenuMusicPath(type, relative)
+		--Trace("GetMusicPath2");
 		local paths = {
 			THEME:GetCurrentThemeDirectory().."/Sounds/MenuMusic/"..ThemePrefs.Get("MenuMusic").."/"..type.." (loop).ogg",
 			THEME:GetCurrentThemeDirectory().."/Sounds/MenuMusic/"..ThemePrefs.Get("MenuMusic").."/"..type.." .ogg",

@@ -3,6 +3,7 @@ if GAMESTATE:IsAnExtraStage() then
   ex = "ex_"
 end
 local jk = LoadModule "Jacket.lua"
+local LastStyle = nil
 
 return Def.ActorFrame{
 --Jacket
@@ -94,7 +95,9 @@ return Def.ActorFrame{
         if not mw then return end
         if song then
 		  setenv("getgroupname","song");
-          self:LoadFromCached("banner",jk.GetSongGraphicPath(song,"Banner"))
+		--Banner cache has been disabled because of severe artifacting it can cause
+          --self:LoadFromCached("banner",jk.GetSongGraphicPath(song,"Banner"))
+          self:Load(jk.GetSongGraphicPath(song,"Banner"))
         elseif mw:GetSelectedType() == 'WheelItemDataType_Random' then
 		setenv("getgroupname","random");
 		self:LoadFromCached("banner",THEME:GetPathG("","_banners/Random"))
@@ -124,8 +127,30 @@ return Def.ActorFrame{
         else
           self:Load(THEME:GetPathB("","ScreenEvaluationSummary decorations/2Pad"))
         end;
-          self:xy(-210,85):zoom(0.6)
+        LastStyle = style
+        self:xy(-210,85):zoom(0.6)
       end;
+	SetMessageCommand=function(self,params)
+		local style = GAMESTATE:GetCurrentStyle():GetStyleType()
+		if style == 'StyleType_OnePlayerOneSide' then
+			if style ~= LastStyle then
+				self:Load(THEME:GetPathB("","ScreenEvaluationSummary decorations/1Pad"))
+				self:zoom(0.7)
+				self:accelerate(0.2):zoom(0.8)
+				self:decelerate(0.3):zoom(0.6)
+				self:xy(-210,85):zoom(0.6)
+			end
+		else
+			if style ~= LastStyle then
+				self:Load(THEME:GetPathB("","ScreenEvaluationSummary decorations/2Pad"))
+				self:zoom(0.7)
+				self:accelerate(0.2):zoom(0.8)
+				self:decelerate(0.3):zoom(0.6)
+				self:xy(-210,85):zoom(0.6)
+			end
+		end;
+		LastStyle = style
+	end;
     };
     Def.BitmapText{
       Font="_avenirnext lt pro bold/46px";

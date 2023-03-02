@@ -115,6 +115,16 @@ t[#t+1] = Def.ActorFrame{
 		ChangedLanguageDisplayMessageCommand = function(s) s:queuecommand("Set") end,
 	};
 	Def.BitmapText{
+		Font="_avenirnext lt pro bold/36px";
+		InitCommand = function(s) s:halign(0):xy(-350,8):maxwidth(600):diffuse(Color.White):uppercase(false) end,
+		SetCommand = function(self)
+			local course = GAMESTATE:GetCurrentCourse()
+			self:settext(course and course:GetDescription() or "")
+		end,
+		CurrentCourseChangedMessageCommand = function(s) s:queuecommand("Set") end,
+		ChangedLanguageDisplayMessageCommand = function(s) s:queuecommand("Set") end,
+	};
+	Def.BitmapText{
 		Font="_avenirnext lt pro bold/25px";
 		InitCommand = function(s) s:xy(320,54):maxwidth(120):zoom(0.65):align(0.5,0) end,
 		SetCommand = function(self)
@@ -183,7 +193,7 @@ t[#t+1] = Def.ActorFrame{
 		end;
 	};
 	StandardDecorationFromFileOptional("CourseContentsList","CourseContentsList")..{
-		InitCommand=function(s) s:zoom(1.25):xy(0,-150) end,
+		InitCommand=function(s) s:zoom(1.25):xy(0,0) end,
 	}
 };
 

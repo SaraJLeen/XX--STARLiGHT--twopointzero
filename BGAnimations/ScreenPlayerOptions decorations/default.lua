@@ -1,3 +1,4 @@
+SOUND:DimMusic(1,math.huge)
 local num_players = GAMESTATE:GetHumanPlayers()
 LoadFromProfilePrefs()
 
@@ -32,7 +33,7 @@ function setting(self,screen,pn)
 				end
 			end
 			if newtext ~= "" then self:settext(newtext) end			
-		elseif THEME:GetMetric( "ScreenOptionsMaster",name.."Explanation" ) or name == "LuaNoteSkins" or name == "Characters" or name == "DanceStage" then
+		elseif THEME:GetMetric( "ScreenOptionsMaster",name.."Explanation" ) ~= false or name == "LuaNoteSkins" or name == "Characters" or name == "DanceStage" then
 			--Trace("Setting "..name..tostring(choice)..".");
 			if name == "Speed" then
 				local choice2 = choice - #num_players;

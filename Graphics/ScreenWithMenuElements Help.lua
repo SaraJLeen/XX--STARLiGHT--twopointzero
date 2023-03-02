@@ -11,5 +11,8 @@ return Def.ActorFrame{
 		SetHelpTextCommand=function(self, params)
 			self:SetTipsColonSeparated( params.Text );
 		end;
+		HelpTextMessageCommand=function(self, params)
+			self:SetTipsColonSeparated( params.Text );
+		end;
 	};
 }

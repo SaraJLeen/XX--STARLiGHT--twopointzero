@@ -4,6 +4,7 @@ local function WheelMove(mov)
 end
 
 local screen = Var"LoadingScreen"
+local StyleCode = 0
 
 local function InputHandler(event)
   local player = event.PlayerNumber
@@ -64,6 +65,22 @@ local function InputHandler(event)
         overlay:GetChild("MWChange"):play()
       end
     end
+	if #GAMESTATE:GetEnabledPlayers() < 2 and event.type == "InputEventType_FirstPress" and player ~= nil and GAMESTATE:IsPlayerEnabled(player) then
+		    if (StyleCode == 0 and event.GameButton == "MenuLeft")  then StyleCode = 1;
+		elseif (StyleCode == 1 and event.GameButton == "MenuLeft")  then StyleCode = 2;
+		elseif (StyleCode == 2 and event.GameButton == "MenuLeft")  then StyleCode = 3;
+		elseif (StyleCode == 3 and event.GameButton == "MenuRight") then StyleCode = 4;
+		elseif (StyleCode == 4 and event.GameButton == "MenuRight") then StyleCode = 5;
+		elseif (StyleCode == 5 and event.GameButton == "MenuRight") then StyleCode = 6;
+		elseif (StyleCode == 6 and event.GameButton == "MenuLeft")  then StyleCode = 7;
+		elseif (StyleCode == 7 and event.GameButton == "MenuRight") then StyleCode = 8;
+		else StyleCode = 0 end
+		if StyleCode > 7 then
+			StyleCode = 0
+			if GAMESTATE:GetCurrentStyle():GetName() == "single" then GAMESTATE:SetCurrentStyle("double"); SOUND:PlayOnce(THEME:GetPathS("ScreenSelectPlayMode", "in"), true); SOUND:PlayAnnouncer("select style comment double");
+			elseif GAMESTATE:GetCurrentStyle():GetName() == "double" then GAMESTATE:SetCurrentStyle("single"); SOUND:PlayOnce(THEME:GetPathS("ScreenSelectPlayMode", "in"), true); SOUND:PlayAnnouncer("select style comment single"); end
+		end
+	end
   end
 end
 

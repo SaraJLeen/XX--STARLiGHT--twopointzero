@@ -151,9 +151,7 @@ local function LoadPlayerStuff(Player)
 		OnCommand=function(s)
 			s:sleep(0.7):linear(0.1):diffusealpha(1):zoomtoheight(72):linear(0.1)
 		end,
-		OffCommand=function(s)
-			linear(0.1):diffusealpha(1):zoomtoheight(0):linear(0.1)
-		end,
+		['Player' .. pname(Player) .. 'FinishMessageCommand']=function(s) s:sleep(0.3):diffusealpha(0) end,
 	};
 	x[#x+1] = Def.ActorFrame {
 		Name='SelectTimer', 

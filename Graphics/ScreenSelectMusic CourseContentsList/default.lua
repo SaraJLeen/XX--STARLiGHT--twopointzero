@@ -1,19 +1,25 @@
 local jk = LoadModule"Jacket.lua"
 return Def.CourseContentsList {
 
-	MaxSongs = 10;
-	NumItemsToDraw = 9;
-	ShowCommand=function(s) s:bouncebegin(0.3):zoomy(1) end,
+
+	NumItemsToDraw=9,
+	MaxSongs= 20,
+	LoopScroller=false,
+	WrapScroller=false,
+	ShowCommand=function(s) s:bouncebegin(0.3):zoomy(1):align(0,0) end,
 	HideCommand=function(s) s:linear(0.3):zoomy(0) end,
+	WrapScroller = false,
+	LoopScroller = false,
 	SetCommand=function(self)
 		self:pause()
 		self:finishtweening()
 		self:SetFromGameState();
-		self:SetCurrentAndDestinationItem(0);
+		self:SetCurrentAndDestinationItem(4);
 		self:SetPauseCountdownSeconds(1);
 		self:SetSecondsPauseBetweenItems( 0.5 );
-		if GAMESTATE:GetCurrentCourse():GetEstimatedNumStages() > 5 then
-			self:SetDestinationItem(GAMESTATE:GetCurrentCourse():GetEstimatedNumStages()-5);
+		MaxSongs= GAMESTATE:GetCurrentCourse() and GAMESTATE:GetCurrentCourse():GetEstimatedNumStages() or 0
+		if GAMESTATE:GetCurrentCourse():GetEstimatedNumStages() > 9 then
+			self:SetDestinationItem(8+GAMESTATE:GetCurrentCourse():GetEstimatedNumStages());
 			seconds = self:GetSecondsToDestination();
 			self:queuecommand("Reset");
 		else
@@ -29,7 +35,7 @@ return Def.CourseContentsList {
 		InitCommand=function(s) s:setsize(402,28) end,
 		--------------Song Text
 		LoadFont("_avenirnext lt pro bold/20px") .. {
-			InitCommand=function(s) s:x(-210):maxwidth(250):halign(0) end,
+			InitCommand=function(s) s:x(-210+10):maxwidth(250):halign(0) end,
 			SetSongCommand=function(self, params)
 				if params.Secret ==true then
 					self:settext("??????");
@@ -43,7 +49,7 @@ return Def.CourseContentsList {
 		};
 		Def.ActorFrame{
 			SetSongCommand=function(self, params)
-				self:finishtweening():x(0):diffusealpha(0):sleep(0.125*params.Number):linear(0.125):diffusealpha(1):x(194)
+				self:finishtweening():x(0):diffusealpha(0):sleep(0.125*params.Number):linear(0.125):diffusealpha(1):x(194-10)
 			end,
 			Def.Quad{
 				InitCommand=function(s) s:setsize(20,20) end,

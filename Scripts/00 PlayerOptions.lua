@@ -1142,7 +1142,7 @@ function ListChooser()
 		Name="ListChooser",
 		LayoutType="ShowAllInRow",
 		SelectType="SelectOne",
-		Choices={"Gameplay","Select Music","Advanced Modifiers","Uncommon Modifiers"},
+		Choices={"Gameplay","Select Music","Display Options","Advanced Modifiers","Song Options"},
 		OneChoiceForAllPlayers=true,
 		LoadSelections=function(self,list,pn)
 			list[1] = true
@@ -1157,6 +1157,8 @@ function ListChooser()
 				screen:SetNextScreenName("ScreenPlayerOptions2")
 			elseif list[4] then
 				screen:SetNextScreenName("ScreenPlayerOptions3")
+			elseif list[5] then
+				screen:SetNextScreenName("ScreenSongOptions")
 			else
 				screen:SetNextScreenName("ScreenStageInformation")
 			end
@@ -1171,7 +1173,7 @@ function ListChooser2()
 		Name="ListChooser2",
 		LayoutType="ShowAllInRow",
 		SelectType="SelectOne",
-		--Choices={"Gameplay","Select Music","Main Modifiers","Uncommon Modifiers"},
+		--Choices={"Gameplay","Select Music","Main Modifiers","Advanced Modifiers","Song Options"},
 		Choices={"Gameplay","Select Music","Back to Main Modifiers"},
 		OneChoiceForAllPlayers=true,
 		LoadSelections=function(self,list,pn)
@@ -1187,6 +1189,8 @@ function ListChooser2()
 			--	screen:SetNextScreenName("ScreenPlayerOptions")
 			--elseif list[4] then
 				screen:SetNextScreenName("ScreenPlayerOptions3")
+			elseif list[5] then
+				screen:SetNextScreenName("ScreenSongOptions")
 			else
 				screen:SetNextScreenName("ScreenStageInformation")
 			end
@@ -1201,7 +1205,7 @@ function ListChooser3()
 		Name="ListChooser3",
 		LayoutType="ShowAllInRow",
 		SelectType="SelectOne",
-		--Choices={"Gameplay","Select Music","Main Modifiers","Advanced Modifiers"},
+		--Choices={"Gameplay","Select Music","Main Modifiers","Display Options","Song Options"},
 		Choices={"Gameplay","Select Music","Advanced Modifiers"},
 		OneChoiceForAllPlayers=true,
 		LoadSelections=function(self,list,pn)
@@ -1217,6 +1221,8 @@ function ListChooser3()
 			--	screen:SetNextScreenName("ScreenPlayerOptions")
 			--elseif list[4] then
 				screen:SetNextScreenName("ScreenPlayerOptions2")
+			--elseif list[5] then
+			--	screen:SetNextScreenName("ScreenSongOptions")
 			else
 				screen:SetNextScreenName("ScreenStageInformation")
 			end
