@@ -91,7 +91,9 @@ local function DrawDiffListItem(diff)
             end;
 
             scorelist = profile:GetHighScoreListIfExists(song,steps)
+		if scorelist == nil then self:settext("") return end
             local scores = scorelist:GetHighScores()
+		if scores == nil then self:settext("") return end
             local topscore = 0
 
             if scores[1] then
@@ -101,6 +103,7 @@ local function DrawDiffListItem(diff)
                 topscore = scores[1]:GetScore()
               end
             end;
+		if topscore == nil then self:settext("") return end
 
             self:strokecolor(Color.Black)
             self:diffusealpha(1)
@@ -191,7 +194,9 @@ local function DrawDiffListItem(diff)
             end
   
             scorelist = profile:GetHighScoreListIfExists(song,steps)
+		if scorelist == nil then self:visible(false) return end
             local scores = scorelist:GetHighScores()
+		if scores == nil then self:visible(false) return end
   
             local topscore=0
             if scores[1] then
@@ -201,11 +206,12 @@ local function DrawDiffListItem(diff)
                 topscore = scores[1]:GetScore()
               end
             end
+		if topscore == nil then self:visible(false) return end
   
             local topgrade
             if scores[1] then
               topgrade = scores[1]:GetGrade();
-              assert(topgrade)
+		  if topgrade == nil then self:visible(false) return end
               local tier;
               if ThemePrefs.Get("ConvertScoresAndGrades") == true then
                 tier = SN2Grading.ScoreToGrade(topscore, diff)

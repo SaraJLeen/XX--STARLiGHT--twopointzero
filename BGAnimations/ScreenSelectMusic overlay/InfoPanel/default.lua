@@ -347,6 +347,14 @@ local function RivalsPanel(rival)
                     end
                     local profile = PROFILEMAN:GetMachineProfile();
                     scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreListIfExists(song,steps)
+			  if scorelist == nil then
+				c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
+                        c.Text_score:settext("")
+                        c.Text_name:settext("")
+                        c.Img_grade:visible(false)
+                        c.Img_fc:visible(false) 
+				return
+			  end
                     local scores = scorelist:GetHighScores()
                     local topscore = 0
                     if scores[rival] then
@@ -358,6 +366,14 @@ local function RivalsPanel(rival)
                             topgrade = scores[rival]:GetGrade()
                         end
                     end
+			  if topscore == nil then
+				c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
+                        c.Text_score:settext("")
+                        c.Text_name:settext("")
+                        c.Img_grade:visible(false)
+                        c.Img_fc:visible(false) 
+				return
+			  end
                     RStats = scores[1];
                     if topscore ~= 0 then
                         local misses = RStats:GetTapNoteScore("TapNoteScore_Miss")+RStats:GetTapNoteScore("TapNoteScore_CheckpointMiss")

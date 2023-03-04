@@ -109,7 +109,9 @@ for pn in EnabledPlayers() do
 							profile = PROFILEMAN:GetMachineProfile()
 						end
 						scorelist = profile:GetHighScoreListIfExists(song,steps)
+						if scorelist == nil then s:visible(false) return end
 						local scores = scorelist:GetHighScores()
+						if scores == nil then s:visible(false) return end
 						if scores[1] then
 							if ThemePrefs.Get("ConvertScoresAndGrades") then
 								topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
@@ -118,7 +120,7 @@ for pn in EnabledPlayers() do
 							end
 						end
 					end
-					if topscore ~= 0 then
+					if topscore ~= nil and topscore ~= 0 then
 						local scorel3 = topscore%1000
 						local scorel2 = (topscore/1000)%1000
 						local scorel1 = (topscore/1000000)%1000000

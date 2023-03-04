@@ -57,7 +57,9 @@ t[#t+1] = Def.ActorFrame{
         end;
 
         scorelist = profile:GetHighScoreListIfExists(song,steps)
+	  if scorelist == nil then self:settext("") return end
         local scores = scorelist:GetHighScores()
+	  if scores == nil then self:settext("") return end
         local topscore = 0
 
         if scores[1] then
@@ -67,6 +69,7 @@ t[#t+1] = Def.ActorFrame{
             topscore = scores[1]:GetScore()
           end
         end;
+	  if topscore == nil then self:settext("") return end
 
         self:strokecolor(Color.Black)
         self:diffusealpha(1)

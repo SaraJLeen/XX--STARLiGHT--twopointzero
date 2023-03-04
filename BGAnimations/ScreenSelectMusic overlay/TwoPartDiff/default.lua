@@ -96,12 +96,14 @@ local function genScrollerFrame(player)
 					end
 
 					local scorelist = profile:GetHighScoreListIfExists(song,steps)
+					if scorelist == nil then s:visible(false) return end
 					local scores = scorelist:GetHighScores()
+					if scores == nil then s:visible(false) return end
 					local topscore;
 
 					if scores[1] then
 						topscore = scores[1];
-						assert(topscore);
+						if topscore == nil then s:visible(false) return end
                 		local misses = topscore:GetTapNoteScore("TapNoteScore_Miss")+topscore:GetTapNoteScore("TapNoteScore_CheckpointMiss")
                 		local boos = topscore:GetTapNoteScore("TapNoteScore_W5")
                 		local goods = topscore:GetTapNoteScore("TapNoteScore_W4")

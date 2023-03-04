@@ -208,7 +208,9 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
           end;
   
           scorelist = profile:GetHighScoreListIfExists(song,steps)
+          if scorelist == nil then self:settext("") return end
           local scores = scorelist:GetHighScores()
+          if scores == nil then self:settext("") return end
           local HS = 0
   
           if scores[2] then
