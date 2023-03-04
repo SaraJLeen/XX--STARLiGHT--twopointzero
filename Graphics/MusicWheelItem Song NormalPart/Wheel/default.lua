@@ -92,10 +92,10 @@ t[#t+1] = Def.ActorFrame{
 						profile = PROFILEMAN:GetMachineProfile();
 					end;
 
-					scorelist = profile:GetHighScoreList(wheelsong,steps)
-					assert(scorelist);
+					scorelist = profile:GetHighScoreListIfExists(wheelsong,steps)
+					if scorelist == nil then self:diffusealpha(0) fc:diffusealpha(0) return end
 					local scores = scorelist:GetHighScores();
-					assert(scores);
+					if scores == nil then self:diffusealpha(0) fc:diffusealpha(0) return end
 					local topscore=0;
 					if scores[1] then
 						if ThemePrefs.Get("ConvertScoresAndGrades") then
@@ -207,10 +207,10 @@ t[#t+1] = Def.ActorFrame{
 							profile = PROFILEMAN:GetMachineProfile();
 						end;
 
-						scorelist = profile:GetHighScoreList(wheelsong,steps)
-						assert(scorelist);
+						scorelist = profile:GetHighScoreListIfExists(wheelsong,steps)
+						if scorelist == nil then self:diffusealpha(0) return end
 						local scores = scorelist:GetHighScores();
-						assert(scores);
+						if scores == nil then self:diffusealpha(0) return end
 						local topscore=0;
 						if scores[1] then
 							if ThemePrefs.Get("ConvertScoresAndGrades") then

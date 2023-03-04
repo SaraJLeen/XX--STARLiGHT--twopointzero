@@ -2,6 +2,10 @@ local dim_vol = 1
 local jk = LoadModule "Jacket.lua"
 local screen = Var("LoadingScreen")
 
+-- Timing mode
+local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
+if TimingMode == "Original" then TimingMode = "StepMania" end
+
 local t = LoadFallbackB();
 
 t[#t+1] = StandardDecorationFromFileOptional("StageDisplay","StageDisplay");
@@ -203,7 +207,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
             profile = PROFILEMAN:GetMachineProfile()
           end;
   
-          scorelist = profile:GetHighScoreList(song,steps)
+          scorelist = profile:GetHighScoreListIfExists(song,steps)
           local scores = scorelist:GetHighScores()
           local HS = 0
   

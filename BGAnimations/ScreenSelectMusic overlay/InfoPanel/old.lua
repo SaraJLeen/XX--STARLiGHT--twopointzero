@@ -18,7 +18,7 @@ t[#t+1] = Def.ActorFrame{
             local steps = GAMESTATE:GetCurrentSteps(pn) or GAMESTATE:GetCurrentTrail(pn)
             if steps then
                 c.Bar_underlay:visible(true)
-                scorelist = PROFILEMAN:GetProfile(pn):GetHighScoreList(song,steps)
+                scorelist = PROFILEMAN:GetProfile(pn):GetHighScoreListIfExists(song,steps)
                 assert(scorelist)
                 local scores = scorelist:GetHighScores()
                 assert(scores)
@@ -213,7 +213,7 @@ local function DifficultyPanel()
                                 c.Text_difficulty:diffuse(CustomDifficultyToColor(diff))
                             end
                         end
-                        scorelist = PROFILEMAN:GetProfile(pn):GetHighScoreList(song,steps)
+                        scorelist = PROFILEMAN:GetProfile(pn):GetHighScoreListIfExists(song,steps)
                         assert(scorelist)
                         local scores = scorelist:GetHighScores()
                         assert(scores)
@@ -361,7 +361,7 @@ local function RivalsPanel(rival)
                         end
                     end
                     local profile = PROFILEMAN:GetMachineProfile();
-                    scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreList(song,steps)
+                    scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreListIfExists(song,steps)
                     local scores = scorelist:GetHighScores()
                     local topscore = 0
                     if scores[rival] then

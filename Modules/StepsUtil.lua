@@ -70,7 +70,7 @@ return {
 	    if PROFILEMAN:IsPersistentProfile(pn) then
 		    local prof = PROFILEMAN:GetProfile(pn);
 		    local st = GAMESTATE:GetCurrentStyle():GetStepsType();
-		    local list = BestGetHighScoreList(prof, song, steps);
+		    local list = BestGetHighScoreListIfExists(prof, song, steps);
 		    if list then
 		    	for score in ivalues(list:GetHighScores()) do
 		    		local this_lamp = 0;

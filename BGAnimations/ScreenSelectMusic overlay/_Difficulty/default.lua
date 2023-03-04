@@ -90,7 +90,7 @@ local function DrawDiffListItem(diff)
               profile = PROFILEMAN:GetMachineProfile()
             end;
 
-            scorelist = profile:GetHighScoreList(song,steps)
+            scorelist = profile:GetHighScoreListIfExists(song,steps)
             local scores = scorelist:GetHighScores()
             local topscore = 0
 
@@ -130,14 +130,14 @@ local function DrawDiffListItem(diff)
               else
                 profile = PROFILEMAN:GetMachineProfile();
               end;
-              scorelist = profile:GetHighScoreList(song,steps);
-              assert(scorelist);
+              scorelist = profile:GetHighScoreListIfExists(song,steps);
+			if scorelist == nil then self:diffusealpha(0) return end
               local scores = scorelist:GetHighScores();
-              assert(scores);
+			if scores == nil then self:diffusealpha(0) return end
               local topscore;
               if scores[1] then
                 topscore = scores[1];
-                assert(topscore);
+				if topscore == nil then self:diffusealpha(0) return end
                 local misses = topscore:GetTapNoteScore("TapNoteScore_Miss")+topscore:GetTapNoteScore("TapNoteScore_CheckpointMiss")
                 local boos = topscore:GetTapNoteScore("TapNoteScore_W5")
                 local goods = topscore:GetTapNoteScore("TapNoteScore_W4")
@@ -190,7 +190,7 @@ local function DrawDiffListItem(diff)
               profile = PROFILEMAN:GetMachineProfile()
             end
   
-            scorelist = profile:GetHighScoreList(song,steps)
+            scorelist = profile:GetHighScoreListIfExists(song,steps)
             local scores = scorelist:GetHighScores()
   
             local topscore=0

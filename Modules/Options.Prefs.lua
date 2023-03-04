@@ -228,7 +228,7 @@ return {
 	{
 		GenForOther = {"SmartJudgments",LoadModule("Options.SmartJudgeChoices.lua")},
 		GenForUserPref = true,
-		Default = TimingModes[1],
+		Default = TimingModes[2],
 		Choices = TimingModes,
 		Values = TimingModes
 	},

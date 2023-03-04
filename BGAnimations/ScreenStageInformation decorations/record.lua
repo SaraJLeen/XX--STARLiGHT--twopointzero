@@ -56,7 +56,7 @@ t[#t+1] = Def.ActorFrame{
           profile = PROFILEMAN:GetMachineProfile()
         end;
 
-        scorelist = profile:GetHighScoreList(song,steps)
+        scorelist = profile:GetHighScoreListIfExists(song,steps)
         local scores = scorelist:GetHighScores()
         local topscore = 0
 
@@ -150,14 +150,14 @@ t[#t+1] = Def.ActorFrame{
           else
             profile = PROFILEMAN:GetMachineProfile();
           end;
-          local scorelist = profile:GetHighScoreList(song,steps);
-          assert(scorelist);
+          local scorelist = profile:GetHighScoreListIfExists(song,steps);
+		if scorelist == nil then self:diffusealpha(0) return end
           local scores = scorelist:GetHighScores();
-          assert(scores);
+		if scores == nil then self:diffusealpha(0) return end
           local topscore;
           if scores[1] then
             topscore = scores[1];
-            assert(topscore);
+		if topscore == nil then self:diffusealpha(0) return end
             local misses = topscore:GetTapNoteScore("TapNoteScore_Miss")+topscore:GetTapNoteScore("TapNoteScore_CheckpointMiss")
             local boos = topscore:GetTapNoteScore("TapNoteScore_W5")
             local goods = topscore:GetTapNoteScore("TapNoteScore_W4")
@@ -211,11 +211,11 @@ t[#t+1] = Def.ActorFrame{
             profile = PROFILEMAN:GetMachineProfile();
           end;
   
-          scorelist = profile:GetHighScoreList(song,steps);
-          assert(scorelist);
+          scorelist = profile:GetHighScoreListIfExists(song,steps);
+		if scorelist == nil then self:diffusealpha(0) return end
   
           local scores = scorelist:GetHighScores();
-          assert(scores);
+		if scores == nil then self:diffusealpha(0) return end
   
           local topscore=0;
           if scores[1] then
@@ -227,7 +227,7 @@ t[#t+1] = Def.ActorFrame{
               topscore2 = scores[1];
             end
           end;
-          assert(topscore);
+		if topscore == nil then self:diffusealpha(0) return end
           if scores[1] then
             local misses = topscore2:GetTapNoteScore("TapNoteScore_Miss")+topscore2:GetTapNoteScore("TapNoteScore_CheckpointMiss")
             local boos = topscore2:GetTapNoteScore("TapNoteScore_W5")

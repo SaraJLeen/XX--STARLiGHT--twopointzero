@@ -95,7 +95,7 @@ local function genScrollerFrame(player)
 						profile = PROFILEMAN:GetMachineProfile()
 					end
 
-					local scorelist = profile:GetHighScoreList(song,steps)
+					local scorelist = profile:GetHighScoreListIfExists(song,steps)
 					local scores = scorelist:GetHighScores()
 					local topscore;
 

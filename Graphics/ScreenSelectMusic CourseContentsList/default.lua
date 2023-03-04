@@ -35,13 +35,20 @@ return Def.CourseContentsList {
 		InitCommand=function(s) s:setsize(402,28) end,
 		--------------Song Text
 		LoadFont("_avenirnext lt pro bold/20px") .. {
-			InitCommand=function(s) s:x(-210+10):maxwidth(250):halign(0) end,
+			InitCommand=function(s) s:x(-210+10):maxwidth(362):halign(0) end,
 			SetSongCommand=function(self, params)
 				if params.Secret ==true then
-					self:settext("??????");
+					songname = params.Song:GetDisplayFullTitle()
+					songname = songname:gsub("%w","?");
+					songname = songname:gsub("%W","?");
+					self:settext(songname);
+					self:diffuse(ColorLightTone(CustomDifficultyToColor(params.Difficulty)));
+					self:strokecolor(ColorDarkTone(CustomDifficultyToColor(params.Difficulty)));
 				else
 					if params.Song then
 						self:settext(params.Song:GetDisplayFullTitle());
+						self:diffuse(ColorLightTone(CustomDifficultyToColor(params.Difficulty)));
+						self:strokecolor(ColorDarkTone(CustomDifficultyToColor(params.Difficulty)));
 					end;
 				end;
 				self:finishtweening():diffusealpha(0):sleep(0.125*params.Number):linear(0.125):diffusealpha(1)
@@ -61,8 +68,18 @@ return Def.CourseContentsList {
 			LoadFont("_avenirnext lt pro bold/20px") .. {
 				Name="Meter";
 				SetSongCommand=function(self, params)
+					self:diffuse(Color.White)
 					if params.PlayerNumber ~= GAMESTATE:GetMasterPlayerNumber() then return end
 					self:settext( params.Meter ):strokecolor(Color.Black):zoom(0.7)
+					if string.find( params.Meter, "-") then return end
+					local mt = '_MeterType_Default'
+					mt = LoadModule"SongAttributes.lua".GetMeterType(params.Song)
+					if (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
+						newdiff = GetConvertDifficulty_DDRX(params.Song,params.Steps,mt)
+						self:settext( tostring(newdiff) )
+						self:diffuse(Color.ConvDiffStep)
+					end
+					if params.Steps:IsAutogen() then self:diffuse(Color.AutogenStep) end
 				end;
 			};
 		}

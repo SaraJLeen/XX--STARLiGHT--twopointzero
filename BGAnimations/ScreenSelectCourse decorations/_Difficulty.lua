@@ -12,13 +12,20 @@ local function DrawDiffListItem(diff)
       local song=GAMESTATE:GetCurrentCourse()
       if song then
         --lol
-        if diff == "Difficulty_Easy" or
-        diff == "Difficulty_Medium" or
-        diff == "Difficulty_Hard" then
-          self:diffusealpha(1)
-        else
-          self:diffusealpha(0.5)
-        end
+		self:diffusealpha(0.5)
+		for _, trail in pairs(song:GetAllTrails()) do
+			if (trail:GetStepsType() == st) and
+				(trail:GetDifficulty() == diff) then
+					self:diffusealpha(1.0)
+			end
+		end
+        --if diff == "Difficulty_Easy" or
+        --diff == "Difficulty_Medium" or
+        --diff == "Difficulty_Hard" then
+        --  self:diffusealpha(1)
+        --else
+        --  self:diffusealpha(0.5)
+        --end
       else
         self:diffusealpha(0.5)
       end;

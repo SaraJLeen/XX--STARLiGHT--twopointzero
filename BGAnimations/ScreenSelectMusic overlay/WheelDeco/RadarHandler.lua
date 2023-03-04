@@ -205,6 +205,7 @@ end
 			local c = s:GetChildren();
 
 			local song = GAMESTATE:GetCurrentSong()
+			local topgrade
 			if song then
 				s:visible(true)
 				if(#GAMESTATE:GetEnabledPlayers() > 1 and rival>3) then s:visible(false) end
@@ -224,7 +225,7 @@ end
 				local profile = PROFILEMAN:GetMachineProfile();
 				scorelist = nil
 				if steps then
-					scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreList(song,steps)
+					scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreListIfExists(song,steps)
 				end
 				scores = nil
 				if scorelist then
@@ -248,7 +249,7 @@ end
 					topscore = 100
 				end
 				if test_it and not topgrade then
-					topgrade = 1
+					topgrade = 'Grade_Tier01'
 				end
 				--Trace("Scores have just been set")
 				s:visible(false)
@@ -348,8 +349,8 @@ end
 				else
 					s:diffusealpha(0)
 				end
-				s:x(-70)
-				s:y(-30)
+				s:x(-70-2)
+				s:y(-30-2)
 				s:visible(true)
 				if(#GAMESTATE:GetEnabledPlayers() > 1) then
 					s:visible(false)
@@ -359,7 +360,10 @@ end
 					--	s:settext("Top Scores 1P");
 					--end
 				end;
-				s:strokecolor(Alpha(Color.Black,0.5))
+				--s:strokecolor(Alpha(Color.Black,0.5))
+				--s:strokecolor(Color.Black)
+				s:shadowcolor(Color.Black)
+				s:shadowlength(2)
 				s:zoom(0.7)
 			end,
 		};

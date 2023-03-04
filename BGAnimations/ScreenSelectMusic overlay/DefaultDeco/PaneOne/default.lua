@@ -41,10 +41,10 @@ t[#t+1] = Def.ActorFrame{
             profile = PROFILEMAN:GetMachineProfile();
           end;
   
-          scorelist = profile:GetHighScoreList(song,steps)
-          assert(scorelist);
+          scorelist = profile:GetHighScoreListIfExists(song,steps)
+		if scorelist == nil then self:diffusealpha(0) return end
           local scores = scorelist:GetHighScores();
-          assert(scores);
+		if scores == nil then self:diffusealpha(0) return end
           local topscore=0;
           if scores[1] then
             if ThemePrefs.Get("ConvertScoresAndGrades") then
@@ -94,7 +94,7 @@ t[#t+1] = Def.ActorFrame{
               profile = PROFILEMAN:GetMachineProfile()
             end;
   
-            scorelist = profile:GetHighScoreList(song,steps)
+            scorelist = profile:GetHighScoreListIfExists(song,steps)
             local scores = scorelist:GetHighScores()
             local topscore = 0
   
@@ -154,10 +154,38 @@ function TopRecord(pn) -- ???
 			profile = PROFILEMAN:GetMachineProfile();
 		end;
 
-		scorelist = profile:GetHighScoreList(song,steps);
-		assert(scorelist);
+		scorelist = profile:GetHighScoreListIfExists(song,steps);
+		if scorelist == nil then
+			myScoreSet["SongOrCourse"]=1;
+			myScoreSet["HasScore"] = 0;
+			myScoreSet["topW1"]  = 0
+			myScoreSet["topW2"]  = 0
+			myScoreSet["topW3"]  = 0
+			myScoreSet["topW4"]  = 0
+			myScoreSet["topW5"]  = 0
+			myScoreSet["topMiss"]  = 0
+			myScoreSet["topOK"]  = 0
+			myScoreSet["topMAXCombo"]  = 0
+			myScoreSet["topDate"]  = 0
+			myScoreSet["topEXScore"]  = 0
+			return myScoreSet;
+		end
 		local scores = scorelist:GetHighScores();
-		assert(scores);
+		if scores == nil then
+			myScoreSet["SongOrCourse"]=1;
+			myScoreSet["HasScore"] = 0;
+			myScoreSet["topW1"]  = 0
+			myScoreSet["topW2"]  = 0
+			myScoreSet["topW3"]  = 0
+			myScoreSet["topW4"]  = 0
+			myScoreSet["topW5"]  = 0
+			myScoreSet["topMiss"]  = 0
+			myScoreSet["topOK"]  = 0
+			myScoreSet["topMAXCombo"]  = 0
+			myScoreSet["topDate"]  = 0
+			myScoreSet["topEXScore"]  = 0
+			return myScoreSet;
+		end
 		if scores[1] then
 			myScoreSet["SongOrCourse"]=1;
 			myScoreSet["HasScore"] = 1;

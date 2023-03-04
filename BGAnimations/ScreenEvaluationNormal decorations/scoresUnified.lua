@@ -36,10 +36,11 @@ local function RivalScore(pn,rival)
 					end;
 
 					--This displays only personal scores...
-					--scorelist = PROFILEMGetHighScoreList(SongOrCourse,StepsOrTrail);
-					scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreList(SongOrCourse,StepsOrTrail);
-					assert(scorelist)
+					--scorelist = PROFILEMGetHighScoreListIfExists(SongOrCourse,StepsOrTrail);
+					scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreListIfExists(SongOrCourse,StepsOrTrail);
+					if scorelist == nil then self:settext("") return end
 					local scores = scorelist:GetHighScores();
+					if scores == nil then self:settext("") return end
 					local topscore=0;
 					if scores[rival] then
 						topscore = scores[rival]:GetScore();
@@ -47,7 +48,7 @@ local function RivalScore(pn,rival)
 							topscore = SN2Scoring.GetSN2ScoreFromHighScore(st, scores[rival]:GetScore())
 						end
 					end;
-					assert(topscore);
+					if topscore == nil then self:settext("") return end
 					if topscore ~= 0  then
 						self:settext(scores[rival]:GetName());
 						self:diffuse( Color.White )
@@ -96,10 +97,11 @@ local function RivalScore(pn,rival)
 			            GAMESTATE:StoreRankingName(pn,profile:GetDisplayName())
 					--end
 					--This is only personal scores
-					--scorelist = profile:GetHighScoreList(SongOrCourse,StepsOrTrail);
-					scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreList(SongOrCourse,StepsOrTrail);
-					assert(scorelist)
+					--scorelist = profile:GetHighScoreListIfExists(SongOrCourse,StepsOrTrail);
+					scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreListIfExists(SongOrCourse,StepsOrTrail);
+					if scorelist == nil then self:settext("") return end
 					local scores = scorelist:GetHighScores();
+					if scores == nil then self:settext("") return end
 					local topscore=0;
 					if scores[rival] then
 						topscore = scores[rival]:GetScore();
@@ -107,7 +109,7 @@ local function RivalScore(pn,rival)
 							topscore = SN2Scoring.GetSN2ScoreFromHighScore(st, scores[rival]:GetScore())
 						end
 					end;
-					assert(topscore);
+					if topscore == nil then self:settext("") return end
 					if topscore ~= 0  then
 							local scorel3 = topscore%1000;
 							local scorel2 = (topscore/1000)%1000;
@@ -161,11 +163,11 @@ local function RivalScore(pn,rival)
 					            GAMESTATE:StoreRankingName(pn,profile:GetDisplayName())
 							--end
 							--This is personal only
-							--scorelist = profile:GetHighScoreList(SongOrCourse,StepsOrTrail);
-							scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreList(SongOrCourse,StepsOrTrail);
-							assert(scorelist);
+							--scorelist = profile:GetHighScoreListIfExists(SongOrCourse,StepsOrTrail);
+							scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreListIfExists(SongOrCourse,StepsOrTrail);
+							if scorelist == nil then self:diffusealpha(0) return end
 								local scores = scorelist:GetHighScores();
-								assert(scores);
+							if scores == nil then self:diffusealpha(0) return end
 								local topscore=0;
 								if scores[rival] then
 									topscore = scores[rival]:GetScore();
@@ -173,7 +175,7 @@ local function RivalScore(pn,rival)
 										topscore = SN2Scoring.GetSN2ScoreFromHighScore(st, scores[rival]:GetScore())
 									end
 								end;
-								assert(topscore);
+							if topscore == nil then self:diffusealpha(0) return end
 								local topgrade;
 								if scores[rival] then
 									topgrade = scores[rival]:GetGrade();
@@ -239,15 +241,15 @@ local function RivalScore(pn,rival)
 					            GAMESTATE:StoreRankingName(pn,profile:GetDisplayName())
 							--end
 							--This is personal only
-							--scorelist = profile:GetHighScoreList(SongOrCourse,StepsOrTrail);
-							scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreList(SongOrCourse,StepsOrTrail);
-							assert(scorelist);
+							--scorelist = profile:GetHighScoreListIfExists(SongOrCourse,StepsOrTrail);
+							scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreListIfExists(SongOrCourse,StepsOrTrail);
+							if scorelist == nil then self:diffusealpha(0) return end
 								local scores = scorelist:GetHighScores();
-								assert(scores);
+								if scores == nil then self:diffusealpha(0) return end
 								local topscore;
 								if scores[rival] then
 									topscore = scores[rival];
-									assert(topscore);
+									if topscore == nil then self:diffusealpha(0) return end
 									local misses = topscore:GetTapNoteScore("TapNoteScore_Miss")+topscore:GetTapNoteScore("TapNoteScore_CheckpointMiss")
 									local boos = topscore:GetTapNoteScore("TapNoteScore_W5")
 									local goods = topscore:GetTapNoteScore("TapNoteScore_W4")

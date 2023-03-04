@@ -108,7 +108,7 @@ for pn in EnabledPlayers() do
 						else
 							profile = PROFILEMAN:GetMachineProfile()
 						end
-						scorelist = profile:GetHighScoreList(song,steps)
+						scorelist = profile:GetHighScoreListIfExists(song,steps)
 						local scores = scorelist:GetHighScores()
 						if scores[1] then
 							if ThemePrefs.Get("ConvertScoresAndGrades") then
@@ -294,10 +294,10 @@ for pn in EnabledPlayers() do
 				profile = PROFILEMAN:GetMachineProfile();
 			  end;
 	  
-			  scorelist = profile:GetHighScoreList(song,steps)
-			  assert(scorelist);
+			  scorelist = profile:GetHighScoreListIfExists(song,steps)
+			if scorelist == nil then self:diffusealpha(0) return end
 			  local scores = scorelist:GetHighScores();
-			  assert(scores);
+			if scores == nil then self:diffusealpha(0) return end
 			  local topscore=0;
 			  if scores[1] then
                    if ThemePrefs.Get("ConvertScoresAndGrades") then

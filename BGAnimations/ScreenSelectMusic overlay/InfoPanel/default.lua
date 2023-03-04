@@ -19,10 +19,22 @@ t[#t+1] = Def.ActorFrame{
             if steps then
                 c.Bar_underlay:visible(true)
                 c.Text_name:settext(PROFILEMAN:GetProfile(pn):GetDisplayName())
-                scorelist = PROFILEMAN:GetProfile(pn):GetHighScoreList(song,steps)
-                assert(scorelist)
+                scorelist = PROFILEMAN:GetProfile(pn):GetHighScoreListIfExists(song,steps)
+			if scorelist == nil then 
+				c.Text_score:settext("")
+				c.Img_grade:visible(false)
+				c.Img_fc:visible(false)
+				c.Text_judgments:settext("0\n0\n0\n0\n0\n0")
+				return
+			end
                 local scores = scorelist:GetHighScores()
-                assert(scores)
+			if scores == nil then 
+				c.Text_score:settext("")
+				c.Img_grade:visible(false)
+				c.Img_fc:visible(false)
+				c.Text_judgments:settext("0\n0\n0\n0\n0\n0")
+				return
+			end
                 local topscore=0
                 local temp=#scores
                 if scores[1] then
@@ -35,7 +47,13 @@ t[#t+1] = Def.ActorFrame{
                     end
                     RStats = scores[1];
                 end
-                assert(topscore)
+			if topscore == nil then 
+				c.Text_score:settext("")
+				c.Img_grade:visible(false)
+				c.Img_fc:visible(false)
+				c.Text_judgments:settext("0\n0\n0\n0\n0\n0")
+				return
+			end
                 if topscore ~= 0 then
                     local misses = RStats:GetTapNoteScore("TapNoteScore_Miss")+RStats:GetTapNoteScore("TapNoteScore_CheckpointMiss")
                     local boos = RStats:GetTapNoteScore("TapNoteScore_W5")
@@ -175,10 +193,26 @@ local function DifficultyPanel()
                                 c.Bar_underlay:diffuse(Color.White)
                             end
                         end
-                        scorelist = PROFILEMAN:GetProfile(pn):GetHighScoreList(song,steps)
-                        assert(scorelist)
+                        scorelist = PROFILEMAN:GetProfile(pn):GetHighScoreListIfExists(song,steps)
+					if scorelist == nil then 
+		                    c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
+		                    c.Text_meter:settext("")
+		                    c.Text_difficulty:settext("")
+		                    c.Text_score:settext("")
+		                    c.Img_grade:visible(false)
+		                    c.Img_fc:visible(false)
+						return
+					end
                         local scores = scorelist:GetHighScores()
-                        assert(scores)
+					if scores == nil then 
+		                    c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
+		                    c.Text_meter:settext("")
+		                    c.Text_difficulty:settext("")
+		                    c.Text_score:settext("")
+		                    c.Img_grade:visible(false)
+		                    c.Img_fc:visible(false)
+						return
+					end
                         local topscore=0
                         local temp=#scores
                         if scores[1] then
@@ -191,7 +225,15 @@ local function DifficultyPanel()
                             end
                             RStats = scores[1];
                         end
-                        assert(topscore)
+					if topscore == nil then 
+		                    c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
+		                    c.Text_meter:settext("")
+		                    c.Text_difficulty:settext("")
+		                    c.Text_score:settext("")
+		                    c.Img_grade:visible(false)
+		                    c.Img_fc:visible(false)
+						return
+					end
                         if topscore ~= 0 then
                             local misses = RStats:GetTapNoteScore("TapNoteScore_Miss")+RStats:GetTapNoteScore("TapNoteScore_CheckpointMiss")
                             local boos = RStats:GetTapNoteScore("TapNoteScore_W5")
@@ -304,7 +346,7 @@ local function RivalsPanel(rival)
                         end
                     end
                     local profile = PROFILEMAN:GetMachineProfile();
-                    scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreList(song,steps)
+                    scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreListIfExists(song,steps)
                     local scores = scorelist:GetHighScores()
                     local topscore = 0
                     if scores[rival] then
