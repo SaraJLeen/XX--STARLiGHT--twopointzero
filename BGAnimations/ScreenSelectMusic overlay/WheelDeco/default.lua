@@ -75,6 +75,119 @@ local RecordPane = Def.ActorFrame{
 }
 
 for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
+  t[#t+1] = LoadActor(THEME:GetPathB("ScreenSelectMusic","overlay/_ShockArrow/default.lua"),pn)..{
+		InitCommand=function(s)
+			s:xy(pn==PLAYER_1 and SCREEN_LEFT+80 or SCREEN_LEFT+263,SCREEN_BOTTOM-200):zoom(0.25)
+		end,
+		SetCommand=function(s)
+			local song = GAMESTATE:GetCurrentSong()
+			s:diffusealpha(1)
+			if song then
+				local steps = GAMESTATE:GetCurrentSteps(pn)
+				if steps then
+					if steps:GetRadarValues(pn):GetValue('RadarCategory_Mines') >= 1 then
+						s:queuecommand("Anim")
+					else
+						s:queuecommand("Hide")
+					end
+				else
+					s:queuecommand("Hide")
+				end
+			else
+				s:diffusealpha(0)
+			end
+		end,
+		CurrentSongChangedMessageCommand=function(s) s:stoptweening():queuecommand("Set") end,
+		["CurrentSteps"..ToEnumShortString(pn).."ChangedMessageCommand"]=function(s) s:stoptweening():queuecommand("Set") end,
+		OffCommand=function(s) s:queuecommand("Hide") end,	
+	}
+	t[#t+1] = Def.BitmapText{
+		Font="_avenirnext lt pro bold/36px",
+		Name="GimmickLabel"..ToEnumShortString(pn);
+		InitCommand=function(s)
+			s:diffusealpha(0);
+			s:diffuse(Color.White)
+			s:xy(#GAMESTATE:GetEnabledPlayers() < 2 and 460 or (pn==PLAYER_1 and SCREEN_LEFT+40 or SCREEN_LEFT+900),SCREEN_BOTTOM-290)
+			s:halign(#GAMESTATE:GetEnabledPlayers() < 2 and 0.5 or (pn==PLAYER_1 and 0 or 1));
+			s:zoom(0.75)
+			s:strokecolor(color("0.2,0.9,1,0.5"))
+			s:settext( "Shock Arrows" );
+			s:maxwidth(#GAMESTATE:GetEnabledPlayers() < 2 and 1080 or 540);
+			s:zoom(0);
+		end,
+		SetCommand=function(s)
+			--if #GAMESTATE:GetEnabledPlayers() > 1 then s:diffusealpha(0) return end
+			local gimmicks = ""
+			local gimcount = 0
+			local song = GAMESTATE:GetCurrentSong()
+			local minepos = -1
+			local handpos = -1
+			local rollpos = -1
+			local liftpos = -1
+			local fakepos = -1
+			if song then
+				local steps = GAMESTATE:GetCurrentSteps(pn)
+				if steps then
+					if steps:GetRadarValues(pn):GetValue('RadarCategory_Mines') >= 1 then
+						minepos = gimcount>0 and string.len(gimmicks)+2 or string.len(gimmicks)
+						gimmicks = gimmicks..(gimcount>0 and ", " or "").."Shock Arrows"
+						gimcount = gimcount+1
+					end
+					if steps:GetRadarValues(pn):GetValue('RadarCategory_Hands') >= 1 then
+						handpos = gimcount>0 and string.len(gimmicks)+2 or string.len(gimmicks)
+						gimmicks = gimmicks..(gimcount>0 and ", " or "").."Hands"
+						gimcount = gimcount+1
+						--s:AddAttribute(gimpos,{ Diffuse = Color.AutogenStep, Length = 5; });
+					end
+					if steps:GetRadarValues(pn):GetValue('RadarCategory_Rolls') >= 1 then
+						rollpos = gimcount>0 and string.len(gimmicks)+2 or string.len(gimmicks)
+						gimmicks = gimmicks..(gimcount>0 and ", " or "").."Roll Arrows"
+						gimcount = gimcount+1
+						--s:AddAttribute(gimpos,{ Diffuse = Color.AutogenStep, Length = 11; });
+					end
+					if steps:GetRadarValues(pn):GetValue('RadarCategory_Lifts') >= 1 then
+						liftpos = gimcount>0 and string.len(gimmicks)+2 or string.len(gimmicks)
+						gimmicks = gimmicks..(gimcount>0 and ", " or "").."Lifts"
+						gimcount = gimcount+1
+						--s:AddAttribute(gimpos,{ Diffuse = Color.AutogenStep, Length = 5; });
+					end
+					if steps:GetRadarValues(pn):GetValue('RadarCategory_Fakes') >= 1 then
+						fakepos = gimcount>0 and string.len(gimmicks)+2 or string.len(gimmicks)
+						gimmicks = gimmicks..(gimcount>0 and ", " or "").."Fake Arrows"
+						gimcount = gimcount+1
+						--s:AddAttribute(gimpos,{ Diffuse = Color.AutogenStep, Length = 11; });
+					end
+				end
+			else
+				s:diffusealpha(0)
+			end
+			--s:diffusealpha(0)
+			--if(string.len(gimmicks)>0) then s:diffusealpha(1) s:z end
+			if(string.len(gimmicks)>0) then
+				s:settext(gimmicks)
+				s:ClearAttributes()
+				s:diffuse(Color.White)
+				if minepos >= 0 then s:AddAttribute(minepos,{ Diffuse = color("0.0,1.0,1.0,1"), Length = 12; }); end
+				if handpos >= 0 then s:AddAttribute(handpos,{ Diffuse = color("0.5,1.0,0.5,1"), Length = 5; }); end
+				if rollpos >= 0 then s:AddAttribute(rollpos,{ Diffuse = color("0.8,0.0,1.0,1"), Length = 11; }); end
+				if liftpos >= 0 then s:AddAttribute(liftpos,{ Diffuse = color("1.0,1.0,0.5,1"), Length = 5; }); end
+				if fakepos >= 0 then s:AddAttribute(fakepos,{ Diffuse = color("1.0,0.25,0.25,1"), Length = 11; }); end
+				s:diffusealpha(1)
+				s:xy(#GAMESTATE:GetEnabledPlayers() < 2 and 472 or (pn==PLAYER_1 and SCREEN_LEFT+40 or SCREEN_LEFT+900),SCREEN_BOTTOM-290)
+				s:zoom(0.85):addx(#GAMESTATE:GetEnabledPlayers() < 2 and 0 or (pn==PLAYER_1 and -20 or pn==PLAYER_2 and 20)):linear(0.5):zoom(0.75):addx(#GAMESTATE:GetEnabledPlayers() < 2 and 0 or (pn==PLAYER_1 and 20 or pn==PLAYER_2 and -20))
+			else
+				s:linear(0.1)
+				s:diffusealpha(0)
+			end
+		end,
+		OffCommand=function(s)
+			s:linear(0.1)
+			s:zoom(0)
+			--s:diffusealpha(0)
+		end,
+		CurrentSongChangedMessageCommand=function(s) s:stoptweening():queuecommand("Set") end,
+		["CurrentSteps"..ToEnumShortString(pn).."ChangedMessageCommand"]=function(s) s:stoptweening():queuecommand("Set") end,
+	}
   t[#t+1] = Def.ActorFrame{
     loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/WheelDeco/RadarHandler.lua"))(pn)..{
       InitCommand = function(s)
@@ -114,31 +227,6 @@ for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
   	  end;
     };
   };
-  t[#t+1] = LoadActor(THEME:GetPathB("ScreenSelectMusic","overlay/_ShockArrow/default.lua"),pn)..{
-		InitCommand=function(s)
-			s:xy(pn==PLAYER_1 and SCREEN_LEFT+80 or SCREEN_LEFT+263,SCREEN_BOTTOM-200):zoom(0.25)
-		end,
-		SetCommand=function(s)
-			local song = GAMESTATE:GetCurrentSong()
-			if song then
-				local steps = GAMESTATE:GetCurrentSteps(pn)
-				if steps then
-					if steps:GetRadarValues(pn):GetValue('RadarCategory_Mines') >= 1 then
-						s:queuecommand("Anim")
-					else
-						s:queuecommand("Hide")
-					end
-				else
-					s:queuecommand("Hide")
-				end
-			else
-				s:queuecommand("Hide")
-			end
-		end,
-		CurrentSongChangedMessageCommand=function(s) s:stoptweening():queuecommand("Set") end,
-		["CurrentSteps"..ToEnumShortString(pn).."ChangedMessageCommand"]=function(s) s:stoptweening():queuecommand("Set") end,
-		OffCommand=function(s) s:queuecommand("Hide") end,	
-	}
 end
 
 return Def.ActorFrame{
@@ -308,8 +396,10 @@ return Def.ActorFrame{
     CurrentSongChangedMessageCommand=function(s)
       local song = GAMESTATE:GetCurrentSong()
       if song then
-        s:settext( SongAttributes.GetGroupName(song:GetGroupName()) );
-        s:diffuse( SongAttributes.GetGroupColor(song:GetGroupName()) );
+        group = song:GetGroupName()
+        if group == "<Favorites>" then group = string.match(song:GetSongDir(), "/Songs/(.-)/") end
+        s:settext( SongAttributes.GetGroupName(group) );
+        s:diffuse( SongAttributes.GetGroupColor(group) );
       else
         s:settext( "" );
         s:diffuse(Color.White)

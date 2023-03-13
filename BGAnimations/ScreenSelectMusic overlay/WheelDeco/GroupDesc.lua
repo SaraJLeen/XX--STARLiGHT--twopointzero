@@ -117,6 +117,10 @@ local function GetMWGroupDesc(song,so,mw)
 			return "SPEIRMIX VS is a series of music packs from Ben Speirs, the creator of the Speirmix series.\n\nThis folder contains these packs:\nBen Speirs' SPEIRMIX VS EuroVision\nBen Speirs' SPEIRMIX VS One Direction\nBen Speirs' SPEIRMIX VS Pump It Up (Vol.1)\n\nSadly, SPEIRMIX VS EuroVision 2013 seems to be lost in the mists of time.\n\nAs with other SPEIRMIX packs, all of the songs are fairly high-quality and the variety is pretty good."
 		elseif mw:GetSelectedSection() == "Sudziosis" then
 			return "Sudziosis is the main name of the various music packs made by stepchart creator sudzi781.\n\nAll of his packs are geared toward ITG players, with an overall similar vibe and difficulty compared to ITG.\n\nHe also released packs specifically for Doubles players, showing an interest in more versatility in play style than most fan step authors display.\n\nAll 5 Sudziosis packs are included in this folder, as well as his other packs: Power Metal Doubles, Rock Out!, Fun-Sized Doubles, Xi, and Sudzi's B-Sides."
+		elseif mw:GetSelectedSection() == "OutFox" then
+			return "Project OutFox is a game with a focus on support for a wide variety of different playing styles, with the goal of being akin to a museum of rhythm games, all in a single client.\n\nOriginally forked from StepMania 5.1, it soon dramatically outgrew its original ambitions and spread into a versatile sandbox that exceeded the limits of the original StepMania.\n\nProject OutFox has its own official song pack project, known as OutFox Serenity. OutFox Serenity is made up of a variety of community-made songs, each with support for various play modes.\n\nThe latest version of OutFox Serenity is 2.5, the Winter Update for Volume II, which was released on February 21st, 2023."
+		elseif mw:GetSelectedSection() == "<Favorites>" then
+			return "The Favorites group contains every song you've personally tagged as a favorite.\n\nIn Versus Play, the contents of the two players' groups will be combined into one group.\n\nTo add or remove a song to or from your Favorites, first highlight the song in the music wheel, then press &MENUUP; while holding &SELECT;.\n\n&SELECT; is Right Shift for Player 1 and Numpad 0 for Player 2.\n\nUnfortunately, there is currently no feedback whatsoever as to whether a song has been added or removed from your Favorites. This should be improved in the future.\n\nThis group will disappear entirely if no Favorites exist."
 		else
 			return ""
 		end
@@ -126,8 +130,8 @@ end
 
 t[#t+1] = Def.ActorFrame {
 	InitCommand=function(s) s:xy(20,424):visible(false) end,
-	OnCommand=function(s) s:addy(-800):sleep(0.4):decelerate(0.5):addy(800) end,
-	OffCommand=function(s) s:sleep(0.3):decelerate(0.5):addy(-800) end,
+	OnCommand=function(s) s:addy(-800):sleep(0.4):decelerate(0.5):addy(800):diffusealpha(1) end,
+	OffCommand=function(s) s:sleep(0.3):decelerate(0.5):addy(-800):diffusealpha(0) end,
 	CurrentSongChangedMessageCommand=function(s)
 		s:finishtweening()
 		s:queuecommand("Set")

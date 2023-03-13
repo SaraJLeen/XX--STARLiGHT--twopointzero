@@ -45,9 +45,12 @@ t[#t+1] = Def.ActorFrame{
         Def.Sprite{
             Texture="HL",
             SetMessageCommand=function(s,p)
+                s:diffuse(Color.White)
                 local song = p.Song
                 if song then
-                    s:diffuse(SongAttributes.GetGroupColor(song:GetGroupName()))
+                    local group = song:GetGroupName()
+                    if group == "<Favorites>" then group = string.match(song:GetSongDir(), "/Songs/(.-)/") end
+                    s:diffuse(SongAttributes.GetGroupColor(group))
                 end
             end,
         };

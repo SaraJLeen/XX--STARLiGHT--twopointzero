@@ -171,17 +171,20 @@ end
 return {
 GetMenuColor=function(song)
     local group = song:GetGroupName()
+    if group == "<Favorites>" then group = string.match(song:GetSongDir(), "/Songs/(.-)/") end
     local mc_data = read_overrides(get_or_prepare(group),'menucolor',parse_rgba,{1,1,1,1})
     return mc_data[song_specific_dir(song)] or mc_data["/\\default"]
 end;
 
 GetMeterType=function(song)
 	local group = song:GetGroupName()
+	if group == "<Favorites>" then group = string.match(song:GetSongDir(), "/Songs/(.-)/") end
 	local mt_data = read_overrides(get_or_prepare(group), 'metertype', parse_metertype, '_MeterType_Default')
 	return mt_data[song_specific_dir(song)] or mt_data["/\\default"]
 end;
 
 GetGroupName=function(group)
+	if group == "<Favorites>" then return "FAVORITES" end
 	local group_data = {pcall(get_or_prepare, group)}
 	if group_data[1] == true then
 		local name = group_data[2].name
@@ -194,6 +197,7 @@ GetGroupName=function(group)
 end;
 
 GetGroupColor=function(group)
+	if group == "<Favorites>" then return {1,1,1,1} end
 	local group_data = {pcall(get_or_prepare, group)}
 	if group_data[1] == true then
 		local name = group_data[2].groupcolor

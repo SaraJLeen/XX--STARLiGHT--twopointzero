@@ -397,7 +397,9 @@ return Def.ActorFrame{
 					if so == "Group" then
 						s:diffuse(SongAttributes.GetGroupColor(mw:GetSelectedSection()))
 					else
-						s:diffuse(SongAttributes.GetGroupColor(GAMESTATE:GetCurrentSong():GetGroupName()))
+						group = GAMESTATE:GetCurrentSong():GetGroupName()
+						if group == "<Favorites>" then group = string.match(GAMESTATE:GetCurrentSong():GetSongDir(), "/Songs/(.-)/") end
+						s:diffuse(SongAttributes.GetGroupColor(group))
 					end
 				end
 				if mw:GetSelectedSection() ~= "" and GAMESTATE:GetCurrentSong() then
@@ -420,8 +422,10 @@ return Def.ActorFrame{
 						s:strokecolor(ColorDarkTone(SongAttributes.GetGroupColor(mw:GetSelectedSection())))
 						s:settext("GROUP/"..SongAttributes.GetGroupName(mw:GetSelectedSection()))
 					elseif so == "Title" then
-						s:strokecolor(ColorDarkTone(SongAttributes.GetGroupColor(GAMESTATE:GetCurrentSong():GetGroupName())))
-						s:settext("From: "..SongAttributes.GetGroupName(GAMESTATE:GetCurrentSong():GetGroupName()))
+						group = GAMESTATE:GetCurrentSong():GetGroupName()
+						if group == "<Favorites>" then group = string.match(GAMESTATE:GetCurrentSong():GetSongDir(), "/Songs/(.-)/") end
+						s:strokecolor(ColorDarkTone(SongAttributes.GetGroupColor(group)))
+						s:settext("From: "..SongAttributes.GetGroupName(group))
 					else
 						s:settext("")
 					end

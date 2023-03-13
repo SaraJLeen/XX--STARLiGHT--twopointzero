@@ -3,8 +3,13 @@ local SongAttributes = LoadModule "SongAttributes.lua"
 return Def.ActorFrame{
   LoadActor("Backing")..{
     SetMessageCommand=function(self, param)
-		  local group = param.Text;
-      self:diffuse(SongAttributes.GetGroupColor(group));
+	local group = param.Text;
+	if group == "<Favorites>" then
+	      self:diffuse(GetFavoritesColor());
+		if #GAMESTATE:GetEnabledPlayers() > 1 then self:diffusetopedge(GetFavoritesColor(PLAYER_1)):diffusebottomedge(GetFavoritesColor(PLAYER_2)) end
+	else
+	      self:diffuse(SongAttributes.GetGroupColor(group));
+	end
     end;
   };
   Def.BitmapText{
@@ -12,6 +17,12 @@ return Def.ActorFrame{
 	  InitCommand=function(s) s:halign(0):x(-420):maxwidth(250/0.8):wrapwidthpixels(2^24):zoom(2) end,
 	  SetMessageCommand=function(self, param)
 		local group = param.Text;
+		if group == "<Favorites>" then
+			self:diffuse(GetFavoritesColor());
+			if #GAMESTATE:GetEnabledPlayers() > 1 then self:diffusetopedge(GetFavoritesColor(PLAYER_1)):diffusebottomedge(GetFavoritesColor(PLAYER_2)) end
+			self:settext(GetFavoritesName());
+			return
+		end
 		self:diffuse(SongAttributes.GetGroupColor(group));
 		self:settext(SongAttributes.GetGroupName(group));
 	end;
@@ -23,15 +34,34 @@ return Def.ActorFrame{
 		if param == nil then return end
 		local group = param.Text;
 		if group == nil then return end
-		self:visible(false)
 		local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
 		if not mw then return end
+		self:visible(false)
 		if mw:GetSelectedType() ~= 'WheelItemDataType_Section' then return end
 		if mw:GetSelectedSection() ~= group then return end
 		local song_count = #SONGMAN:GetSongsInGroup(group)
-		if song_count <= 0 then self:visible(false) return end
-		self:diffuse(ColorLightTone(SongAttributes.GetGroupColor(group)));
-		self:settext(tostring(song_count).." songs");
+		if song_count <= 0 and group ~= "<Favorites>" then self:visible(false) return end
+		if group == "<Favorites>" then
+			self:diffuse(ColorLightTone(GetFavoritesColor()));
+			if #GAMESTATE:GetEnabledPlayers() > 1 then
+				self:diffusetopedge(ColorLightTone(GetFavoritesColor(PLAYER_1))):diffusebottomedge(ColorLightTone(GetFavoritesColor(PLAYER_2)))
+				if FaveCount(PLAYER_1) > 0 or FaveCount(PLAYER_2) > 0 then
+					self:settext(tostring(FaveCount(PLAYER_1)).."/"..tostring(FaveCount(PLAYER_2)).." faves");
+					self:visible(true)
+				end
+			else
+				for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
+					if FaveCount(pn) > 0 then
+						self:settext(tostring(FaveCount(pn)).." faves");
+						self:visible(true)
+					end
+				end
+			end
+			return
+		else
+			self:diffuse(ColorLightTone(SongAttributes.GetGroupColor(group)));
+			self:settext(tostring(song_count).." songs");
+		end
 		self:visible(true)
 	  end;
       CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,

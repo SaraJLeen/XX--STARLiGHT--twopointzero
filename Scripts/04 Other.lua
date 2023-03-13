@@ -69,94 +69,185 @@ function GetValidStyleSelect()
 	return "Single,Versus,Double"
 end
 
+local vanity_difficulties = {
+	Beginner = {
+		["ITG 01 - 1"]			= "Novice";
+		["ITG 02 - 2"]			= "Novice";
+		["ITG 03 - 3"]			= "Novice";
+		["ITG 04 - Rebirth"]		= "Novice";
+		["ITG 05 - Rebirth 2"]		= "Novice";
+		["Ace of Arrows"]			= "Novice";
+		["SPEIRMIX GALAXY"]		= "Novice";
+		["Sudziosis"]			= "Novice";
+		["OutFox"]				= "Novice";
+		["PIU 01 - 1st ~ Perf"]		= "Easy";
+		["PIU 02 - Extra ~ PREX3"]	= "Easy";
+		["PIU 03 - Exceed ~ Zero"]	= "Easy";
+		["PIU 04 - NX ~ NX Absolute"]	= "Easy";
+		["PIU 05 - Fiesta ~ Fiesta 2"]= "Easy";
+		["PIU 06 - Prime"]		= "Easy";
+		["PIU 07 - Prime 2"]		= "Easy";
+		["PIU 08 - XX"]			= "Easy";
+		["PIU 50 - Pro ~ Pro 2"]	= "Easy";
+		["PIU 51 - Infinity"]		= "Easy";
+	};
+	Easy = {
+		["01 - DDR 1st"]			= "Basic";
+		["02 - DDR 2ndMIX"]		= "Basic";
+		["DDR Club Version"]		= "Basic";
+		["03 - DDR 3rdMIX"]		= "Basic";
+		["04 - DDR 4thMIX"]		= "Basic";
+		["DDR Solo"]			= "Basic";
+		["05 - DDR 5thMIX"]		= "Basic";
+		["06 - DDR MAX"]			= "Light";
+		["07 - DDR MAX2"]			= "Light";
+		["08 - DDR EXTREME"]		= "Light";
+		["Sara's Classics"]		= "Light";
+		["DDR ULTRAMIX"]			= "Light";
+		["DDR UNIVERSE"]			= "Light";
+		["ITG 01 - 1"]			= "Easy";
+		["ITG 02 - 2"]			= "Easy";
+		["ITG 03 - 3"]			= "Easy";
+		["ITG 04 - Rebirth"]		= "Easy";
+		["ITG 05 - Rebirth 2"]		= "Easy";
+		["Ace of Arrows"]			= "Easy";
+		["SPEIRMIX GALAXY"]		= "Easy";
+		["Sudziosis"]			= "Easy";
+		["OutFox"]				= "Easy";
+		["PIU 01 - 1st ~ Perf"]		= "Normal";
+		["PIU 02 - Extra ~ PREX3"]	= "Normal";
+		["PIU 03 - Exceed ~ Zero"]	= "Normal";
+		["PIU 04 - NX ~ NX Absolute"]	= "Normal";
+		["PIU 05 - Fiesta ~ Fiesta 2"]= "Normal";
+		["PIU 06 - Prime"]		= "Normal";
+		["PIU 07 - Prime 2"]		= "Normal";
+		["PIU 08 - XX"]			= "Normal";
+		["PIU 50 - Pro ~ Pro 2"]	= "Normal";
+		["PIU 51 - Infinity"]		= "Normal";
+	};
+	Medium = {
+		["01 - DDR 1st"]			= "Another";
+		["02 - DDR 2ndMIX"]		= "Another";
+		["DDR Club Version"]		= "Another";
+		["03 - DDR 3rdMIX"]		= "Another";
+		["04 - DDR 4thMIX"]		= "Trick";
+		["DDR Solo"]			= "Trick";
+		["05 - DDR 5thMIX"]		= "Trick";
+		["06 - DDR MAX"]			= "Standard";
+		["07 - DDR MAX2"]			= "Standard";
+		["08 - DDR EXTREME"]		= "Standard";
+		["Sara's Classics"]		= "Standard";
+		["DDR ULTRAMIX"]			= "Standard";
+		["DDR UNIVERSE"]			= "Standard";
+		["ITG 01 - 1"]			= "Medium";
+		["ITG 02 - 2"]			= "Medium";
+		["ITG 03 - 3"]			= "Medium";
+		["ITG 04 - Rebirth"]		= "Medium";
+		["ITG 05 - Rebirth 2"]		= "Medium";
+		["Ace of Arrows"]			= "Medium";
+		["SPEIRMIX GALAXY"]		= "Medium";
+		["Sudziosis"]			= "Medium";
+		["OutFox"]				= "Medium";
+		["PIU 01 - 1st ~ Perf"]		= "Hard";
+		["PIU 02 - Extra ~ PREX3"]	= "Hard";
+		["PIU 03 - Exceed ~ Zero"]	= "Hard";
+		["PIU 04 - NX ~ NX Absolute"]	= "Hard";
+		["PIU 05 - Fiesta ~ Fiesta 2"]= "Hard";
+		["PIU 06 - Prime"]		= "Hard";
+		["PIU 07 - Prime 2"]		= "Hard";
+		["PIU 08 - XX"]			= "Hard";
+		["PIU 50 - Pro ~ Pro 2"]	= "Hard";
+		["PIU 51 - Infinity"]		= "Hard";
+	};
+	Hard = {
+		["01 - DDR 1st"]			= "Maniac";
+		["02 - DDR 2ndMIX"]		= "Maniac";
+		["DDR Club Version"]		= "Maniac";
+		["03 - DDR 3rdMIX"]		= "S.S.R.";
+		["04 - DDR 4thMIX"]		= "Maniac";
+		["DDR Solo"]			= "Maniac";
+		["05 - DDR 5thMIX"]		= "Maniac";
+		["06 - DDR MAX"]			= "Heavy";
+		["07 - DDR MAX2"]			= "Heavy";
+		["08 - DDR EXTREME"]		= "Heavy";
+		["Sara's Classics"]		= "Heavy";
+		["DDR ULTRAMIX"]			= "Heavy";
+		["DDR UNIVERSE"]			= "Heavy";
+		["ITG 01 - 1"]			= "Hard";
+		["ITG 02 - 2"]			= "Hard";
+		["ITG 03 - 3"]			= "Hard";
+		["ITG 04 - Rebirth"]		= "Hard";
+		["ITG 05 - Rebirth 2"]		= "Hard";
+		["Ace of Arrows"]			= "Hard";
+		["SPEIRMIX GALAXY"]		= "Hard";
+		["Sudziosis"]			= "Hard";
+		["OutFox"]				= "Hard";
+		["PIU 01 - 1st ~ Perf"]		= "Crazy";
+		["PIU 02 - Extra ~ PREX3"]	= "Crazy";
+		["PIU 03 - Exceed ~ Zero"]	= "Crazy";
+		["PIU 04 - NX ~ NX Absolute"]	= "Crazy";
+		["PIU 05 - Fiesta ~ Fiesta 2"]= "Crazy";
+		["PIU 06 - Prime"]		= "Crazy";
+		["PIU 07 - Prime 2"]		= "Crazy";
+		["PIU 08 - XX"]			= "Crazy";
+		["PIU 50 - Pro ~ Pro 2"]	= "Crazy";
+		["PIU 51 - Infinity"]		= "Crazy";
+	};
+	Challenge = {
+		["DDR ULTRAMIX"]			= "Oni";
+		["DDR UNIVERSE"]			= "Oni";
+		["ITG 01 - 1"]			= "Expert";
+		["ITG 02 - 2"]			= "Expert";
+		["ITG 03 - 3"]			= "Expert";
+		["ITG 04 - Rebirth"]		= "Expert";
+		["ITG 05 - Rebirth 2"]		= "Expert";
+		["Ace of Arrows"]			= "Expert";
+		["SPEIRMIX GALAXY"]		= "Expert";
+		["Sudziosis"]			= "Expert";
+		["OutFox"]				= "Expert";
+		["PIU 01 - 1st ~ Perf"]		= "Extra";
+		["PIU 02 - Extra ~ PREX3"]	= "Extra";
+		["PIU 03 - Exceed ~ Zero"]	= "Extra";
+		["PIU 04 - NX ~ NX Absolute"]	= "Extra";
+		["PIU 05 - Fiesta ~ Fiesta 2"]= "Extra";
+		["PIU 06 - Prime"]		= "Extra";
+		["PIU 07 - Prime 2"]		= "Extra";
+		["PIU 08 - XX"]			= "Extra";
+		["PIU 50 - Pro ~ Pro 2"]	= "Extra";
+		["PIU 51 - Infinity"]		= "Extra";
+	};
+	Edit = {
+		["PIU 01 - 1st ~ Perf"]		= "Pump";
+		["PIU 02 - Extra ~ PREX3"]	= "Pump";
+		["PIU 03 - Exceed ~ Zero"]	= "Pump";
+		["PIU 04 - NX ~ NX Absolute"]	= "Pump";
+		["PIU 05 - Fiesta ~ Fiesta 2"]= "Pump";
+		["PIU 06 - Prime"]		= "Pump";
+		["PIU 07 - Prime 2"]		= "Pump";
+		["PIU 08 - XX"]			= "Pump";
+		["PIU 50 - Pro ~ Pro 2"]	= "Pump";
+		["PIU 51 - Infinity"]		= "Pump";
+	};
+};
+
 function GetDifficultyName(diff,song)
 	local diffn = ToEnumShortString(diff)
 	local res = THEME:GetString("CustomDifficulty",diffn)
-     if not song then return string.upper(res); end
+	if not song then return string.upper(res); end
 	local groupn = song:GetGroupName()
-	if
-		   groupn == "01 - DDR 1st"
-		or groupn == "02 - DDR 2ndMIX"
-		or groupn == "DDR Club Version"
-		then
-		-- if diffn == 'Beginner' then res = "Beginner"; end
-		if diffn == 'Easy' then res = "Basic"; end
-		if diffn == 'Medium' then res = "Another"; end
-		if diffn == 'Hard' then res = "Maniac"; end
-		-- if diffn == 'Challenge' then res = "Challenge"; end
-	elseif
-		   groupn == "03 - DDR 3rdMIX"
-		then
-		if diffn == 'Easy' then res = "Basic"; end
-		if diffn == 'Medium' then res = "Another"; end
-		if diffn == 'Hard' then res = "SSR"; end
-	elseif
-		   groupn == "04 - DDR 4thMIX"
-		or groupn == "DDR Solo"
-		or groupn == "05 - DDR 5thMIX"
-		then
-		if diffn == 'Easy' then res = "Basic"; end
-		if diffn == 'Medium' then res = "Trick"; end
-		if diffn == 'Hard' then res = "Maniac"; end
-	elseif
-		   groupn == "06 - DDR MAX"
-		or groupn == "07 - DDR MAX2"
-		or groupn == "08 - DDR EXTREME"
-		or groupn == "Sara's Classics"
-		then
-		if diffn == 'Easy' then res = "Light"; end
-		if diffn == 'Medium' then res = "Standard"; end
-		if diffn == 'Hard' then res = "Heavy"; end
-	elseif
-		   groupn == "DDR ULTRAMIX"
-		or groupn == "DDR UNIVERSE"
-		then
-		if diffn == 'Easy' then res = "Light"; end
-		if diffn == 'Medium' then res = "Standard"; end
-		if diffn == 'Hard' then res = "Heavy"; end
-		if diffn == 'Challenge' then res = "Oni"; end
-	elseif
-		   groupn == "ITG 01 - 1"
-		or groupn == "ITG 02 - 2"
-		or groupn == "ITG 03 - 3"
-		or groupn == "ITG 04 - Rebirth"
-		or groupn == "ITG 05 - Rebirth 2"
-		or groupn == "Ace of Arrows"
-		or groupn == "SPEIRMIX GALAXY"
-		or groupn == "Sudziosis"
-		then
-		if diffn == 'Beginner' then res = "Novice"; end
-		if diffn == 'Easy' then res = "Easy"; end
-		if diffn == 'Medium' then res = "Medium"; end
-		if diffn == 'Hard' then res = "Hard"; end
-		if diffn == 'Challenge' then res = "Expert"; end
-	elseif
-		   groupn == "PIU 01 - 1st ~ Perf"
-		or groupn == "PIU 02 - Extra ~ PREX3"
-		or groupn == "PIU 03 - Exceed ~ Zero"
-		or groupn == "PIU 04 - NX ~ NX Absolute"
-		or groupn == "PIU 05 - Fiesta ~ Fiesta 2"
-		or groupn == "PIU 06 - Prime"
-		or groupn == "PIU 07 - Prime 2"
-		or groupn == "PIU 08 - XX"
-		or groupn == "PIU 50 - Pro ~ Pro 2"
-		or groupn == "PIU 51 - Infinity"
-		then
-		if diffn == 'Beginner' then res = "Easy"; end
-		if diffn == 'Easy' then res = "Normal"; end
-		if diffn == 'Medium' then res = "Hard"; end
-		if diffn == 'Hard' then res = "Crazy"; end
-		if diffn == 'Challenge' then res = "Extra"; end
-		if diffn == 'Edit' then res = "Pump"; end
+	if groupn == "<Favorites>" then groupn = string.match(song:GetSongDir(), "/Songs/(.-)/") end
+	local possibles = vanity_difficulties[diffn]
+	if possibles[groupn] then
+		res = possibles[groupn]
+	else
+		res = THEME:GetString("CustomDifficulty",diffn)
 	end
-	if song:GetMainTitle() == "ayu trance 2" then
+	if song:MusicLengthSeconds() >= 600 then
+		if diffn == 'Beginner' then res = "Tedious"; end
 		if diffn == 'Easy' then res = "Marathon"; end
 		if diffn == 'Medium' then res = "Excessive"; end
 		if diffn == 'Hard' then res = "Inhumane"; end
-	elseif song:GetMainTitle() == "DDR EXTREME NONSTOP MEGAMIX" then
-		if diffn == 'Easy' then res = "Marathon"; end
-		if diffn == 'Medium' then res = "Excessive"; end
-		if diffn == 'Hard' then res = "Inhumane"; end
+		if diffn == 'Challenge' then res = "Pain"; end
 	end
 	return string.upper(res);
 end

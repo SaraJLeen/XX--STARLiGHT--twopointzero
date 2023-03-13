@@ -2,15 +2,17 @@ local SongAttributes = LoadModule "SongAttributes.lua"
 local fsp_on_top = false
 local fsp_nudge = 0
 if not fsp_on_top then
-	fsp_nudge = 32
+	fsp_nudge = 30
 end
 local LastColorP1 = nil
 local LastColorP2 = nil
 local FaveColorP1 = nil
 local FaveColorP2 = nil
-local NoSingle = false
-local NoDouble = false
-local radar_nudge = 32
+local NoSingle1P = false
+local NoSingle2P = false
+local NoDouble1P = false
+local NoDouble2P = false
+local radar_nudge = 30
 
 function GetLocalProfiles()
 	local t = {}
@@ -34,6 +36,13 @@ function GetLocalProfiles()
 					:maxwidth(400)
 				end,
 			};
+			--[[Def.BitmapText{
+				Font="_avenirnext lt pro bold/25px",
+				Text=string.upper(profile:GetSongLastPlayedDateTime(profile:GetLastPlayedSong())),
+				InitCommand=function(s) s:xy(160,18):halign(0):zoom(0.8):diffuse(color("#b5b5b5")):diffusetopedge(color("#e5e5e5"))
+					:maxwidth(400)
+				end,
+			};]]
 			Def.Sprite {
 				Texture=LoadModule("Options.GetProfileData.lua")(p,true)["Image"],
 				InitCommand=function(self)
@@ -244,7 +253,7 @@ function LoadPlayerStuff(Player)
 			t[#t+1] = Def.BitmapText{
 				Name="GVRD"..ToEnumShortString(Player).."SingleValue_"..v[3],
 				Font="Common normal",
-				InitCommand=function(s) s:halign(1):diffuse(PlayerColor(PLAYER_1)):strokecolor(Color.Black) end,
+				InitCommand=function(s) s:halign(0.5):diffuse(PlayerColor(PLAYER_1)):strokecolor(Color.Black) end,
 				OnCommand=function(s)
 					s:xy(v[1]-20,v[2]+110-fsp_nudge)
 					:diffusealpha(0):addx(-10):sleep(0.1+i/10):linear(0.1):diffusealpha(1):addx(10)
@@ -256,7 +265,7 @@ function LoadPlayerStuff(Player)
 			t[#t+1] = Def.BitmapText{
 				Name="GVRD"..ToEnumShortString(Player).."DoubleValue_"..v[3],
 				Font="Common normal",
-				InitCommand=function(s) s:halign(1):diffuse(PlayerColor(PLAYER_2)):strokecolor(Color.Black) end,
+				InitCommand=function(s) s:halign(0.5):diffuse(PlayerColor(PLAYER_2)):strokecolor(Color.Black) end,
 				OnCommand=function(s)
 					s:xy(v[1]+40,v[2]+110-fsp_nudge)
 					:diffusealpha(0):addx(-10):sleep(0.1+i/10):linear(0.1):diffusealpha(1):addx(10)
@@ -356,6 +365,7 @@ local function AllPlayersReady()
 		end
 	end
 	-- if it hasn't returned false by now, surely it must be true, right? RIGHT???
+	ClearFaveCache()
 	return true
 end
 
@@ -582,36 +592,32 @@ function UpdateInternal3(self, Player)
 					selGVRDoubleValue_Chaos:visible(false)
 				end
 
-				if (not NoSingle) and singleTotalTrue <= 0 then
-					NoSingle = true
+				local correct_x = -10
+				selGVRSingleValue_Stream:x(-1-20+correct_x)
+				selGVRSingleValue_Voltage:x(-120-20+correct_x)
+				selGVRSingleValue_Air:x(-108-20+correct_x)
+				selGVRSingleValue_Freeze:x(108-20+correct_x)
+				selGVRSingleValue_Chaos:x(120-20+correct_x)
+				selGVRDoubleValue_Stream:x(-1+40+correct_x)
+				selGVRDoubleValue_Voltage:x(-120+40+correct_x)
+				selGVRDoubleValue_Air:x(-108+40+correct_x)
+				selGVRDoubleValue_Freeze:x(108+40+correct_x)
+				selGVRDoubleValue_Chaos:x(120+40+correct_x)
+
+				if singleTotalTrue <= 0 then
 					selGVRDoubleValue_Stream:addx(-radar_nudge)
 					selGVRDoubleValue_Voltage:addx(-radar_nudge)
 					selGVRDoubleValue_Air:addx(-radar_nudge)
 					selGVRDoubleValue_Freeze:addx(-radar_nudge)
 					selGVRDoubleValue_Chaos:addx(-radar_nudge)
-				elseif NoSingle and singleTotalTrue > 0 then
-					NoSingle = false
-					selGVRDoubleValue_Stream:addx(radar_nudge)
-					selGVRDoubleValue_Voltage:addx(radar_nudge)
-					selGVRDoubleValue_Air:addx(radar_nudge)
-					selGVRDoubleValue_Freeze:addx(radar_nudge)
-					selGVRDoubleValue_Chaos:addx(radar_nudge)
 				end
 
-				if (not NoDouble) and doubleTotalTrue <= 0 then
-					NoDouble = true
+				if doubleTotalTrue <= 0 then
 					selGVRSingleValue_Stream:addx(radar_nudge)
 					selGVRSingleValue_Voltage:addx(radar_nudge)
 					selGVRSingleValue_Air:addx(radar_nudge)
 					selGVRSingleValue_Freeze:addx(radar_nudge)
 					selGVRSingleValue_Chaos:addx(radar_nudge)
-				elseif NoDouble and doubleTotalTrue > 0 then
-					NoDouble = false
-					selGVRSingleValue_Stream:addx(-radar_nudge)
-					selGVRSingleValue_Voltage:addx(-radar_nudge)
-					selGVRSingleValue_Air:addx(-radar_nudge)
-					selGVRSingleValue_Freeze:addx(-radar_nudge)
-					selGVRSingleValue_Chaos:addx(-radar_nudge)
 				end
 				
 				-- Save the past values, which we will need later

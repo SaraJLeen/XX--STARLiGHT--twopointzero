@@ -10,8 +10,27 @@ t[#t+1] = Def.ActorFrame{
 		if wheelsong then
 			s:GetChild("Title"):settext(wheelsong:GetDisplayFullTitle()):diffuse(SongAttributes.GetMenuColor(wheelsong)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(wheelsong)))
 			s:GetChild("Artist"):settext(wheelsong:GetDisplayArtist()):diffuse(SongAttributes.GetMenuColor(wheelsong)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(wheelsong)))
+			--Trace("Setting stuff for song "..tostring(p.Song)..".");
+			if (FaveCount(PLAYER_1) + FaveCount(PLAYER_2)) > 0 then
+				local isFave = IsFavorite(wheelsong)
+				if isFave == 1 then
+					s:GetChild("Favorite"):visible(true):diffuse(GetFavoritesColor(PLAYER_1))
+				elseif isFave == 2 then
+					s:GetChild("Favorite"):visible(true):diffuse(GetFavoritesColor(PLAYER_2))
+				elseif isFave == 3 then
+					s:GetChild("Favorite"):visible(true):diffuse(Color.White):diffusetopedge(GetFavoritesColor(PLAYER_1)):diffusebottomedge(GetFavoritesColor(PLAYER_2))
+				else
+					s:GetChild("Favorite"):visible(false):diffuse(Color.White)
+				end
+			else
+				s:GetChild("Favorite"):visible(false):diffuse(Color.White)
+			end
+			--Trace("isFave is now "..tostring(isFave)..".");
 		end
 	end,
+	InitCommand=function(s) isFave = -1; s:queuecommand("Set") end,
+	AddedFaveMessageCommand=function(s) isFave = -1; s:queuecommand("Set") end,
+	RemovedFaveMessageCommand=function(s) isFave = -1; s:queuecommand("Set") end,
 
 	Def.Sprite{
 		Texture="backing",
@@ -54,6 +73,11 @@ t[#t+1] = Def.ActorFrame{
 			s:settext(text)
 		end
 	},
+	Def.Sprite{
+		Name="Favorite",
+		Texture="fave",
+		InitCommand=function(s) s:halign(0):xy(-474,0):visible(false):diffuse(Color.White) end,
+	};
 }
 for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 t[#t+1] = Def.ActorFrame{
@@ -90,12 +114,15 @@ t[#t+1] = Def.ActorFrame{
 						profile = PROFILEMAN:GetProfile(pn);
 					else
 						profile = PROFILEMAN:GetMachineProfile();
+						self:visible(false)
+						fc:visible(false)
+						return
 					end;
 
 					scorelist = profile:GetHighScoreListIfExists(wheelsong,steps)
-					if scorelist == nil then self:diffusealpha(0) fc:diffusealpha(0) return end
+					if scorelist == nil then self:visible(false) fc:visible(false) return end
 					local scores = scorelist:GetHighScores();
-					if scores == nil then self:diffusealpha(0) fc:diffusealpha(0) return end
+					if scores == nil then self:visible(false) fc:visible(false) return end
 					local topscore=0;
 					if scores[1] then
 						if ThemePrefs.Get("ConvertScoresAndGrades") then
@@ -114,8 +141,7 @@ t[#t+1] = Def.ActorFrame{
 						end
 						assert(topgrade);
 						if scores[1]:GetScore()>1  then
-							self:diffusealpha(1);
-							self:SetTextureFiltering(false)
+							self:visible(true)
 							local RStats = scores[1]
 							local misses = 1
 							local boos = 0
@@ -154,19 +180,19 @@ t[#t+1] = Def.ActorFrame{
 								end
 							end;
 						else
-							self:diffusealpha(0)
+							self:visible(false)
 							if fc then
 								fc:visible(false)
 							end
 						end;
 					else
-						self:diffusealpha(0)
+						self:visible(false)
 						if fc then
 							fc:visible(false)
 						end
 					end;
 				else
-					self:diffusealpha(0)
+					self:visible(false)
 					if fc then
 						fc:visible(false)
 					end
@@ -174,10 +200,10 @@ t[#t+1] = Def.ActorFrame{
 			end
 		end
 	end;
-	CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
-	CurrentTrailP1ChangedMessageCommand=function(s) s:queuecommand("Set") end,
+	--CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
+	--CurrentTrailP1ChangedMessageCommand=function(s) s:queuecommand("Set") end,
 	CurrentStepsP1ChangedMessageCommand=function(s) s:queuecommand("Set") end,
-	CurrentCourseChangedMessageCommand=function(s) s:queuecommand("Set") end,
+	--CurrentCourseChangedMessageCommand=function(s) s:queuecommand("Set") end,
 	Def.Quad{
 		InitCommand=function(s)
 			s:xy(0,0)
@@ -205,12 +231,14 @@ t[#t+1] = Def.ActorFrame{
 							profile = PROFILEMAN:GetProfile(pn);
 						else
 							profile = PROFILEMAN:GetMachineProfile();
+							self:visible(false)
+							return
 						end;
 
 						scorelist = profile:GetHighScoreListIfExists(wheelsong,steps)
-						if scorelist == nil then self:diffusealpha(0) return end
+						if scorelist == nil then self:visible(false) return end
 						local scores = scorelist:GetHighScores();
-						if scores == nil then self:diffusealpha(0) return end
+						if scores == nil then self:visible(false) return end
 						local topscore=0;
 						if scores[1] then
 							if ThemePrefs.Get("ConvertScoresAndGrades") then
@@ -227,32 +255,31 @@ t[#t+1] = Def.ActorFrame{
 							if ThemePrefs.Get("ConvertScoresAndGrades") then
 								tier = SN2Grading.ScoreToGrade(topscore, diff)
 							end
-							assert(topgrade);
+							if topgrade == nil then self:visible(false) end
 							if scores[1]:GetScore()>1  then
 								self:LoadBackground(THEME:GetPathB("ScreenEvaluationNormal decorations/grade/GradeDisplayEval",ToEnumShortString(tier)));
-								self:diffusealpha(1);
-								self:SetTextureFiltering(false)
+								self:visible(true)
 							else
-								self:diffusealpha(0)
+								self:visible(false)
 							end;
 						else
-							self:diffusealpha(0)
+							self:visible(false)
 						end;
 					else
-						self:diffusealpha(0)
+						self:visible(false)
 					end;
 				end
 			end
 		end;
-		CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
-		CurrentTrailP1ChangedMessageCommand=function(s) s:queuecommand("Set") end,
+		--CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
+		--CurrentTrailP1ChangedMessageCommand=function(s) s:queuecommand("Set") end,
 		CurrentStepsP1ChangedMessageCommand=function(s) s:queuecommand("Set") end,
-		CurrentCourseChangedMessageCommand=function(s) s:queuecommand("Set") end,
+		--CurrentCourseChangedMessageCommand=function(s) s:queuecommand("Set") end,
 	};
 	Def.Sprite{
 		Texture=THEME:GetPathG("Player","Badge FullCombo"),
 		Name="Img_fc",
-		InitCommand=function(s) s:zoom(0.35):xy(28,8):diffusealpha(0):draworder(-10) end,
+		InitCommand=function(s) s:zoom(0.35):xy(28,8):visible(false):draworder(-10) end,
 	};
 };
 end

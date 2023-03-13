@@ -5,6 +5,7 @@ end
 
 local screen = Var"LoadingScreen"
 local StyleCode = 0
+local holding_select = false
 
 local function InputHandler(event)
   local player = event.PlayerNumber
@@ -81,6 +82,17 @@ local function InputHandler(event)
 			elseif GAMESTATE:GetCurrentStyle():GetName() == "double" then GAMESTATE:SetCurrentStyle("single"); SOUND:PlayOnce(THEME:GetPathS("ScreenSelectPlayMode", "in"), true); SOUND:PlayAnnouncer("select style comment single"); end
 		end
 	end
+	if event.type == "InputEventType_FirstPress" and player ~= nil and GAMESTATE:IsPlayerEnabled(player) then
+		if (event.GameButton == "Select")  then holding_select = true; end
+	end
+	if event.type == "InputEventType_Release" and player ~= nil and GAMESTATE:IsPlayerEnabled(player) then
+		if (event.GameButton == "Select")  then holding_select = false; end
+	end
+	if holding_select and event.type == "InputEventType_FirstPress" and player ~= nil and GAMESTATE:IsPlayerEnabled(player) then
+		if (event.GameButton == "MenuUp") then
+			GetFaveSongs(player,true)
+		end
+	end
   end
 end
 
@@ -138,6 +150,12 @@ return Def.ActorFrame{
     playTopPressedActor()
     resetPressedActors()
   end;
+	AddedFaveMessageCommand=function(self)
+		SOUND:PlayOnce(THEME:GetPathS("GameplayAssist", "metronome measure"), true);
+	end;
+	RemovedFaveMessageCommand=function(self)
+		SOUND:PlayOnce(THEME:GetPathS("GameplayAssist", "metronome beat"), true);
+	end;
   loadfile(THEME:GetPathB("","_cursor"))();
 };
 

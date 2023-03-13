@@ -27,7 +27,12 @@ t[#t+1] = Def.ActorFrame{
 			if not mw then return end
 			if mw:GetSelectedType() ~= 'WheelItemDataType_Portal' then return end
 			local group = GAMESTATE:GetExpandedSectionName();
-			if group ~= "" then
+			if group == "<Favorites>" then
+			      self:diffuse(GetFavoritesColor());
+				self:strokecolor(ColorDarkTone(GetFavoritesColor()));
+				if #GAMESTATE:GetEnabledPlayers() > 1 then self:diffusetopedge(GetFavoritesColor(PLAYER_1)):diffusebottomedge(GetFavoritesColor(PLAYER_2)) end
+				self:settext(GetFavoritesName());
+			elseif group ~= "" then
 				-- self:diffuse(ColorLightTone(SongAttributes.GetGroupColor(group)));
 				self:diffuse(SongAttributes.GetGroupColor(group));
 				self:strokecolor(ColorDarkTone(SongAttributes.GetGroupColor(group)));
