@@ -2,7 +2,6 @@ local song;
 local group;
 local getOn = 0;
 local getOff = 1;
-local SongAttributes = LoadModule "SongAttributes.lua"
 --[[
 	0 = Left
 	1 = Center
@@ -65,7 +64,7 @@ t[#t+1] = Def.ActorFrame{
 			SetMessageCommand=function(s,p)
 				local song = p.Song
 				if song then
-					s:settext(song:GetDisplayMainTitle()):diffuse(SongAttributes.GetMenuColor(song))
+					s:settext(song:GetDisplayMainTitle()):diffuse(SongAttributes_GetMenuColor(song))
 				end
 				s:maxwidth(200)
 			end,

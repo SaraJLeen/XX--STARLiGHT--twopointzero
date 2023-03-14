@@ -1,5 +1,4 @@
 local Crstext = THEME:GetString("MusicWheel","CustomItemCrsText");
-local SongAttributes = LoadModule "SongAttributes.lua"
 local jk = LoadModule"Jacket.lua"
 
 local song = GAMESTATE:GetCurrentSong()
@@ -68,7 +67,7 @@ local songinfo = Def.ActorFrame{
       artist:visible(true):settext(song:GetDisplayArtist() ~= "Unknown artist" and song:GetDisplayArtist() or '')
     elseif mw:GetSelectedType('WheelItemDataType_Section') then
       if mw:GetSelectedSection() ~= "" then
-        title:visible(true):settext(SongAttributes.GetGroupName(mw:GetSelectedSection()))
+        title:visible(true):settext(SongAttributes_GetGroupName(mw:GetSelectedSection()))
         artist:settext(""):visible(false)
       else
         title:settext(""):visible(false)

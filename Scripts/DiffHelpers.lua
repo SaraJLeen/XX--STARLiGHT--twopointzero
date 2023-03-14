@@ -27,7 +27,7 @@ function DDRDiffList.MessageHandlers(that, handler)
     local function check()
         local song = GAMESTATE:GetCurrentSong()
         if song then
-            local mt = LoadModule"SongAttributes.lua".GetMeterType(song)
+            local mt = SongAttributes_GetMeterType(song)
             if mt ~= '_MeterType_Default' then
                 local songXMode = mt ~= '_MeterType_DDR'
                 lastXMode = songXMode

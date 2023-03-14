@@ -1,5 +1,4 @@
 local jk = LoadModule"Jacket.lua"
-local SongAttributes = LoadModule "SongAttributes.lua"
 
 return Def.ActorFrame{
     InitCommand=function(s) s:xy(_screen.cx,_screen.cy) end,
@@ -120,7 +119,7 @@ return Def.ActorFrame{
                             if mw:GetSelectedSection() == "" then
                                 s:settext(""):xy(0,0)
                             else
-                                s:settext(SongAttributes.GetGroupName(mw:GetSelectedSection()))
+                                s:settext(SongAttributes_GetGroupName(mw:GetSelectedSection()))
                                 :xy(-126,0):maxwidth(300)
                             end
                         end

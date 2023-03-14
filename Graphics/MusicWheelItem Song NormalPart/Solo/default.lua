@@ -17,7 +17,6 @@ local t = Def.ActorFrame{
 } 
 local jk = ...
 
-local SongAttributes = LoadModule "SongAttributes.lua"
 local TB = Def.BitmapText{
 	Font="_avenirnext lt pro bold/36px";
     InitCommand=function(s) s:halign(0):maxwidth(350):strokecolor(color("0,0,0,0.3"))
@@ -50,7 +49,7 @@ t[#t+1] = Def.ActorFrame{
                 if song then
                     local group = song:GetGroupName()
                     if group == "<Favorites>" then group = string.match(song:GetSongDir(), "/Songs/(.-)/") end
-                    s:diffuse(SongAttributes.GetGroupColor(group))
+                    s:diffuse(SongAttributes_GetGroupColor(group))
                 end
             end,
         };
@@ -87,7 +86,7 @@ t[#t+1] = Def.ActorFrame{
 				if Song then
 					self:y(-12)
 					self:settext(Song:GetDisplayFullTitle());
-					self:diffuse(SongAttributes.GetMenuColor(Song))
+					self:diffuse(SongAttributes_GetMenuColor(Song))
 				elseif Course then
 					self:settext(Course:GetDisplayFullTitle());
 				end
@@ -102,7 +101,7 @@ t[#t+1] = Def.ActorFrame{
 				if Song then
 					self:visible(true):zoom(0.4)
 					self:settext(Song:GetDisplayArtist());
-					self:diffuse(SongAttributes.GetMenuColor(Song))
+					self:diffuse(SongAttributes_GetMenuColor(Song))
                     :diffusealpha(0.7)
 				end
 			end;

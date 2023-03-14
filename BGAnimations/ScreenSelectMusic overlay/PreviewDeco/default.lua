@@ -18,7 +18,6 @@ local t = Def.ActorFrame{
 		end
     }
 };
-local SongAttributes = LoadModule "SongAttributes.lua"
 
 t[#t+1] = Def.ActorFrame{
 	loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/PreviewDeco/songPreview.lua"))();

@@ -1,6 +1,5 @@
 local jk = ...
 
-local SongAttributes = LoadModule "SongAttributes.lua"
 local TB = Def.BitmapText{
 	Font="_avenirnext lt pro bold/36px";
     InitCommand=function(s) s:strokecolor(color("0,0,0,0.3"))
@@ -29,7 +28,7 @@ return Def.ActorFrame{
 				if Song then
 					self:y(270):maxwidth(459*.8)
 					self:settext(Song:GetDisplayFullTitle());
-					self:diffuse(SongAttributes.GetMenuColor(Song))
+					self:diffuse(SongAttributes_GetMenuColor(Song))
 				elseif Course then
 					self:settext(Course:GetDisplayFullTitle());
 				end

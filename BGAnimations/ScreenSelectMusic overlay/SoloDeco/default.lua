@@ -1,4 +1,3 @@
-local SongAttributes = LoadModule "SongAttributes.lua"
 local jk = LoadModule"Jacket.lua"
 
 local t = Def.ActorFrame{
@@ -91,7 +90,7 @@ t[#t+1] = Def.ActorFrame{
       local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
 			local so = ToEnumShortString(GAMESTATE:GetSortOrder())
 			if not mw then return end
-      s:diffuse(SongAttributes.GetGroupColor(mw:GetSelectedSection()))
+      s:diffuse(SongAttributes_GetGroupColor(mw:GetSelectedSection()))
     end
   };
 };
@@ -108,7 +107,7 @@ t[#t+1] = Def.ActorFrame{
       if mw:GetSelectedType('WheelItemDataType_Section') then
         local group = mw:GetSelectedSection()
         if group then
-          s:settext(GAMESTATE:GetSortOrder('SortOrder_Group') and SongAttributes.GetGroupName(group) or "")
+          s:settext(GAMESTATE:GetSortOrder('SortOrder_Group') and SongAttributes_GetGroupName(group) or "")
         end
       else
         s:settext("")

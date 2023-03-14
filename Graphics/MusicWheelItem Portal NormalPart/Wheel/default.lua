@@ -1,4 +1,3 @@
-local SongAttributes = LoadModule "SongAttributes.lua"
 local t = Def.ActorFrame{};
 
 --return Def.ActorFrame{
@@ -33,10 +32,10 @@ t[#t+1] = Def.ActorFrame{
 				if #GAMESTATE:GetEnabledPlayers() > 1 then self:diffusetopedge(GetFavoritesColor(PLAYER_1)):diffusebottomedge(GetFavoritesColor(PLAYER_2)) end
 				self:settext(GetFavoritesName());
 			elseif group ~= "" then
-				-- self:diffuse(ColorLightTone(SongAttributes.GetGroupColor(group)));
-				self:diffuse(SongAttributes.GetGroupColor(group));
-				self:strokecolor(ColorDarkTone(SongAttributes.GetGroupColor(group)));
-				self:settext(SongAttributes.GetGroupName(group));
+				-- self:diffuse(ColorLightTone(SongAttributes_GetGroupColor(group)));
+				self:diffuse(SongAttributes_GetGroupColor(group));
+				self:strokecolor(ColorDarkTone(SongAttributes_GetGroupColor(group)));
+				self:settext(SongAttributes_GetGroupName(group));
 			else
 				self:rainbow();
 				self:strokecolor(Color.Black);
@@ -57,7 +56,7 @@ t[#t+1] = Def.ActorFrame{
 			if mw:GetSelectedType() ~= 'WheelItemDataType_Portal' then return end
 			if not GAMESTATE:GetCurrentSong() then return end
 			self:settext(GAMESTATE:GetCurrentSong():GetDisplayFullTitle());
-			self:diffuse(SongAttributes.GetMenuColor(GAMESTATE:GetCurrentSong())):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(GAMESTATE:GetCurrentSong())))
+			self:diffuse(SongAttributes_GetMenuColor(GAMESTATE:GetCurrentSong())):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(GAMESTATE:GetCurrentSong())))
 		end,
 		CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
 	};
@@ -72,7 +71,7 @@ t[#t+1] = Def.ActorFrame{
 			if mw:GetSelectedType() ~= 'WheelItemDataType_Portal' then return end
 			if not GAMESTATE:GetCurrentSong() then return end
 			self:settext(GAMESTATE:GetCurrentSong():GetDisplayArtist());
-			self:diffuse(SongAttributes.GetMenuColor(GAMESTATE:GetCurrentSong())):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(GAMESTATE:GetCurrentSong())))
+			self:diffuse(SongAttributes_GetMenuColor(GAMESTATE:GetCurrentSong())):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(GAMESTATE:GetCurrentSong())))
 		end,
 		CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
 	};

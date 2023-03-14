@@ -1,5 +1,3 @@
-local SongAttributes = LoadModule "SongAttributes.lua"
-
 return Def.ActorFrame {
 	SetMessageCommand=function(self,params)
 		self:zoom(params.HasFocus and 1.5 or 1.2);
@@ -36,7 +34,7 @@ return Def.ActorFrame {
 			elseif GAMESTATE:GetSortOrder() == 'SortOrder_TopGrades' then
 				self:settext(string.gsub(params.Text,"AAAA","AAA+"))
 			else
-				self:settext(SongAttributes.GetGroupName(params.Text));
+				self:settext(SongAttributes_GetGroupName(params.Text));
 			end
 		end;
 	};

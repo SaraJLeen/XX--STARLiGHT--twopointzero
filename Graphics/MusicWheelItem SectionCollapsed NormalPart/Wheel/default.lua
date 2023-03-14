@@ -1,5 +1,3 @@
-local SongAttributes = LoadModule "SongAttributes.lua"
-
 return Def.ActorFrame{
   LoadActor("Backing")..{
     SetMessageCommand=function(self, param)
@@ -8,7 +6,7 @@ return Def.ActorFrame{
 	      self:diffuse(GetFavoritesColor());
 		if #GAMESTATE:GetEnabledPlayers() > 1 then self:diffusetopedge(GetFavoritesColor(PLAYER_1)):diffusebottomedge(GetFavoritesColor(PLAYER_2)) end
 	else
-	      self:diffuse(SongAttributes.GetGroupColor(group));
+	      self:diffuse(SongAttributes_GetGroupColor(group));
 	end
     end;
   };
@@ -23,8 +21,8 @@ return Def.ActorFrame{
 			self:settext(GetFavoritesName());
 			return
 		end
-		self:diffuse(SongAttributes.GetGroupColor(group));
-		self:settext(SongAttributes.GetGroupName(group));
+		self:diffuse(SongAttributes_GetGroupColor(group));
+		self:settext(SongAttributes_GetGroupName(group));
 	end;
 	};
   Def.BitmapText{
@@ -59,7 +57,7 @@ return Def.ActorFrame{
 			end
 			return
 		else
-			self:diffuse(ColorLightTone(SongAttributes.GetGroupColor(group)));
+			self:diffuse(ColorLightTone(SongAttributes_GetGroupColor(group)));
 			self:settext(tostring(song_count).." songs");
 		end
 		self:visible(true)

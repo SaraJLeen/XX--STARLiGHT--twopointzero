@@ -1,4 +1,3 @@
-local SongAttributes = LoadModule "SongAttributes.lua"
 local fsp_on_top = false
 local fsp_nudge = 0
 if not fsp_on_top then
@@ -534,10 +533,10 @@ function UpdateInternal3(self, Player)
 				if PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetLastPlayedSong() then
 					local lastsong = PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetLastPlayedSong()
 					selLSP:settext(lastsong:GetDisplayArtist().." - "..lastsong:GetDisplayMainTitle())
-					if (Player==PLAYER_1 and LastColorP1 ~= SongAttributes.GetMenuColor(lastsong)) or (Player==PLAYER_2 and LastColorP2 ~= SongAttributes.GetMenuColor(lastsong)) then
-						selLSP:diffuse(SongAttributes.GetMenuColor(lastsong)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(lastsong)))
-						if Player==PLAYER_1 then LastColorP1 = SongAttributes.GetMenuColor(lastsong) end
-						if Player==PLAYER_2 then LastColorP2 = SongAttributes.GetMenuColor(lastsong) end
+					if (Player==PLAYER_1 and LastColorP1 ~= SongAttributes_GetMenuColor(lastsong)) or (Player==PLAYER_2 and LastColorP2 ~= SongAttributes_GetMenuColor(lastsong)) then
+						selLSP:diffuse(SongAttributes_GetMenuColor(lastsong)):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(lastsong)))
+						if Player==PLAYER_1 then LastColorP1 = SongAttributes_GetMenuColor(lastsong) end
+						if Player==PLAYER_2 then LastColorP2 = SongAttributes_GetMenuColor(lastsong) end
 					end
 					selLSP:visible(true)
 				else
@@ -546,10 +545,10 @@ function UpdateInternal3(self, Player)
 				if PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetMostPopularSong() then
 					local favesong = PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetMostPopularSong()
 					selFSP:settext(favesong:GetDisplayArtist().." - "..favesong:GetDisplayMainTitle())
-					if (Player==PLAYER_1 and FaveColorP1 ~= SongAttributes.GetMenuColor(favesong)) or (Player==PLAYER_2 and FaveColorP2 ~= SongAttributes.GetMenuColor(favesong)) then
-						selFSP:diffuse(SongAttributes.GetMenuColor(favesong)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(favesong)))
-						if Player==PLAYER_1 then FaveColorP1 = SongAttributes.GetMenuColor(favesong) end
-						if Player==PLAYER_2 then FaveColorP2 = SongAttributes.GetMenuColor(favesong) end
+					if (Player==PLAYER_1 and FaveColorP1 ~= SongAttributes_GetMenuColor(favesong)) or (Player==PLAYER_2 and FaveColorP2 ~= SongAttributes_GetMenuColor(favesong)) then
+						selFSP:diffuse(SongAttributes_GetMenuColor(favesong)):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(favesong)))
+						if Player==PLAYER_1 then FaveColorP1 = SongAttributes_GetMenuColor(favesong) end
+						if Player==PLAYER_2 then FaveColorP2 = SongAttributes_GetMenuColor(favesong) end
 					end
 					selFSP:visible(true)
 				else

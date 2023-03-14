@@ -322,7 +322,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
           self:y(36)
           local meter = GAMESTATE:GetCurrentSteps(pn):GetMeter();
 		local mt = '_MeterType_Default'
-		mt = LoadModule"SongAttributes.lua".GetMeterType(GAMESTATE:GetCurrentSong())
+		mt = SongAttributes_GetMeterType(GAMESTATE:GetCurrentSong())
 		if (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
 			meter = GetConvertDifficulty_DDRX(GAMESTATE:GetCurrentSong(),GAMESTATE:GetCurrentSteps(pn),mt)
 		end

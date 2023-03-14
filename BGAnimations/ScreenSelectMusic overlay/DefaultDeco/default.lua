@@ -1,5 +1,4 @@
 local numwh = THEME:GetMetric("MusicWheel","NumWheelItems")+2
-local SongAttributes = LoadModule "SongAttributes.lua"
 local Arrows = Def.ActorFrame{};
 for i=1,2 do
 	Arrows[#Arrows+1] = Def.ActorFrame{
@@ -395,11 +394,11 @@ return Def.ActorFrame{
 				if not mw then return end
 				if mw:GetSelectedSection() ~= "" and GAMESTATE:GetCurrentSong() then
 					if so == "Group" then
-						s:diffuse(SongAttributes.GetGroupColor(mw:GetSelectedSection()))
+						s:diffuse(SongAttributes_GetGroupColor(mw:GetSelectedSection()))
 					else
 						group = GAMESTATE:GetCurrentSong():GetGroupName()
 						if group == "<Favorites>" then group = string.match(GAMESTATE:GetCurrentSong():GetSongDir(), "/Songs/(.-)/") end
-						s:diffuse(SongAttributes.GetGroupColor(group))
+						s:diffuse(SongAttributes_GetGroupColor(group))
 					end
 				end
 				if mw:GetSelectedSection() ~= "" and GAMESTATE:GetCurrentSong() then
@@ -419,13 +418,13 @@ return Def.ActorFrame{
 				if not mw then return end
 				if mw:GetSelectedSection() ~= "" and GAMESTATE:GetCurrentSong() then
 					if so == "Group" then
-						s:strokecolor(ColorDarkTone(SongAttributes.GetGroupColor(mw:GetSelectedSection())))
-						s:settext("GROUP/"..SongAttributes.GetGroupName(mw:GetSelectedSection()))
+						s:strokecolor(ColorDarkTone(SongAttributes_GetGroupColor(mw:GetSelectedSection())))
+						s:settext("GROUP/"..SongAttributes_GetGroupName(mw:GetSelectedSection()))
 					elseif so == "Title" then
 						group = GAMESTATE:GetCurrentSong():GetGroupName()
 						if group == "<Favorites>" then group = string.match(GAMESTATE:GetCurrentSong():GetSongDir(), "/Songs/(.-)/") end
-						s:strokecolor(ColorDarkTone(SongAttributes.GetGroupColor(group)))
-						s:settext("From: "..SongAttributes.GetGroupName(group))
+						s:strokecolor(ColorDarkTone(SongAttributes_GetGroupColor(group)))
+						s:settext("From: "..SongAttributes_GetGroupName(group))
 					else
 						s:settext("")
 					end

@@ -1008,7 +1008,7 @@ function StepsListing()
             conv[1][#conv[1]+1] = v
 			local mt = '_MeterType_Default'
 			if not GAMESTATE:IsCourseMode() then
-				mt = LoadModule"SongAttributes.lua".GetMeterType(GAMESTATE:GetCurrentSong())
+				mt = SongAttributes_GetMeterType(GAMESTATE:GetCurrentSong())
 				local meter = v:GetMeter()
 				if (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
 					meter = GetConvertDifficulty_DDRX(GAMESTATE:GetCurrentSong(),v,mt)

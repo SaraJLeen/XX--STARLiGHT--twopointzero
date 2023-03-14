@@ -1,5 +1,3 @@
-local SongAttributes = LoadModule "SongAttributes.lua"
-
 local ex = ""
 if GAMESTATE:IsAnExtraStage() then
   ex = "ex_"
@@ -232,7 +230,7 @@ return Def.ActorFrame{
         OnCommand=function(s)
             local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
             if not mw then return end
-            local GC = SongAttributes.GetGroupColor(mw:GetSelectedSection())
+            local GC = SongAttributes_GetGroupColor(mw:GetSelectedSection())
             s:sleep(0.4):decelerate(0.5):diffusealpha(1)
             :diffuseshift():effectcolor1(Alpha(GC,0)):effectcolor2(Alpha(GC,0.5))
             :effectperiod(2)
@@ -280,7 +278,7 @@ return Def.ActorFrame{
                     local group = mw:GetSelectedSection()
                     if group then
                         if so == "SortOrder_Group" then
-                            text = SongAttributes.GetGroupName(group)
+                            text = SongAttributes_GetGroupName(group)
                         end
                     end
                 end

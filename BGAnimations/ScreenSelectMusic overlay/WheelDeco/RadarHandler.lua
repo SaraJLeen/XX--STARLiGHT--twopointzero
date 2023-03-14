@@ -74,7 +74,7 @@ for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 	              local value = steps:GetMeter()
 				local diff = steps:GetDifficulty();
 				local mt = '_MeterType_Default'
-				mt = LoadModule"SongAttributes.lua".GetMeterType(song)
+				mt = SongAttributes_GetMeterType(song)
 	              s:settext("Diff "..value.."")
 				if mt == '_MeterType_Pump' then
 					s:settext("PIU "..value.."")

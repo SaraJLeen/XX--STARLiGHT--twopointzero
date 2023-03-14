@@ -1,4 +1,3 @@
-local SongAttributes = LoadModule "SongAttributes.lua"
 local t = Def.ActorFrame{};
 wheelsong = nil;
 
@@ -8,8 +7,13 @@ t[#t+1] = Def.ActorFrame{
 	SetMessageCommand=function(s,p)
 		wheelsong = p.Song
 		if wheelsong then
-			s:GetChild("Title"):settext(wheelsong:GetDisplayFullTitle()):diffuse(SongAttributes.GetMenuColor(wheelsong)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(wheelsong)))
-			s:GetChild("Artist"):settext(wheelsong:GetDisplayArtist()):diffuse(SongAttributes.GetMenuColor(wheelsong)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(wheelsong)))
+			local TitleChild = s:GetChild("Title")
+			local ArtistChild = s:GetChild("Artist")
+			if TitleChild:GetText() ~= wheelsong:GetDisplayFullTitle() or ArtistChild:GetText() ~= wheelsong:GetDisplayArtist() then
+				local MenuColor = SongAttributes_GetMenuColor(wheelsong)
+				TitleChild:settext(wheelsong:GetDisplayFullTitle()):diffuse(MenuColor):strokecolor(ColorDarkTone(MenuColor))
+				ArtistChild:settext(wheelsong:GetDisplayArtist()):diffuse(MenuColor):strokecolor(ColorDarkTone(MenuColor))
+			end
 			--Trace("Setting stuff for song "..tostring(p.Song)..".");
 			if (FaveCount(PLAYER_1) + FaveCount(PLAYER_2)) > 0 then
 				local isFave = IsFavorite(wheelsong)

@@ -1,5 +1,4 @@
 local t = LoadFallbackB();
-local SongAttributes = LoadModule "SongAttributes.lua"
 
 local function InputHandler(event)
 	local player = event.PlayerNumber
@@ -167,29 +166,29 @@ t[#t+1] = Def.ActorFrame{
 			local gname = course:GetGroupName()
 			local gcolor = Color.White
 			if gname == "03 - DDR 3rdMIX Korea" then
-				gname = SongAttributes.GetGroupName("03 - DDR 3rdMIX");
+				gname = SongAttributes_GetGroupName("03 - DDR 3rdMIX");
 				gcolor = color("0.50,0.63,0.69,1")
 			elseif gname == "03 - DDR 3rdMIX Korea v2" then
-				gname = SongAttributes.GetGroupName("03 - DDR 3rdMIX");
+				gname = SongAttributes_GetGroupName("03 - DDR 3rdMIX");
 				gcolor = color("0.44,0.53,0.63,1")
 			elseif gname == "03 - DDR 3rdMIX PLUS" then
-				gname = SongAttributes.GetGroupName("03 - DDR 3rdMIX");
+				gname = SongAttributes_GetGroupName("03 - DDR 3rdMIX");
 				gcolor = color("0.43,0.68,0.13,1")
 			elseif gname == "04 - DDR 4thMIX PLUS" then
-				gname = SongAttributes.GetGroupName("04 - DDR 4thMIX");
+				gname = SongAttributes_GetGroupName("04 - DDR 4thMIX");
 				gcolor = color("0.90,0.00,0.90,1")
 			elseif gname == "09 - DDR SuperNOVA CS" then
-				gname = SongAttributes.GetGroupName("09 - DDR SuperNOVA CS");
+				gname = SongAttributes_GetGroupName("09 - DDR SuperNOVA CS");
 				gcolor = color("0.87,0.71,0.60,1.0")
 			elseif gname == "DDR Party Collection" then
-				--gname = SongAttributes.GetGroupName("DDR PS2");
+				--gname = SongAttributes_GetGroupName("DDR PS2");
 				gcolor = color("0.80,0.24,0.05,1.0")
 			elseif gname == "Default" then
-				gname = SongAttributes.GetGroupName("Project OutFox");
+				gname = SongAttributes_GetGroupName("Project OutFox");
 				gcolor = color("#8FBCFF")
 			else
-				gname = SongAttributes.GetGroupName(course:GetGroupName());
-				gcolor = SongAttributes.GetGroupColor(course:GetGroupName());
+				gname = SongAttributes_GetGroupName(course:GetGroupName());
+				gcolor = SongAttributes_GetGroupColor(course:GetGroupName());
 			end
 			self:settext( gname );
 			self:diffuse( gcolor );

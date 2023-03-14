@@ -2,7 +2,6 @@ local ex = ""
 if GAMESTATE:IsAnExtraStage() then
   ex = "ex_"
 end
-local SongAttributes = LoadModule "SongAttributes.lua"
 
 local t = Def.ActorFrame{
   Def.Actor{
@@ -398,8 +397,8 @@ return Def.ActorFrame{
       if song then
         group = song:GetGroupName()
         if group == "<Favorites>" then group = string.match(song:GetSongDir(), "/Songs/(.-)/") end
-        s:settext( SongAttributes.GetGroupName(group) );
-        s:diffuse( SongAttributes.GetGroupColor(group) );
+        s:settext( SongAttributes_GetGroupName(group) );
+        s:diffuse( SongAttributes_GetGroupColor(group) );
       else
         s:settext( "" );
         s:diffuse(Color.White)

@@ -10,7 +10,7 @@ if not GAMESTATE:IsCourseMode() then
 	local diffname = diff:GetDifficulty()
 	local diffname2
 	local mt = '_MeterType_Default'
-	mt = LoadModule"SongAttributes.lua".GetMeterType(GAMESTATE:GetCurrentSong())
+	mt = SongAttributes_GetMeterType(GAMESTATE:GetCurrentSong())
 	local meter = diff:GetMeter()
 
 	if (GAMESTATE:GetCurrentSong() and GAMESTATE:GetCurrentSong():HasBGChanges()) then

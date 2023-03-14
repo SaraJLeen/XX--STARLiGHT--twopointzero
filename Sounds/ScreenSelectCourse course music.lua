@@ -3,7 +3,6 @@ local course = GAMESTATE:GetCurrentCourse()
 if not course then return GetGroupMusicPath("course","51 - DDR XX") end
 --Trace("Group: "..course:GetGroupName().."")
 local groupname = course:GetGroupName()
-local SongAttributes = LoadModule "SongAttributes.lua"
 if groupname == "03 - DDR 3rdMIX Korea" then
 	groupname = "03 - DDR 3rdMIX"
 elseif groupname == "03 - DDR 3rdMIX Korea v2" then

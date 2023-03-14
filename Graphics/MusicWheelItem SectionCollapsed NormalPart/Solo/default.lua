@@ -16,7 +16,6 @@ local t = Def.ActorFrame{
     end,
 } 
 local jk = LoadModule "Jacket.lua"
-local SongAttributes = LoadModule "SongAttributes.lua"
 
 local TB = Def.BitmapText{
 	Font="_avenirnext lt pro bold/36px";
@@ -40,7 +39,7 @@ t[#t+1] =  Def.ActorFrame{
             Texture=THEME:GetPathG("MusicWheelItem","Song NormalPart/Solo/HL.png"),
             SetMessageCommand=function(s,p)
                 local group = p.Text
-                s:diffuse(SongAttributes.GetGroupColor(group))
+                s:diffuse(SongAttributes_GetGroupColor(group))
             end,
         };
     };
@@ -70,8 +69,8 @@ t[#t+1] =  Def.ActorFrame{
             Name="GroupText",
 			SetMessageCommand=function(self, param)
 				local group = param.Text;
-                self:diffuse(SongAttributes.GetGroupColor(group));
-		        self:settext(SongAttributes.GetGroupName(group));
+                self:diffuse(SongAttributes_GetGroupColor(group));
+		        self:settext(SongAttributes_GetGroupName(group));
 			end;
 		};
 	};

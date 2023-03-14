@@ -1,4 +1,3 @@
-local SongAttributes = LoadModule "SongAttributes.lua"
 local top
 local jk = LoadModule"Jacket.lua"
 
@@ -127,7 +126,7 @@ return Def.ActorFrame{
 			SetMessageCommand=function(s,p)
 				local song = p.Song
 				if song then
-					s:settext(song:GetDisplayMainTitle()):diffuse(SongAttributes.GetMenuColor(song)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(song)))
+					s:settext(song:GetDisplayMainTitle()):diffuse(SongAttributes_GetMenuColor(song)):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(song)))
 				end
 				s:basezoom(0.7):maxwidth(200)
 			end,

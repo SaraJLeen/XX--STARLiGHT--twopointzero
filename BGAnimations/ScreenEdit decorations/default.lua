@@ -30,7 +30,7 @@ t[#t+1] = Def.ActorFrame{
             SetCommand = function(self)
                 local song = GAMESTATE:GetCurrentSong()
                 if song then
-                    self:settext(song:GetDisplayFullTitle()):diffuse(SongAttributes.GetMenuColor(song))
+                    self:settext(song:GetDisplayFullTitle()):diffuse(SongAttributes_GetMenuColor(song))
                 else
                     self:settext""
                 end
@@ -41,7 +41,7 @@ t[#t+1] = Def.ActorFrame{
             SetCommand = function(self)
                 local song = GAMESTATE:GetCurrentSong()
                 if song then
-                    self:settext(song:GetDisplayArtist()):diffuse(SongAttributes.GetMenuColor(song))
+                    self:settext(song:GetDisplayArtist()):diffuse(SongAttributes_GetMenuColor(song))
                 else
                     self:settext""
                 end

@@ -1,4 +1,3 @@
-local SongAttributes = LoadModule "SongAttributes.lua"
 local t = Def.ActorFrame {
 	LoadActor("backing");
 };
@@ -15,7 +14,7 @@ t[#t+1] = Def.ActorFrame{
 			if Song then
 				self:y(-12):zoom(1.2)
 				:settext(Song:GetDisplayFullTitle())
-				:diffuse(SongAttributes.GetMenuColor(Song))
+				:diffuse(SongAttributes_GetMenuColor(Song))
 			elseif Course then
 				self:settext(Course:GetDisplayFullTitle());
 			end
@@ -34,7 +33,7 @@ t[#t+1] = Def.ActorFrame{
 			if Song then
 				self:visible(true)
 				:settext(Song:GetDisplayArtist())
-				:diffuse(SongAttributes.GetMenuColor(Song))
+				:diffuse(SongAttributes_GetMenuColor(Song))
 			end
 		end;
 	};

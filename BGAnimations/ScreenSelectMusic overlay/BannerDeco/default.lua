@@ -1,5 +1,3 @@
-local SongAttributes = LoadModule "SongAttributes.lua"
-
 local PS = Def.ActorFrame{};
 for pn in EnabledPlayers() do
   PS[#PS+1] = loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/BannerDeco/TwoPart.lua"))(pn);
@@ -135,11 +133,11 @@ return Def.ActorFrame{
       if not mw then return end
       if song then
         s:GetChild("Title"):visible(true):settext(song:GetDisplayFullTitle())
-        :diffuse(SongAttributes.GetMenuColor(song)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(song)))
-        s:GetChild("Artist"):visible(true):settext(song:GetDisplayArtist()):diffuse(SongAttributes.GetMenuColor(song)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(song)))
+        :diffuse(SongAttributes_GetMenuColor(song)):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(song)))
+        s:GetChild("Artist"):visible(true):settext(song:GetDisplayArtist()):diffuse(SongAttributes_GetMenuColor(song)):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(song)))
       elseif mw:GetSelectedType('WheelItemDataType_Section') then
-        s:GetChild("Title"):visible(true):settext(SongAttributes.GetGroupName(mw:GetSelectedSection()))
-        :diffuse(SongAttributes.GetGroupColor(mw:GetSelectedSection())):strokecolor(ColorDarkTone(SongAttributes.GetGroupColor(mw:GetSelectedSection())))
+        s:GetChild("Title"):visible(true):settext(SongAttributes_GetGroupName(mw:GetSelectedSection()))
+        :diffuse(SongAttributes_GetGroupColor(mw:GetSelectedSection())):strokecolor(ColorDarkTone(SongAttributes_GetGroupColor(mw:GetSelectedSection())))
         s:GetChild("Artist"):visible(false):settext("")
       else
         s:GetChild("Title"):visible(true):settext("")

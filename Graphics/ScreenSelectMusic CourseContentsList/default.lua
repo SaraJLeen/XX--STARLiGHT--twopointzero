@@ -73,7 +73,7 @@ return Def.CourseContentsList {
 					self:settext( params.Meter ):strokecolor(Color.Black):zoom(0.7)
 					if string.find( params.Meter, "-") then return end
 					local mt = '_MeterType_Default'
-					mt = LoadModule"SongAttributes.lua".GetMeterType(params.Song)
+					mt = SongAttributes_GetMeterType(params.Song)
 					if (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
 						newdiff = GetConvertDifficulty_DDRX(params.Song,params.Steps,mt)
 						self:settext( tostring(newdiff) )

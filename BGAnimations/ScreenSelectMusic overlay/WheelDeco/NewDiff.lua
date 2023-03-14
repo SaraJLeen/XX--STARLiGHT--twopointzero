@@ -22,18 +22,7 @@ local function DrawDiffListItem(diff)
       local st=GAMESTATE:GetCurrentStyle():GetStepsType()
       local song=GAMESTATE:GetCurrentSong()
       if song then
-		mt = LoadModule"SongAttributes.lua".GetMeterType(song)
-		if mt == '_MeterType_Pump' then
-			--Trace("Song meter type: Pump.");
-		elseif mt == '_MeterType_ITG' then
-			--Trace("Song meter type: In The Groove.");
-		elseif mt == '_MeterType_DDR' then
-			--Trace("Song meter type: Classic DDR.");
-		elseif mt == '_MeterType_DDRX' then
-			--Trace("Song meter type: Modern X.");
-		else
-			--Trace("Song meter type: "..tostring(mt)..".");
-		end
+		mt = SongAttributes_GetMeterType(song)
         if song:HasStepsTypeAndDifficulty( st, diff ) then
           local steps = song:GetOneSteps( st, diff )
           self:diffusealpha(1)

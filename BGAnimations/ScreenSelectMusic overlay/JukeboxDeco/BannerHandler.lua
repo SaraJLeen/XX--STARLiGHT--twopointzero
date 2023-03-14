@@ -1,5 +1,4 @@
 local Crstext = THEME:GetString("MusicWheel","CustomItemCrsText");
-local SongAttributes = LoadModule "SongAttributes.lua"
 local jk = ...
 
 return Def.ActorFrame{
@@ -71,7 +70,7 @@ return Def.ActorFrame{
           s:settext(song:GetDisplayFullTitle())
         elseif mw:GetSelectedType() == "WheelItemDataType_Section" then
           local group = mw:GetSelectedSection()
-          s:settext(GAMESTATE:GetSortOrder('SortOrder_Group') and SongAttributes.GetGroupName(group) or "")
+          s:settext(GAMESTATE:GetSortOrder('SortOrder_Group') and SongAttributes_GetGroupName(group) or "")
         else
           s:settext("")
         end
