@@ -7,6 +7,7 @@ local LastStyle = nil
 
 --Banner cache has been disabled because of severe artifacting it can cause
 local cached_banners = false
+local cached_jackets = true
 
 return Def.ActorFrame{
 --Jacket
@@ -32,21 +33,25 @@ return Def.ActorFrame{
           if song:HasPreviewVid() then
             self:Load(song:GetPreviewVidPath())
           else
-            self:LoadFromCached("jacket",jk.GetSongGraphicPath(song,"Jacket"))
+		if cached_jackets then
+			self:LoadFromCached("Jacket",jk.GetSongGraphicPath(song,"Jacket"))
+		else
+			self:Load(jk.GetSongGraphicPath(song,"Jacket"))
+		end
           end
         elseif mw:GetSelectedType() == 'WheelItemDataType_Random' then
-          self:LoadFromCached("jacket",THEME:GetPathG("","_jackets/Random"))
+          self:LoadFromCached("Jacket",THEME:GetPathG("","_jackets/Random"))
         elseif mw:GetSelectedType() == 'WheelItemDataType_Roulette' then
-          self:LoadFromCached("jacket",THEME:GetPathG("","_jackets/Roulette"))
+          self:LoadFromCached("Jacket",THEME:GetPathG("","_jackets/Roulette"))
         elseif mw:GetSelectedType() == 'WheelItemDataType_Custom' then
-          self:LoadFromCached("jacket",THEME:GetPathG("","_jackets/COURSE"))
+          self:LoadFromCached("Jacket",THEME:GetPathG("","_jackets/COURSE"))
         elseif mw:GetSelectedSection() == "<Favorites>" then
-          if #GAMESTATE:GetEnabledPlayers() < 2 then self:LoadFromCached("jacket",THEME:GetPathG("","_jackets/favesbg"))
-          else self:LoadFromCached("jacket",THEME:GetPathG("","_jackets/favorites")) end
+          if #GAMESTATE:GetEnabledPlayers() < 2 then self:LoadFromCached("Jacket",THEME:GetPathG("","_jackets/favesbg"))
+          else self:LoadFromCached("Jacket",THEME:GetPathG("","_jackets/favorites")) end
         elseif mw:GetSelectedType() == 'WheelItemDataType_Section' then
-          self:LoadFromCached("jacket",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Jacket",so))
+          self:LoadFromCached("Jacket",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Jacket",so))
         else
-          self:LoadFromCached("jacket", THEME:GetPathG("","MusicWheelItem fallback") );
+          self:LoadFromCached("Jacket", THEME:GetPathG("","MusicWheelItem fallback") );
         end;
         self:scaletofit(-120,-120,120,120):xy(-2,-4)
           end;
@@ -105,29 +110,29 @@ return Def.ActorFrame{
         --self:visible(true)
         if song then
 		  setenv("getgroupname","song");
-            if cached_banners then
-              self:LoadFromCached("banner",jk.GetSongGraphicPath(song,"Banner"))
-            else
-          self:Load(jk.GetSongGraphicPath(song,"Banner"))
-            end
+		if cached_banners then
+			self:LoadFromCached("banner",jk.GetSongGraphicPath(song,"Banner"))
+		else
+			self:Load(jk.GetSongGraphicPath(song,"Banner"))
+		end
         elseif mw:GetSelectedType() == 'WheelItemDataType_Random' then
 		setenv("getgroupname","random");
-		self:LoadFromCached("banner",THEME:GetPathG("","_banners/Random"))
+		self:LoadFromCached("Banner",THEME:GetPathG("","_banners/Random"))
         elseif mw:GetSelectedType() == 'WheelItemDataType_Roulette' then
 		setenv("getgroupname","random");
-		self:LoadFromCached("banner",THEME:GetPathG("","_banners/Roulette"))
+		self:LoadFromCached("Banner",THEME:GetPathG("","_banners/Roulette"))
         elseif mw:GetSelectedType() == 'WheelItemDataType_Custom' then
 		setenv("getgroupname","course");
-		self:LoadFromCached("banner",THEME:GetPathG("","_banners/COURSE"))
+		self:LoadFromCached("Banner",THEME:GetPathG("","_banners/COURSE"))
         elseif mw:GetSelectedSection() == "<Favorites>" then
 		setenv("getgroupname","favorites");
-		if #GAMESTATE:GetEnabledPlayers() > 1 then self:LoadFromCached("banner",THEME:GetPathG("","_banners/favesbg"))
-		else self:LoadFromCached("banner",THEME:GetPathG("","_banners/favorites")) end
+		if #GAMESTATE:GetEnabledPlayers() > 1 then self:LoadFromCached("Banner",THEME:GetPathG("","_banners/favesbg"))
+		else self:LoadFromCached("Banner",THEME:GetPathG("","_banners/favorites")) end
         elseif mw:GetSelectedType() == 'WheelItemDataType_Section' then
 		setenv("getgroupname",mw:GetSelectedSection());
-          self:LoadFromCached("banner",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Banner",so))
+          self:LoadFromCached("Banner",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Banner",so))
         else
-            self:LoadFromCached("banner", THEME:GetPathG("","MusicWheelItem fallback") );
+            self:LoadFromCached("Banner", THEME:GetPathG("","MusicWheelItem fallback") );
 		--self:visible(false)
         end;
         self:scaletofit(-239,-75,239,75):xy(-24,-20)
