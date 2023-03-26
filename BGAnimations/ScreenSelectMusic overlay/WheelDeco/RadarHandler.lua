@@ -252,7 +252,6 @@ end
 					topgrade = 'Grade_Tier01'
 				end
 				--Trace("Scores have just been set")
-				s:visible(false)
 				if test_it or topscore ~= 0 then
 					s:visible(true)
 					if(#GAMESTATE:GetEnabledPlayers() > 1 and rival>3) then s:visible(false) end
@@ -344,11 +343,6 @@ end
 			Name="Text_label";
 			Text="Top Scores";
 			InitCommand=function(s)
-				if(rival == 1) then
-					s:diffusealpha(1.0)
-				else
-					s:diffusealpha(0)
-				end
 				s:x(-70-2)
 				s:y(-30-2)
 				s:visible(true)
@@ -360,6 +354,9 @@ end
 					--	s:settext("Top Scores 1P");
 					--end
 				end;
+				if(rival ~= 1) then
+					s:visible(false)
+				end
 				--s:strokecolor(Alpha(Color.Black,0.5))
 				--s:strokecolor(Color.Black)
 				s:shadowcolor(Color.Black)
