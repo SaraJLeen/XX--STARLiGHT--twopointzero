@@ -165,7 +165,7 @@ function OptionRowAppearancePlusUseFile()
 		LayoutType = "ShowAllInRow",
 		SelectType = "SelectOne",
 		OneChoiceForAllPlayers = false,
-		ExportOnChange = false,
+		ExportOnChange = true,
 		--Choices = { "Visible", 'Hidden', 'Sudden', 'Stealth', 'Hidden+', 'Sudden+', 'Hidden+&Sudden+', },
 		Choices = { "Visible", 'Hidden', 'Sudden', 'Stealth', 'Hidden+', 'Sudden+', },
 		LoadSelections = function(self, list, pn)

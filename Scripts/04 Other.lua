@@ -11,12 +11,19 @@ function UseStaticBackground()
 end
 
 function OptionNumber()
+	--1: Speed, 2: Accel, 3: Hidden/Sudden, 4: Turn, 5: Hide, 6: Scroll
+	--7: Noteskin, 8: Freeze, 9: Jump, 10: Cut, 12: Gauge, 13: Filter
+	--15: Character, E1: Guideline, E2: Score, E3: Bias
+	--A1: Acceleration, A2: Effect, A3: EffectsReceptor, A4: EffectsArrow
+	--A5: Appearance2, A6: Turn2, A7: Insert, A8: RemoveCombinations,
+	--A9: RemoveFeatures, A10: Scroll2, A11: Holds2, A12: Mines
+	--A13: Attacks, A14: PlayerAutoPlay, A15: Hide2, A16: Persp
 	if GetUserPref("OptionRowGameplayBackground")=='DanceStages' then
-		return "1,2,3,4,5,6,7,10,8,9,13,Steps,12,E2,E3,15,SelectStage" --,16"
+		return "1,2,3,4,5,6,A1,A3,A4,A10,A16,7,13,Steps,12,E3,15,SelectStage" --,16"
 	elseif GetUserPref("OptionRowGameplayBackground")=='SNCharacters' then
-		return "1,2,3,4,5,6,7,10,8,9,13,Steps,12,E2,E3,15" --,16"
+		return "1,2,3,4,5,6,A1,A3,A4,A10,A16,7,13,Steps,12,E3,15" --,16"
 	else
-		return "1,2,3,4,5,6,7,10,8,9,13,Steps,12,E2,E3" --,16"
+		return "1,2,3,4,5,6,A1,A3,A4,A10,A16,7,13,Steps,12,E3" --,16"
 	end
 end
 
@@ -205,16 +212,16 @@ local vanity_difficulties = {
 		["SPEIRMIX GALAXY"]		= "Expert";
 		["Sudziosis"]			= "Expert";
 		["OutFox"]				= "Expert";
-		["PIU 01 - 1st ~ Perf"]		= "Extra";
-		["PIU 02 - Extra ~ PREX3"]	= "Extra";
-		["PIU 03 - Exceed ~ Zero"]	= "Extra";
-		["PIU 04 - NX ~ NX Absolute"]	= "Extra";
-		["PIU 05 - Fiesta ~ Fiesta 2"]= "Extra";
-		["PIU 06 - Prime"]		= "Extra";
-		["PIU 07 - Prime 2"]		= "Extra";
-		["PIU 08 - XX"]			= "Extra";
-		["PIU 50 - Pro ~ Pro 2"]	= "Extra";
-		["PIU 51 - Infinity"]		= "Extra";
+		["PIU 01 - 1st ~ Perf"]		= "Nightmare";
+		["PIU 02 - Extra ~ PREX3"]	= "Nightmare";
+		["PIU 03 - Exceed ~ Zero"]	= "Nightmare";
+		["PIU 04 - NX ~ NX Absolute"]	= "Nightmare";
+		["PIU 05 - Fiesta ~ Fiesta 2"]= "Nightmare";
+		["PIU 06 - Prime"]		= "Nightmare";
+		["PIU 07 - Prime 2"]		= "Nightmare";
+		["PIU 08 - XX"]			= "Nightmare";
+		["PIU 50 - Pro ~ Pro 2"]	= "Nightmare";
+		["PIU 51 - Infinity"]		= "Nightmare";
 	};
 	Edit = {
 		["PIU 01 - 1st ~ Perf"]		= "Pump";

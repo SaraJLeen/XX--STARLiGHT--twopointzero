@@ -112,7 +112,7 @@ end
 --		LayoutType = "ShowAllInRow",
 --		SelectType = "SelectOne",
 --		OneChoiceForAllPlayers = true,
---		ExportOnChange = false,
+--		ExportOnChange = true,
 --		LoadSelections = function(self, list, pn)
 --			local pref = PREFSMAN:GetPreference("VideoRenderers")
 --

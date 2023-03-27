@@ -13,6 +13,137 @@ function OptionNameString(str)
 	return THEME:GetString('OptionNames',str)
 end
 
+noteskin_replacements = {
+	["angelfish"] = "DDR Angelfish",
+	["beatmania"] = "DDR Beatmania",
+	["bee"] = "DDR Bee",
+	["bird"] = "DDR Bird",
+	["butterfly"] = "DDR Butterfly",
+	["default"] = "SM Default",
+	["defaultsm5"] = "SM Default SM5",
+	["delta"] = "SM Delta",
+	["delta2019"] = "OutFox Delta 2019",
+	["diamond"] = "DDR Diamond",
+	["dinosaur"] = "DDR Dinosaur",
+	["disneygroove"] = "DDR Disney Groove",
+	["easyv2"] = "SM Easy V2",
+	["emi"] = "DDR Emi",
+	["exactv2"] = "SM Exact V2",
+	["foot"] = "DDR Foot",
+	["g-base"] = "DDR G-Base",
+	["kite"] = "DDR Kite",
+	["knight"] = "DDR Knight",
+	["konsento023rd"] = "DDR Konsento-02",
+	["konsento033rd"] = "DDR Konsento-03",
+	["lady3rd"] = "DDR Lady",
+	["lambda"] = "SM Lambda",
+	["lotus"] = "DDR Lotus",
+	["medium"] = "DDR Medium",
+	["midi-note"] = "SM Midi Note",
+	["midi-note-3d"] = "SM Midi Note 3D",
+	["midi-rainbow"] = "SM Midi Rainbow",
+	["midi-routine-p1"] = "SM Midi Routine 1P",
+	["midi-routine-p2"] = "SM Midi Routine 2P",
+	["midi-solo"] = "SM Midi Solo",
+	["midi-vivid"] = "SM Midi",
+	["midi-vivid-3d"] = "SM Midi 3D",
+	["morningglory"] = "DDR Morning Glory",
+	["oshare3rd"] = "DDR Oshare-Zukin",
+	["outfox-color-holds"] = "OutFox Color Holds",
+	["outfox-itg"] = "OutFox ITG",
+	["outfox-itg-3d"] = "OutFox ITG 3D",
+	["outfox-itg-3d+"] = "OutFox ITG 3D+",
+	["outfox-note"] = "OutFox Note",
+	["outfox-note-3d"] = "OutFox Note 3D",
+	["outfox-note-3d+"] = "OutFox Note 3D+",
+	["paw"] = "OutFox Paw",
+	["pixel"] = "DDR Pixel",
+	["planet"] = "DDR Planet",
+	["rage"] = "DDR Rage X",
+	["rage3rd"] = "DDR Rage",
+	["retro"] = "SM Retro",
+	["retrobar"] = "SM Retro Bar",
+	["retrobar-splithand_whiteblue"] = "SM Retro Bar Splithand",
+	["s-core"] = "DDR S-Core",
+	["sch-classic-flat"] = "DDR Classic Flat",
+	["sch-classic-note"] = "DDR Classic Note",
+	["sch-classic-note_freeze"] = "DDR Classic Note Freeze",
+	["sch-classic-rainbow"] = "DDR Classic Rainbow",
+	["sch-classic-rainbow_freeze"] = "DDR Classic Rainbow Freeze",
+	["sch-classic-smnote"] = "DDR Classic SM Mines",
+	["sch-classic-vivid"] = "DDR Classic",
+	["sch-cyber-flat"] = "DDR Cyber Flat",
+	["sch-cyber-note"] = "DDR Cyber Note",
+	["sch-cyber-note_freeze"] = "DDR Cyber Note Freeze",
+	["sch-cyber-rainbow"] = "DDR Cyber Rainbow",
+	["sch-cyber-rainbow_freeze"] = "DDR Cyber Rainbow Freeze",
+	["sch-cyber-smnote"] = "DDR Cyber SM Mines",
+	["sch-cyber-vivid"] = "DDR Cyber Vivid",
+	["sch-normal-flat"] = "DDR Flat",
+	["sch-normal-note"] = "DDR Note",
+	["sch-normal-note_freeze"] = "DDR Note Freeze",
+	["sch-normal-rainbow"] = "DDR Rainbow",
+	["sch-normal-rainbow_freeze"] = "DDR Rainbow Freeze",
+	["sch-normal-smnote"] = "DDR SM Mines",
+	["sch-normal-vivid"] = "DDR",
+	["sch-x-flat"] = "DDR X Flat",
+	["sch-x-note"] = "DDR X Note",
+	["sch-x-note_freeze"] = "DDR X Note Freeze",
+	["sch-x-rainbow"] = "DDR X Rainbow",
+	["sch-x-rainbow_freeze"] = "DDR X Rainbow Freeze",
+	["sch-x-smnote"] = "DDR X SM Mines",
+	["sch-x-vivid"] = "DDR X",
+	["slnexxt-cel"] = "STARLiGHT Cel",
+	["slnexxt-flat"] = "STARLiGHT Flat",
+	["slnexxt-fnf"] = "STARLiGHT Friday Night Funkin'",
+	["slnexxt-note"] = "STARLiGHT Note",
+	["slnexxt-note-sprite"] = "STARLiGHT Note Sprite",
+	["slnexxt-rainbow"] = "STARLiGHT Rainbow",
+	["slnexxt-smnote"] = "STARLiGHT SM Mines",
+	["slnexxt-smnote-sprite"] = "STARLiGHT SM Mines Sprite",
+	["slnexxt-vivid"] = "STARLiGHT",
+	["spaceship"] = "DDR Spaceship",
+	["stair"] = "DDR Stairs",
+	["tracy3rd"] = "DDR Tracy",
+	["trumpet"] = "DDR Trumpet",
+	["tulip"] = "DDR Tulip",
+	["um6"] = "DDR Ultramix 6",
+	["um7"] = "DDR Ultramix 7",
+	["um8"] = "DDR Ultramix 8",
+	["um9"] = "DDR Ultramix 9",
+	["vicviper"] = "DDR Vic Viper",
+	["broadhead"] = "OutFox Broadhead",
+	["broadhead-3d"] = "OutFox Broadhead 3D",
+	["broadhead-3d+"] = "OutFox Broadhead 3D+",
+	["broadhead-columns"] = "OutFox Broadhead Columns",
+	["crystal"] = "OutFox Crystal",
+	["crystal4k"] = "OutFox Crystal 4K",
+	["debugelements"] = "Debug Elements",
+	["exact3d"] = "OutFox Exact 3D",
+	["exactV3"] = "OutFox Exact V3",
+	["fourV2"] = "Outfox Four V2",
+	["glider-note"] = "OutFox Glider Note",
+	["krazy"] = "OutFox Krazy",
+	["krazy-classic"] = "OutFox Krazy Classic",
+	["lambda"] = "OutFox Lambda",
+	["paws"] = "OutFox Paws",
+	["paws-co-op"] = "OutFox Paws Co-op",
+	["paws-simpleholds"] = "OutFox Paws (Simple Holds)",
+	["shadowtip"] = "OutFox ShadowTip",
+	["shadowtip-3d"] = "OutFox ShadowTip 3D",
+	["shadowtip-3d+"] = "OutFox ShadowTip 3D+",
+	["webbed"] = "OutFox Webbed",
+};
+
+function ReplaceLuaNoteSkinNames()
+	newNames = {}
+	local oldNames = NOTESKIN:GetNoteSkinNames()
+	for i = 1, #oldNames do
+		table.insert(newNames,noteskin_replacements[string.lower(oldNames[i])] or oldNames[i])
+	end
+	return newNames
+end
+
 return {
 	AutoSetStyle =
 	{
@@ -306,11 +437,12 @@ return {
 		Default = "default",
 		UserPref = true,
 		OneInRow = true,
-		Choices = NOTESKIN:GetNoteSkinNames(),
+		Choices = ReplaceLuaNoteSkinNames(),
 		Values = NOTESKIN:GetNoteSkinNames(),
+		ExportOnChange = true,
 		LoadFunction = function(self,list,pn)
 			local CurNoteSkin = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):NoteSkin()
-			for i,v2 in ipairs(self.Choices) do
+			for i,v2 in ipairs(self.Values) do
 				if string.lower(tostring(v2)) == string.lower(tostring(CurNoteSkin)) then
 					list[i] = true return
 				end
@@ -318,7 +450,7 @@ return {
 			list[1] = true
 		end,
 		SaveFunction = function(self,list,pn)
-			for i,v2 in ipairs(self.Choices) do
+			for i,v2 in ipairs(self.Values) do
 				if list[i] then
 					GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):NoteSkin(v2)
 				end
@@ -364,6 +496,7 @@ return {
 		UserPref = true,
 		Choices = { THEME:GetString("OptionNames","SpeedX"), THEME:GetString("OptionNames","SpeedA"), THEME:GetString("OptionNames","SpeedM"), THEME:GetString("OptionNames","SpeedC"), THEME:GetString("OptionNames","SpeedCA"), THEME:GetString("OptionNames","SpeedAV") },
 		Values = {"x","a","m","c","ca","av"},
+		ExportOnChange = true,
 		LoadFunction = function(self,list,pn)
 			if GAMESTATE:IsHumanPlayer(pn) then
 				local po = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
@@ -386,6 +519,7 @@ return {
 		UserPref = true,
 		Choices = {" "},
 		Values = {" "},
+		ExportOnChange = true,
 		LoadFunction = function(self,list,pn)
 			list[1] = true
 		end,
@@ -397,6 +531,7 @@ return {
 		Default = 0.25,
 		Choices = fornumrange(0.1,1,0.05),
 		Values = fornumrange(0.1,1,0.05),
+		ExportOnChange = true,
 	},
 	SoundwavesSubTheme =
 	{

@@ -172,7 +172,7 @@ function GetConvertDifficulty(song,style,dif,_metertype,mt)
 	return meter;
 end;
 
-function GetConvertDifficulty_LV100(song,step)
+function GetConvertDifficulty_LV100(song,step,mt)
 	local songlen=math.max(song:GetLastSecond(),1);
 	local bpms=step:GetTimingData():GetActualBPM();
 	local pn=GetSidePlayer(PLAYER_1);
@@ -249,8 +249,12 @@ function GetConvertDifficulty_DDRX(song,step,_metertype)
 	if metertype=='pump' or metertype == '_metertype_pump' then
 		--Trace("Converting Pump meter from "..tostring(meter).."!")
 		--meter = meter / 2.8; --Convert Pump meter size to roughly classic DDR meter size
-		meter = meter / 2.5; --Convert Pump meter size to roughly classic DDR meter size
+		--meter = meter / 2.5; --Convert Pump meter size to roughly classic DDR meter size
+		--meter = meter; --Convert Pump meter size to roughly classic DDR meter size
 		--Trace("Converted meter to "..tostring(meter)..".")
+		--return GetConvertDifficulty_LV100(song,step,"LV20")
+		--return math.floor(meter * 1.25)
+		return meter --Honestly you're not going to get much better than Pump's own meter...
 	end
 	if metertype~='ddr x' then
 		local songlen=math.max(song:GetLastSecond(),90);

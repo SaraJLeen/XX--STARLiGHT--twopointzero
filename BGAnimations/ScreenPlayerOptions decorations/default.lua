@@ -64,6 +64,69 @@ local t = Def.ActorFrame{
 	},
 }
 
+for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
+	-- Notefield Preview Area
+	-- TODO: Until I can deal with regenerating the preview, this has to be disabled.
+	t[#t+1] = Def.ActorFrame {
+		InitCommand=function(self)
+			local nf = self:GetChild("NoteField")
+			if GAMESTATE:GetNumSidesJoined() > 1 then return end
+			nf:halign(0.5)
+			nf:valign(0.5)
+			nf:x( pn == PLAYER_1 and SCREEN_WIDTH * .5 or -SCREEN_WIDTH * .5 )
+			nf:xy(pn == PLAYER_2 and _screen.cx-800 or _screen.cx+800,-800)
+			nf:draworder(-100)
+			nf:zoom(2.0)
+			if GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides" then
+				nf:xy(pn == PLAYER_2 and _screen.cx-680 or _screen.cx+680,0)
+			end
+			SOUND:PlayMusicPart(GAMESTATE:GetCurrentSong():GetMusicPath(),GAMESTATE:GetCurrentSong():GetSampleStart(),-1,0,0,true,true,false,GAMESTATE:GetCurrentSong():GetTimingData())
+			MESSAGEMAN:Broadcast("UpdateNotefield",{ pn = pn, Steps = GAMESTATE:GetCurrentSteps(pn), Style = GAMESTATE:GetCurrentStyle() })
+		end,
+		OnCommand=function(self)
+			self:GetChild("NoteField"):playcommand("CalculatePosition")
+		end,
+		OffCommand=function(self)
+			self:accelerate(0.2)
+			self:diffusealpha(0)
+		end,
+		SetCommand=function(self)
+			MESSAGEMAN:Broadcast("UpdateNotefield",{ pn = pn, Steps = GAMESTATE:GetCurrentSteps(pn), Style = GAMESTATE:GetCurrentStyle() })
+			self:GetChild("NoteField"):playcommand("PlayerOptionChangeMessage");
+		end,
+		SetStepsCommand=function(self)
+			local chartint = -1
+			for k,v in ipairs( GAMESTATE:GetCurrentSong():GetAllSteps() ) do
+				if v == GAMESTATE:GetCurrentSteps(pn) then chartint = k break end
+			end
+			MESSAGEMAN:Broadcast("PlayerSwitchedStep",{ Player = pn, Index = chartint, Song = GAMESTATE:GetCurrentSong() })
+			--MESSAGEMAN:Broadcast("UpdateOnlineChartInfo",{ Player = pn, Steps = GAMESTATE:GetCurrentSteps(pn), Toggle = 0 })
+			self:GetChild("NoteField"):playcommand("PlayerOptionChangeMessage");
+		end,
+	    	MenuLeftP1MessageCommand=function(s) if pn == PLAYER_1 then	s:queuecommand("Set") end end,
+		MenuRightP1MessageCommand=function(s) if pn == PLAYER_1 then s:queuecommand("Set") end end,
+	    	MenuUpP1MessageCommand=function(s) if pn == PLAYER_1 then	s:queuecommand("Set") end end,
+		MenuDownP1MessageCommand=function(s) if pn == PLAYER_1 then s:queuecommand("Set") end end,
+		MenuStartP1MessageCommand=function(s) if pn == PLAYER_1 then s:queuecommand("Set") end end,
+		MenuLeftP2MessageCommand=function(s) if pn == PLAYER_2 then s:queuecommand("Set") end end,
+		MenuRightP2MessageCommand=function(s) if pn == PLAYER_2 then s:queuecommand("Set") end end,
+		MenuUpP2MessageCommand=function(s) if pn == PLAYER_2 then s:queuecommand("Set") end end,
+		MenuDownP2MessageCommand=function(s) if pn == PLAYER_2 then s:queuecommand("Set") end end,
+		MenuStartP2MessageCommand=function(s) if pn == PLAYER_2 then s:queuecommand("Set") end end,
+	    	ChangeRowMessageCommand=function(s,param) s:queuecommand("Set") end,
+		SpeedChoiceChangedMessageCommand=function(s,param) s:queuecommand("Set") end,
+		ChangeCommand=function(s,param) s:queuecommand("Set") end,
+		CurrentStepsP1ChangedMessageCommand=function(s) s:playcommand("SetSteps") end,
+		CurrentStepsP2ChangedMessageCommand=function(s) s:playcommand("SetSteps") end,
+		LoadModule("OptionsNotefield.lua"){
+			Player = pn,
+			Width = 650,
+			Height = 550,
+			isOnline = false,
+		}..{ Name="NoteField" },
+	}
+end
+
 local bars = Def.ActorFrame{}
 
 for i=1,7 do
@@ -150,6 +213,7 @@ local function format_bpm(bpm)
 end
 
 for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
+
 	t[#t+1] = Def.ActorFrame{
 		Def.Sprite {
 			Name="100 char",
@@ -468,7 +532,7 @@ local icol = 2
 if GAMESTATE:GetCurrentStyle():ColumnsPerPlayer() < 2 then
 	icol = 1
 end
-local column = GAMESTATE:GetCurrentStyle():GetColumnInfo( GAMESTATE:GetMasterPlayerNumber(), icol )
+local column = GAMESTATE:GetCurrentStyle():GetColumnInfo( GAMESTATE:GetMasterPlayerNumber(), 3 )
 	for _,v in pairs(NOTESKIN:GetNoteSkinNames()) do
 		local noteskinset = NOTESKIN:LoadActorForNoteSkin( column["Name"] , "Tap Note", v )
 

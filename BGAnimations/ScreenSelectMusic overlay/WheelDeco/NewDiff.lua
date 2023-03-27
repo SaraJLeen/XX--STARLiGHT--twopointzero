@@ -72,6 +72,7 @@ local function DrawDiffListItem(diff)
         local st=GAMESTATE:GetCurrentStyle():GetStepsType()
         local song=GAMESTATE:GetCurrentSong()
         if song then
+          mt = SongAttributes_GetMeterType(song)
           if song:HasStepsTypeAndDifficulty( st, diff ) then
             local steps = song:GetOneSteps( st, diff )
 		if (diff == "Difficulty_Edit") then
@@ -106,7 +107,7 @@ local function DrawDiffListItem(diff)
 				end
 				workstring = "&UP;&UP; 1P: "..meter1.."/2P: "..meter2.." &DOWN;&DOWN;"
 				if mt == '_MeterType_DDR' then
-					--workstring = "&UP;&UP; 1P: Classic "..meter1.."/2P: Classic "..steps2:GetMeter().." &DOWN;&DOWN;"
+					--workstring = "&UP;&UP; 1P: Classic "..meter1.."/2P: Classic "..meter2.." &DOWN;&DOWN;"
 				elseif mt == '_MeterType_DDRX' then
 					--workstring = "&UP;&UP; 1P: DDR "..meter1.."/2P: DDR "..meter2.." &DOWN;&DOWN;"
 				elseif mt == '_MeterType_ITG' then
@@ -261,12 +262,11 @@ local function DrawDiffListItem(diff)
               self:x(-30)
               self:settext( steps:GetMeter() )
 			self:diffuse(Color.White)
-              if(steps:IsAutogen()) then
-				self:diffuse(Color.AutogenStep)
-			elseif convert_meters and (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
+			if convert_meters and (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
 				self:settext( tostring(GetConvertDifficulty_DDRX(song,steps,mt)) )
 				self:diffuse(Color.ConvDiffStep)
 			end
+			if(steps:IsAutogen()) then self:diffuse(Color.AutogenStep) end
 			if false and mt == '_MeterType_Pump' then
 	              self:settext( "Pump "..tostring(steps:GetMeter()).."" )
 				self:x(224)
@@ -297,10 +297,18 @@ local function DrawDiffListItem(diff)
 			s:cropright(1)
             if song then
                 local steps = song:GetOneSteps(GAMESTATE:GetCurrentStyle():GetStepsType(),diff)
+		    mt = SongAttributes_GetMeterType(song)
                 if steps then
 				s:cropright(0)
 				if(steps:IsAutogen()) then
-					s:diffuse(Color.AutogenStep)
+					s:diffusebottomedge(Color.AutogenStep)
+				end
+				meter = steps:GetMeter()
+				if convert_meters and (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then meter = GetConvertDifficulty_DDRX(song,steps,mt) end
+				if meter > 20 then
+					s:rainbow()
+				else
+					s:stopeffect()
 				end
 			end
 		end

@@ -64,7 +64,7 @@ return function(pn)
 		OneChoiceForAllPlayers = true,
 		-- Don't allow the other player take control of this, could lead to unwanted situations.
 		EnabledForPlayers = function() return {pn} end,
-		ExportOnChange = false,
+		ExportOnChange = true,
 		Choices = SmartSort(List(pn)),			-- Obtain the strings for the difficulties
 		Values = SmartSort(List(pn), true),		-- Obtain the raw step objects
 		LoadSelections = function(self, list)
