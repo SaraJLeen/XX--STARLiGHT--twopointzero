@@ -1,17 +1,40 @@
 local steps = GAMESTATE:GetCurrentSteps(GAMESTATE:GetMasterPlayerNumber())
 local timer = SCREENMAN:GetTopScreen():GetChild("Timer"):GetSeconds()
 
+--local sortorders = {
+--	"Title",
+--	"Genre",
+--	"Group",
+--	"BPM",
+--	"Artist",
+--	"Recent",
+--	"EasyMeter",
+--	"TopGrades",
+--	"Popularity",
+--	"Preferred",
+--}
 local sortorders = {
-	"Title",
-	"Genre",
 	"Group",
-	"BPM",
-	"Artist",
-	"Recent",
-	"EasyMeter",
-	"TopGrades",
 	"Popularity",
-	"Preferred",
+	"Recent",
+	"TopGrades",
+	"Title",
+	"Artist",
+	"BPM",
+	"EasyMeter",
+	"Length",
+	"Genre",
+--	"Preferred",
+	"BeginnerMeter",
+	"EasyMeter",
+	"MediumMeter",
+	"HardMeter",
+	"ChallengeMeter",
+	"DoubleBeginnerMeter",
+	"DoubleEasyMeter",
+	"DoubleMediumMeter",
+	"DoubleHardMeter",
+	"DoubleChallengeMeter",
 }
 local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
 local curIndex = 1;
@@ -137,9 +160,9 @@ local function MakeItem(sortorders, idx)
 			Font="_avenirnext lt pro bold/25px";
 			InitCommand=function(s)
 				local DisplayName = THEME:GetString("MusicWheel",sortorders.."Text")
-				if idx == 7 then
-					DisplayName = "Choose by\nLEVEL."
-				end
+				--if idx == 7 then
+				--	DisplayName = "Choose by\nLEVEL."
+				--end
 				s:settext(DisplayName):wrapwidthpixels(200)
 				if idx%2 == 0 then
 					s:x(20)
