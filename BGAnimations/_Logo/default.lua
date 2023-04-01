@@ -1,7 +1,7 @@
 local main = "main.png"
 if ANNOUNCER:GetCurrentAnnouncer() == "DDR Extreme Customized AF" then ANNOUNCER:SetCurrentAnnouncer("DDR Extreme Customized") end
 
-if MonthOfYear() == 4 and DayOfMonth() == 1 then
+if (MonthOfYear()+1) == 4 and DayOfMonth() == 1 then
   main = "itg_main.png"
   if ANNOUNCER:GetCurrentAnnouncer() == "DDR Extreme Customized" then ANNOUNCER:SetCurrentAnnouncer("DDR Extreme Customized AF") end
 end

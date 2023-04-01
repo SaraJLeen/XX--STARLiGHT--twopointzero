@@ -85,10 +85,11 @@ function getenv(name) return GAMESTATE:Env()[name] end
 function HasVideo()
 	local song = nil
 	if GAMESTATE:IsCourseMode() then
-		song = GAMESTATE:GetCurrentCourse():GetCourseEntry(GAMESTATE:GetCourseSongIndex()):GetSong()
+		return nil -- song = GAMESTATE:GetCurrentCourse():GetCourseEntry(GAMESTATE:GetCourseSongIndex()):GetSong()
 	else
 		song = GAMESTATE:GetCurrentSong()
 	end
+	if not song then return nil end
 	VideoFileType = {"mp4","avi","mov","m2ts","m2v","wmv","mpg","mpeg","mkv"}
 	local videoPath = ""
 	for _,v in pairs(VideoFileType) do

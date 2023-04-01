@@ -1,5 +1,5 @@
 local function getmenubgloader()
-    if MonthOfYear() == 4 and DayOfMonth() == 1 then
+    if (MonthOfYear()+1) == 4 and DayOfMonth() == 1 then
 	  return "ITG1"
     end
 	return ThemePrefs.Get("MenuBG")

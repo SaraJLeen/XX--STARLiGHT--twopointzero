@@ -1,5 +1,6 @@
 return function(args)
 	local pn = args.Player
+
 	if not GAMESTATE:GetCurrentStyle() then
 		lua.ReportScriptError("we don't have a style.")
 		return
@@ -12,7 +13,7 @@ return function(args)
 	local receptposreve = THEME:GetMetric("Player","ReceptorArrowsYReverse")
 	local yoffset = receptposreve-receptposnorm
 	local notefieldmid = (receptposnorm + receptposreve)/2
-	local PlayerOptions = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Current")
+	local PlayerOptions = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
 	local height_ratio = SCREEN_HEIGHT/480
 	
 	-- Some handlers
@@ -150,7 +151,7 @@ return function(args)
 	            InitCommand= function(self)
 	                self:y(200+notefieldmid) -- (STANDARD plus REVERSE) / 2
 					:visible( GAMESTATE:IsPlayerEnabled(pn) and GAMESTATE:GetCurrentSteps(pn) ~= nil )
-	                -- PlayerOptions = self:GetPlayerOptions('ModsLevel_Current')
+	                -- PlayerOptions = self:GetPlayerOptions('ModsLevel_Preferred')
 					if true then --PrefsManager:Get("BeatBars",false) then
 	                	self:SetBeatBars(true)
 	                	self:SetStopBars(true)
@@ -159,9 +160,9 @@ return function(args)
 	            end,
 	            OnCommand=function(self)
 	                local tempstate = GAMESTATE:GetPlayerState(pn)
-	                local modstring = tempstate:GetPlayerOptionsString("ModsLevel_Current")
+	                local modstring = tempstate:GetPlayerOptionsString("ModsLevel_Preferred")
 	                
-					lastNoteSkin = tempstate:GetPlayerOptions("ModsLevel_Current"):NoteSkin()
+					lastNoteSkin = tempstate:GetPlayerOptions("ModsLevel_Preferred"):NoteSkin()
 
 					lastStyle = GAMESTATE:GetCurrentStyle(pn):GetName()
 					
@@ -193,10 +194,10 @@ return function(args)
 					:playcommand("UpdateDataNoteField",{ pn = params.pn, Steps = params.Steps, Style = params.Style })
 				end,
 				HidePreviewMessageCommand=function(self)
-					local newstate = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Current")
+					local newstate = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
 					if GAMESTATE:GetCurrentSteps( pn ) and lastNoteSkin ~= newstate:NoteSkin() then
 						lastNoteSkin = newstate:NoteSkin()	-- Update the new noteskin
-						self:ChangeReload( GAMESTATE:GetCurrentSteps( pn ), GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Current"):NoteSkin() )
+						self:ChangeReload( GAMESTATE:GetCurrentSteps( pn ), GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred"):NoteSkin() )
 					end
 				end,
 				UpdateDataNoteFieldCommand=function(self,params)
@@ -248,7 +249,7 @@ return function(args)
 					if not GAMESTATE:IsPlayerEnabled(pn) then return end
 
 	                local tempstate = GAMESTATE:GetPlayerState(pn)
-	                local modstring = tempstate:GetPlayerOptionsString("ModsLevel_Current")
+	                local modstring = tempstate:GetPlayerOptionsString("ModsLevel_Preferred")
 	                
 					if params and params.UpdateMods then
 	                self:ModsFromString("clearall")
@@ -256,7 +257,7 @@ return function(args)
 					end
 	                
 	                -- Calculate mini perception
-	                local op = tempstate:GetPlayerOptions("ModsLevel_Current")
+	                local op = tempstate:GetPlayerOptions("ModsLevel_Preferred")
 	                self:zoom( 1 - (op:Mini() / 2) )
 	    
 	                -- There's probably a better way to calculate this, but it's 2am
@@ -289,7 +290,7 @@ return function(args)
 	
 		t[#t+1] = Def.Sprite{
 		InitCommand=function(self)
-			self.Pop = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Current")
+			self.Pop = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
 			local isrev = self.Pop:Reverse() > 0
 
 			self:SetTexture( self:GetParent():GetChild("Player"):GetTexture() )

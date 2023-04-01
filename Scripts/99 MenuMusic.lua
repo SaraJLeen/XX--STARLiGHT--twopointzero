@@ -89,7 +89,9 @@ do
 	end
 	function GetMenuMusicPath(type, relative)
 		--Trace("GetMusicPath1");
-		if MonthOfYear() == 4 and DayOfMonth() == 1 then
+		--Trace("Month: "..tostring((MonthOfYear()+1)).." Day: "..tostring(DayOfMonth())..".")
+		--It does number day correctly but month is 1 behind
+		if (MonthOfYear()+1) == 4 and DayOfMonth() == 1 then
 			local new_file_af = nil
 			if type == "common" or type == "music" then new_file_af = "GroupMusic/group/IIDX Gold (loop).ogg" end
 			if type == "profile" or type == "results" then new_file_af = "GroupMusic/group/IIDX Gold Alt (loop).ogg" end
