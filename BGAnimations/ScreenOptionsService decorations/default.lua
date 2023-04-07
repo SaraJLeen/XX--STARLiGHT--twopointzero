@@ -18,7 +18,9 @@ t[#t+1] = Def.ActorFrame{
 	OnCommand=function(s) s:draworder(-10):addy(SCREEN_HEIGHT):sleep(0.2):decelerate(0.2):addy(-SCREEN_HEIGHT) end,
 	OffCommand=function(s) s:accelerate(0.2):addy(-SCREEN_HEIGHT) end,
 	Def.ActorFrame{
-		InitCommand=function(s) s:xy(_screen.cx,SCREEN_CENTER_Y-90) end,
+		InitCommand=function(s) s:xy(_screen.cx,SCREEN_CENTER_Y-90)
+			SetUserPref("RandomRNG",'true');
+		end,
 		Def.ActorFrame{
 			InitCommand=function(s) s:diffusealpha(0.5) end,
 			Def.Quad{
