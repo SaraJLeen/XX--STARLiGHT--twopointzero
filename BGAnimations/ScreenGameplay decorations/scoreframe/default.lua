@@ -141,6 +141,7 @@ t[#t+1] = Def.ActorFrame{
 							meter = GetConvertDifficulty_DDRX(GAMESTATE:GetCurrentSong(),GAMESTATE:GetCurrentSteps(pn),mt)
 						end
 						s:settext(meter)
+						end
 					end;
 					CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
 				};

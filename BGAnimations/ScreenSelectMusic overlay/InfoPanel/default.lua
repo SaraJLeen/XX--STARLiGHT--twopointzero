@@ -176,7 +176,13 @@ local function DifficultyPanel()
                     end
                     if steps then
                         if not GAMESTATE:IsCourseMode() then
-                            c.Text_meter:settext(steps:GetMeter()):visible(true)
+                            local meter = steps:GetMeter()
+							if meter % 1 == 0 then
+								c.Text_meter:settext(meter)
+							else
+								c.Text_meter:settext(string.format("%.1f", meter))
+							end
+                            c.Text_meter:visible(true)
                         end
                         if GAMESTATE:GetCurrentSong() then
                           c.Text_difficulty:settext(GetDifficultyName(diff,GAMESTATE:GetCurrentSong())):visible(true)
