@@ -21,6 +21,7 @@ return function()
         "DMX\n\nSingle (4 sensors)\nDouble (8 sensors)",
         "StepStage\n\nTwin (3 panel rows)\nSingle (6 panels)",
         --"lights",
+        "Boxing",
         "KickBox\n\nHuman\nQuadarm\nInsect\nArachnid"
     }
 
@@ -43,6 +44,7 @@ return function()
         "maniax",
         "stepstage",
         --"lights", -- should change this to another screen option.
+        "boxing",
         "kickbox"
     }
 	

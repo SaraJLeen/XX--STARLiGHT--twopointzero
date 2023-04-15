@@ -325,10 +325,13 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 		mt = SongAttributes_GetMeterType(GAMESTATE:GetCurrentSong())
 		if (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
 			meter = GetConvertDifficulty_DDRX(GAMESTATE:GetCurrentSong(),GAMESTATE:GetCurrentSteps(pn),mt)
-							else
-								self:settext(string.format("%.1f", meter))
 		end
-          self:settext(meter):strokecolor(Color.Black)
+		if meter % 1 == 0 then
+			self:settext(meter)
+		else
+			self:settext(string.format("%.1f", meter))
+		end
+          self:strokecolor(Color.Black)
         end;
       };
     };

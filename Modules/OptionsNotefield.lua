@@ -49,6 +49,15 @@ return function(args)
 	        self:zoom(height_ratio):EnableAlphaBuffer(true)
 			:SetSize( args.Width * 2, args.Height * 2 ):Create()
 	    end,
+		PlayerSwitchedStepMessageCommand=function(self,params)
+			if params.Player ~= pn then return end
+			if type(params.Song) == "string" then
+				-- lua.ReportScriptError("not song")
+				self:stoptweening():linear(0.1):diffusealpha(0)
+				return
+			end
+			self:stoptweening():linear(0.1):diffusealpha(1)
+		end,
 	    Def.ActorFrame{
 	        InitCommand=function(self)
 				self:x( args.Width )

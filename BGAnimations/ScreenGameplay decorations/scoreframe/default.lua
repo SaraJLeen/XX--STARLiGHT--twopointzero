@@ -140,7 +140,10 @@ t[#t+1] = Def.ActorFrame{
 						if (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
 							meter = GetConvertDifficulty_DDRX(GAMESTATE:GetCurrentSong(),GAMESTATE:GetCurrentSteps(pn),mt)
 						end
-						s:settext(meter)
+						if meter % 1 == 0 then
+							s:settext(meter)
+						else
+							s:settext(string.format("%.1f", meter))
 						end
 					end;
 					CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
