@@ -56,7 +56,7 @@ local XXcredits= {
 		name= "CODING + PROGRAMMING",
 		"Inorizushi",
 		"tertu",
-        "SheepyChris",
+		"SheepyChris",
 		"",
 		{type= "subsection", name= "along with..."},
 		"kenP",

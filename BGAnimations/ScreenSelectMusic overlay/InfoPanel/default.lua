@@ -177,11 +177,7 @@ local function DifficultyPanel()
                     if steps then
                         if not GAMESTATE:IsCourseMode() then
                             local meter = steps:GetMeter()
-							if meter % 1 == 0 then
-								c.Text_meter:settext(meter)
-							else
-								c.Text_meter:settext(string.format("%.1f", meter))
-							end
+                            c.Text_meter:settext(IsMeterDec(meter))
                             c.Text_meter:visible(true)
                         end
                         if GAMESTATE:GetCurrentSong() then

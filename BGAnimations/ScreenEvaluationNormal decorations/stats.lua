@@ -61,8 +61,10 @@ t[#t+1] = Def.ActorFrame{
     Texture="judgments.png",
     InitCommand=function(s) s:y(22)
       if NoBads then
-      if ex_score then
+        if ex_score then
         s:Load(THEME:GetPathB("ScreenEvaluationNormal","decorations/judgments ex"))
+        end
+      else
       end
       else
         if ex_score then

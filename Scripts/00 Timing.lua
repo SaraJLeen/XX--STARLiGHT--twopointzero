@@ -26,7 +26,10 @@ TimingWindow[#TimingWindow+1] = function()
 			['TapNoteScore_W2']=0.0340, -- Perfect
 			['TapNoteScore_W3']=0.0840, -- Great
 			['TapNoteScore_W4']=0.1240, -- Good
+<<<<<<< HEAD
 			['TapNoteScore_W5']=0.1666, -- Boo
+=======
+>>>>>>> remotes/upstream/main
 			['TapNoteScore_HitMine']=0.0900, -- Dunno this value, use Original.
 			['TapNoteScore_Attack']=0.1350, -- Dunno this value, use Original.
 			['TapNoteScore_Hold']=0.2500, -- Dunno this value, use Original.

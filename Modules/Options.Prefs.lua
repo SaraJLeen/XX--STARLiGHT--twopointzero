@@ -1,14 +1,24 @@
 local Rates = {
+<<<<<<< HEAD
 	Val = {},
 	Str = {},
 }
 for i = 0.3, 2.01, 0.01 do
 	table.insert( Rates.Val, string.format( "%.2f",i ) )	
 	table.insert( Rates.Str, string.format( "%.2fx",i ) )	
+=======
+    Val = {},
+    Str = {},
+}
+for i = 0.3, 2.01, 0.01 do
+    table.insert( Rates.Val, string.format( "%.2f",i ) )
+    table.insert( Rates.Str, string.format( "%.2fx",i ) )
+>>>>>>> remotes/upstream/main
 end
 --table.insert( Rates.Str, "Haste" )
 --table.insert( Rates.Val, "haste" )
 
+<<<<<<< HEAD
 function OptionNameString(str)
 	return THEME:GetString('OptionNames',str)
 end
@@ -902,4 +912,15 @@ return {
 			end
 		end
 	}
+=======
+
+return {
+    SmartTimings =
+    {
+        GenForUserPref = true,
+        Default = TimingModes[2],
+        Choices = TimingModes,
+        Values = TimingModes
+    }
+>>>>>>> remotes/upstream/main
 }

@@ -39,6 +39,26 @@ t[#t+1] = StatsEngine()
 local LoadingScreen = Var "LoadingScreen"
 local lastAnnouncer = ANNOUNCER:GetCurrentAnnouncer()
 
+if getenv("RiskyMode") == 1 then
+	for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
+		t[#t+1] = Def.ActorFrame{
+			OnCommand=function(s)
+				local screen = SCREENMAN:GetTopScreen()
+				Battery = screen:GetLifeMeter(pn)
+			end,
+			JudgmentMessageCommand=function(self, params)
+				if params.Player ~= pn then return end
+				if params.TapNoteScore or params.HoldNoteScore then
+					local Tap = params.TapNoteScore
+					if Tap == "TapNoteScore_W3" or Tap == "TapNoteScore_W4" then
+						Battery:ChangeLives(-1)
+					end
+				end
+			end,
+		}
+	end
+end
+
 t[#t+1] = Def.ActorFrame {
 	OffCommand=function(s)
 		local st = STATSMAN:GetCurStageStats()
@@ -190,7 +210,7 @@ for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
       t[#t+1] = loadfile(THEME:GetPathB("ScreenGameplay","decorations/SpeedKill"))();
     end
     if not trailHasAppearanceMode then
-      t[#t+1] = loadfile(THEME:GetPathB("ScreenGameplay","decorations/Towel"))(pn);
+		t[#t+1] = loadfile(THEME:GetPathB("ScreenGameplay","decorations/Towel"))(pn);
     end
   else
     t[#t+1] = loadfile(THEME:GetPathB("ScreenGameplay","decorations/SpeedKill"))();

@@ -6,6 +6,7 @@ local screen = Var("LoadingScreen")
 local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
 if TimingMode == "Original" then TimingMode = "StepMania" end
 
+
 local t = LoadFallbackB();
 
 t[#t+1] = StandardDecorationFromFileOptional("StageDisplay","StageDisplay");
@@ -326,12 +327,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 		if (mt ~= '_MeterType_DDRX' and mt ~= '_MeterType_Default') then
 			meter = GetConvertDifficulty_DDRX(GAMESTATE:GetCurrentSong(),GAMESTATE:GetCurrentSteps(pn),mt)
 		end
-		if meter % 1 == 0 then
-			self:settext(meter)
-		else
-			self:settext(string.format("%.1f", meter))
-		end
-          self:strokecolor(Color.Black)
+		self:settext(IsMeterDec(meter)):strokecolor(Color.Black)
         end;
       };
     };
