@@ -1,11 +1,12 @@
 local loader
 local function getbgloader()
-	if (GetUserPref("OptionRowGameplayBackground")=='DanceStages' and VideoStage()) and (GAMESTATE:GetCurrentSong() and GAMESTATE:GetCurrentSong():HasBGChanges()) then
+	--Trace("Option: "..tostring(GetUserPref("OptionRowGameplayBackground")).." | BGChanges: "..tostring(GAMESTATE:GetCurrentSong():HasBGChanges()).." ("..tostring(#GAMESTATE:GetCurrentSong():GetBGChanges())..") | HasVideo: "..tostring(HasVideo()).." | VideoStage: "..tostring(VideoStage()).." | Song: "..tostring(GAMESTATE:GetCurrentSong()).."")
+	if (GetUserPref("OptionRowGameplayBackground")=='DanceStages' and VideoStage() and (GAMESTATE:GetCurrentSong() and (GAMESTATE:GetCurrentSong():HasBGChanges() or #GAMESTATE:GetCurrentSong():GetBGChanges()>0 or HasVideo()))) then
 		Trace("Using dancestage loader; there is a video, but this is a video stage")
 		loader = "DanceStages"
 		SetUserPref("RandomRNG",'false');
 		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_RandomMovies');
-	elseif (GAMESTATE:GetCurrentSong() and GAMESTATE:GetCurrentSong():HasBGChanges()) then
+	elseif (GAMESTATE:GetCurrentSong() and (GAMESTATE:GetCurrentSong():HasBGChanges() or #GAMESTATE:GetCurrentSong():GetBGChanges()>0 or HasVideo())) then
 		Trace("Using BG loader because there is a video")
 		loader = "Background"
 		SetUserPref("RandomRNG",'false');

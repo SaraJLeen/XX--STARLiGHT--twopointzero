@@ -28,11 +28,7 @@ local OLDJudgeCmds = {
 	TapNoteScore_W2 = THEME:GetMetric( "Judgment", "JudgmentW2Command" );
 	TapNoteScore_W3 = THEME:GetMetric( "Judgment", "JudgmentW3Command" );
 	TapNoteScore_W4 = THEME:GetMetric( "Judgment", "JudgmentW4Command" );
-<<<<<<< HEAD
     TapNoteScore_W5 = THEME:GetMetric( "Judgment", "JudgmentW5Command" );
-=======
-	TapNoteScore_W5 = THEME:GetMetric( "Judgment", "JudgmentW5Command" );
->>>>>>> remotes/upstream/main
 	TapNoteScore_Miss = THEME:GetMetric( "Judgment", "JudgmentMissCommand" );
 };
 

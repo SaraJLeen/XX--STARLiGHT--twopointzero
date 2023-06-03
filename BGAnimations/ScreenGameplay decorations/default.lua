@@ -210,7 +210,7 @@ for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
       t[#t+1] = loadfile(THEME:GetPathB("ScreenGameplay","decorations/SpeedKill"))();
     end
     if not trailHasAppearanceMode then
-		t[#t+1] = loadfile(THEME:GetPathB("ScreenGameplay","decorations/Towel"))(pn);
+      t[#t+1] = loadfile(THEME:GetPathB("ScreenGameplay","decorations/Towel"))(pn);
     end
   else
     t[#t+1] = loadfile(THEME:GetPathB("ScreenGameplay","decorations/SpeedKill"))();

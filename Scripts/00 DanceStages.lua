@@ -25,13 +25,12 @@ function DancerMateEnabled()
 end
 
 function gFOV()
-	if THEME:GetMetric("Common", "ScreenHeight") >= 480 then
-		return 88.8
+	if THEME:GetMetric("Common", "ScreenHeight") >= 1080 then
+		return 91.3
 	elseif THEME:GetMetric("Common", "ScreenHeight") >= 720 then
 		return 90
-	elseif THEME:GetMetric("Common", "ScreenHeight") >= 1080 then
-		return 91.3
 	end
+	return 88.8
 end
 
 function ResetCamera()
@@ -346,6 +345,9 @@ function SelectDanceStage()
     return t;
 end;
 
+function VoverS()
+	return true
+end
 
 function BoomSync()
 	local t = {

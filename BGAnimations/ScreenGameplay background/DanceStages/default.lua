@@ -38,7 +38,8 @@ local t = Def.ActorFrame{
 ------- DANCESTAGE LOADER -------
 local DanceStage = DSLoader()
 
-if (VideoStage() and GAMESTATE:GetCurrentSong():HasBGChanges()) or (not GAMESTATE:GetCurrentSong():HasBGChanges()) then
+--if (VideoStage() and GAMESTATE:GetCurrentSong():HasBGChanges() and not PotentialModSong()) or (not GAMESTATE:GetCurrentSong():HasBGChanges()) then
+if (not HasVideo() and not PotentialModSong()) or (HasVideo() and VideoStage() and not PotentialModSong()) or (HasVideo() and not VideoStage() and not VoverS()) then
 	
 ------- DANCESTAGE LOADER 1 -------
 
