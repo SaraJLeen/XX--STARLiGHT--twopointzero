@@ -55,10 +55,16 @@ function setting(self,screen,pn)
 	end
 end;
 
+local song_bpms= {}
+local bpm_text= "??? - ???"
+local function format_bpm(bpm)
+	return ("%.0f"):format(bpm)
+end
+
 local t = Def.ActorFrame{
 	Def.Quad{
 		Condition=Var"LoadingScreen" == "ScreenPlayerOptionsPopup",
-		InitCommand=function(s) s:FullScreen():diffuse(Alpha(Color.Black,0)) end,
+		InitCommand=function(s) s:FullScreen():diffuse(Alpha(Color.Black,0)):draworder(-11) end,
 		OnCommand=function(s) s:smooth(0.3):diffusealpha(0.5) end,
 		OffCommand=function(s) s:smooth(0.3):diffusealpha(0) end,
 	},
@@ -163,6 +169,9 @@ t[#t+1] = Def.ActorFrame{
 };
 
 for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
+	local function p(text)
+		return text:gsub("%%", ToEnumShortString(pn));
+	end
 	t[#t+1] = Def.ActorFrame{
 		InitCommand=function(s) s:xy(pn == PLAYER_1 and _screen.cx-320 or _screen.cx+320,SCREEN_BOTTOM-100) end,
 		OnCommand=function(s) s:diffusealpha(1):sleep(0.05):diffusealpha(0):sleep(0.05):diffusealpha(1):sleep(0.05):diffusealpha(0):sleep(0.05):diffusealpha(1):sleep(0.05):diffusealpha(0):sleep(0.05):linear(0.05):diffusealpha(1) end,
@@ -180,31 +189,103 @@ for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
 	        		setting(self,screen,pn);
 	      		end;
 	    	end;
-	    	MenuLeftP1MessageCommand=function(s) 
-				if pn == PLAYER_1 then
-					s:playcommand("Set")
-				end
-			end,
-			MenuRightP1MessageCommand=function(s) 
-				if pn == PLAYER_1 then
-					s:playcommand("Set")
-				end
-			end,
-			MenuLeftP2MessageCommand=function(s) 
-				if pn == PLAYER_2 then
-					s:playcommand("Set")
-				end
-			end,
-			MenuRightP2MessageCommand=function(s) 
-				if pn == PLAYER_2 then
-					s:playcommand("Set")
-				end
-			end,
+	    	[p"MenuLeft%MessageCommand"]=function(s) s:playcommand("Set") end,
+			[p"MenuRight%MessageCommand"]=function(s) s:playcommand("Set") end,
 	    	ChangeRowMessageCommand=function(s,param)
         	    if param.PlayerNumber == pn then s:playcommand "Set"; end;
         	end;
 	  	};
 	};
+	t[#t+1] = Def.BitmapText{
+		File="_avenirnext lt pro bold/25px",
+		Name="Speed Mod";
+		InitCommand=function(s) s:xy(pn == PLAYER_1 and _screen.cx-630 or _screen.cx+630,_screen.cy-400):draworder(-9)
+			:uppercase(true):halign(pn == PLAYER_1 and 0 or 1):strokecolor(color("0,0,0,0.25")):diffusealpha(0)
+		end,
+		OnCommand=function(s) s:sleep(0.4):decelerate(0.2):diffusealpha(1) end,
+		OffCommand=function(s) s:accelerate(0.2):diffusealpha(0) end,
+		ArbitrarySpeedModsSavedMessageCommand=function(s,p)
+			if p.Player == pn then
+				s:playcommand("Adjust")
+			end
+		end,
+		AdjustCommand=function(self)
+			local poptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
+			local speed= nil
+			local mode= nil
+			if poptions:MaxScrollBPM() > 0 then
+				mode= "M"
+				speed= math.round(poptions:MaxScrollBPM())
+			elseif poptions:TimeSpacing() > 0 then
+				mode= "C"
+				speed= math.round(poptions:ScrollBPM())
+			elseif poptions:AverageScrollBPM() > 0 then
+				mode= "A"
+				speed= math.round(poptions:AverageScrollBPM())
+			elseif poptions:XMod() > 0 then
+				mode= "x"
+				speed= math.round(poptions:ScrollSpeed() * 100)
+			else
+				mode= "what"
+				speed= 69
+			end
+			-- Courses don't have GetDisplayBpms.
+			if GAMESTATE:GetCurrentSong() then
+				song_bpms= GAMESTATE:GetCurrentSong():GetDisplayBpms()
+				song_bpms[1]= math.round(song_bpms[1])
+				song_bpms[2]= math.round(song_bpms[2])
+				if song_bpms[1] == song_bpms[2] then
+					bpm_text= format_bpm(song_bpms[1])
+				else
+					bpm_text= format_bpm(song_bpms[1]) .. " - " .. format_bpm(song_bpms[2])
+				end
+			end
+			local text= ""
+			local no_change= true
+			if mode == "x" then
+				if not song_bpms[1] then
+					text= "??? - ???"
+				elseif song_bpms[1] == song_bpms[2] then
+					text= "x"..(speed/100).." ("..format_bpm(song_bpms[1] * speed*.01)..")"
+				else
+					text= "x"..(speed/100).." ("..format_bpm(song_bpms[1] * speed*.01) .. " - " ..
+						format_bpm(song_bpms[2] * speed*.01)..")"
+				end
+				no_change= speed == 100
+			elseif mode == "C" then
+				text= mode .. speed
+				no_change= speed == song_bpms[2] and song_bpms[1] == song_bpms[2]
+			elseif mode == "M" then
+				no_change= speed == song_bpms[2]
+				if song_bpms[1] == song_bpms[2] then
+					text= mode .. speed
+				else
+					local factor= song_bpms[1] / song_bpms[2]
+					text= format_bpm(speed * factor) .. " - " .. speed
+				end
+			elseif mode == "A" then 
+				no_change= speed == song_bpms[2]
+				if song_bpms[1] == song_bpms[2] then
+					text= mode .. speed
+				else
+					local factor= math.average({song_bpms[1], song_bpms[2]})
+					text= speed .. " - " .. format_bpm(factor)
+				end
+			else
+				text = "??? What speed mod are you using? Like. Actually."
+			end
+			if GAMESTATE:IsCourseMode() then
+				if mode == "x" then
+					text = "x"..(speed/100)
+				else
+					text = mode .. speed
+				end
+				self:settext("Current Velocity: "..text)
+			else
+				self:settext("Current Velocity: "..text):zoom(1)
+			end
+		end;
+	}
 end
 
 local bpm_text= "??? - ???"

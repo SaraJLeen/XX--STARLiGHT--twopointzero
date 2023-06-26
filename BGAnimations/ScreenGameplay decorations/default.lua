@@ -40,6 +40,7 @@ local LoadingScreen = Var "LoadingScreen"
 local lastAnnouncer = ANNOUNCER:GetCurrentAnnouncer()
 
 if getenv("RiskyMode") == 1 then
+	if SN3Debug then SCREENMAN:SystemMessage("Risky+ Enabled!") end
 	for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 		t[#t+1] = Def.ActorFrame{
 			OnCommand=function(s)
