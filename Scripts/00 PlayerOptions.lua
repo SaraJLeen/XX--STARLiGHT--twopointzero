@@ -69,7 +69,7 @@ end
 -- Parses a speed mod and returns the pair (type, number) or nil if parsing
 -- failed.
 local function CanonicalizeMod(mod)
-	local num = tonumber(mod:match("^(%d+.?%d*)[xX]$"))
+	num = tonumber(mod:match("^(%d+.?%d*)[xX]$"))
 	if num ~= nil then
 		return "x", num
 	end
@@ -82,16 +82,6 @@ local function CanonicalizeMod(mod)
 	num = tonumber(mod:match("^[mM](%d+.?%d*)$"))
 	if num ~= nil then
 		return "m", num
-	end
-
-	num = tonumber(mod:match("^[aA](%d+.?%d*)$"))
-	if num ~= nil then
-		return "a", num
-	end
-
-	num = tonumber(mod:match("^[cC][aA](%d+.?%d*)$"))
-	if num ~= nil then
-		return "ca", num
 	end
 
 	return nil
@@ -129,7 +119,7 @@ local function ModTableToList(mods)
 	end
 
 	-- C- and m-mods
-	for _, modtype in ipairs({"C", "m", "a", "ca"}) do
+	for _, modtype in ipairs({"C", "m"}) do
 		tmp = {}
 		for mod, _ in pairs(mods[modtype]) do
 			table.insert(tmp, mod)
@@ -364,16 +354,7 @@ function GetSpeedModeAndValueFromPoptions(pn)
 	local poptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
 	local speed= nil
 	local mode= nil
-	if poptions:AverageScrollBPM() > 0 then
-		mode= "a"
-		speed= math.round(poptions:AverageScrollBPM())
-	elseif poptions:AverageVelocityBPM() > 0 then
-		mode= "av"
-		speed= math.round(poptions:AverageVelocityBPM())
-	elseif poptions:ConstAverageScrollBPM() > 0 then
-		mode= "ca"
-		speed= math.round(poptions:ConstAverageScrollBPM())
-	elseif poptions:MaxScrollBPM() > 0 then
+	if poptions:MaxScrollBPM() > 0 then
 		mode= "m"
 		speed= math.round(poptions:MaxScrollBPM())
 	elseif poptions:TimeSpacing() > 0 then
@@ -395,7 +376,7 @@ function ArbitrarySpeedMods()
 		LayoutType= "ShowAllInRow",
 		SelectType= "SelectMultiple",
 		OneChoiceForAllPlayers= false,
-		ExportOnChange = true,
+		ExportOnChange = false,
 		LoadSelections= function(self, list, pn)
 			-- The first values display the current status of the speed mod.
 			if pn == PLAYER_1 or self.NumPlayers == 1 then
