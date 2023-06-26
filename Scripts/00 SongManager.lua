@@ -1492,7 +1492,8 @@
 	else
 		-- Extended random -- all official stages
 		-- local RDS = math.random(1,7)
-		local RDS = math.random(1,54)
+		--local RDS = math.random(1,54) --All stages including video stages
+		local RDS = math.random(1,42) --No video stages
 			if RDS == 1 then
 			return "(X) BOOM BOOM BOOM"
 		elseif RDS == 2 then
@@ -1560,41 +1561,42 @@
 		elseif RDS == 33 then
 			return "(HP) WAVE CELL"
 		elseif RDS == 34 then
-			return "(HP2) COSMISPHERE"
-		elseif RDS == 35 then
 			return "(HP2) ECHOS"
-		elseif RDS == 36 then
+		elseif RDS == 35 then
 			return "(HP2) PSYCHE"
-		elseif RDS == 37 then
+		elseif RDS == 36 then
 			return "(HP2) REFLEXION"
-		elseif RDS == 38 then
-			return "(HP2) WIRED"
-		elseif RDS == 39 then
+		elseif RDS == 37 then
 			return "(HP3) Success Colors"
-		elseif RDS == 40 then
+		elseif RDS == 38 then
 			return "(HP3) Underground"
-		elseif RDS == 41 then
+		elseif RDS == 39 then
 			return "(HP4) Infernal White"
-		elseif RDS == 42 then
+		elseif RDS == 40 then
 			return "(HP4) Mainframe"
-		elseif RDS == 43 then
-			return "(REPLICANT) DARK BLUE"
-		elseif RDS == 44 then
-			return "(REPLICANT) DARK PURPLE"
-		elseif RDS == 45 then
-			return "(REPLICANT) LIGHT BLUE"
-		elseif RDS == 46 then
-			return "(REPLICANT) LIGHT GRAY"
-		elseif RDS == 47 then
-			return "(REPLICANT) LIGHT PURPLE"
-		elseif RDS == 48 then
-			return "(REPLICANT) RED"
-		elseif RDS == 49 then
-			return "(X) CAPTURE ME"
-		elseif RDS == 50 then
+		elseif RDS == 41 then
 			return "(X2) CLUB"
-		elseif RDS == 51 then
+		elseif RDS == 42 then
 			return "(X2) FLOOR"
+		--Video stages below
+		elseif RDS == 43 then
+			return "(HP2) COSMISPHERE"
+		elseif RDS == 44 then
+			return "(HP2) WIRED"
+		elseif RDS == 45 then
+			return "(REPLICANT) DARK BLUE"
+		elseif RDS == 46 then
+			return "(REPLICANT) DARK PURPLE"
+		elseif RDS == 47 then
+			return "(REPLICANT) LIGHT BLUE"
+		elseif RDS == 48 then
+			return "(REPLICANT) LIGHT GRAY"
+		elseif RDS == 49 then
+			return "(REPLICANT) LIGHT PURPLE"
+		elseif RDS == 50 then
+			return "(REPLICANT) RED"
+		elseif RDS == 51 then
+			return "(X) CAPTURE ME"
 		elseif RDS == 52 then
 			return "(X2) MOVIE BLACK"
 		elseif RDS == 53 then

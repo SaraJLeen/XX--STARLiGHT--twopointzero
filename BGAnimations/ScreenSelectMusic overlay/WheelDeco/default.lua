@@ -368,27 +368,30 @@ return Def.ActorFrame{
     InitCommand=function(s)
       s:diffusealpha(0);
       s:x(548);
-      s:y(400);
+      s:y(414);
       s:halign(1.0);
+      s:valign(1.0);
       s:zoom(0.75)
       s:strokecolor(Color.Black)
       s:settext( "" );
       s:maxwidth(410);
+      s:maxheight(60);
+      s:vertspacing(-14)
     end,
     OnCommand=function(s)
       s:sleep(0.5)
       s:decelerate(0.5)
-      s:y(440);
+      s:y(454);
       s:zoom(1)
       s:diffusealpha(1);
     end,
     OffCommand=function(s)
       s:decelerate(0.0)
-      s:y(440);
+      s:y(454);
       s:zoom(1)
       s:diffusealpha(1);
       s:decelerate(0.2)
-      s:y(440);
+      s:y(454);
       s:zoom(0.75)
       s:diffusealpha(0);
     end,
@@ -397,7 +400,8 @@ return Def.ActorFrame{
       if song then
         group = song:GetGroupName()
         if group == "<Favorites>" then group = string.match(song:GetSongDir(), "/Songs/(.-)/") end
-        s:settext( SongAttributes_GetGroupName(group) );
+        --s:settext( SongAttributes_GetGroupName(group) );
+	s:settext( get_subgroup_name( SongAttributes_GetGroupName( group ), song ) );
         s:diffuse( SongAttributes_GetGroupColor(group) );
       else
         s:settext( "" );

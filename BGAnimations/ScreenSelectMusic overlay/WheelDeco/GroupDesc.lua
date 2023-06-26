@@ -2,6 +2,7 @@ local t = Def.ActorFrame{};
 
 local function GetMWGroupDesc(song,so,mw)
 	if not mw then return "" end
+	if GAMESTATE:GetCurrentSong() or mw:GetSelectedType() == 'WheelItemDataType_Song' then return "" end
 	if mw:GetSelectedType() == 'WheelItemDataType_Random' then
 		return "Randomizes the order of the music wheel and then spins it, selecting whatever song it stops on.\n\nThe Random feature was first introduced in Dance Dance Revolution 2ndMIX under the name Roulette, which would later be used as the name of a different feature starting with DDR MAX.\n\nNotably, in that game, an alternate version of PARANOiA MAX was hidden in the roulette with different charts.\n\nIn DDR, this option would select a random song immediately. Unfortunately, OutFox does not currently support this behavior, instead making it more similar to Roulette in behavior, albeit much more random in effect."
 	elseif mw:GetSelectedType() =='WheelItemDataType_Roulette' then
