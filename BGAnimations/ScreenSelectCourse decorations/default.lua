@@ -130,7 +130,7 @@ t[#t+1] = Def.ActorFrame{
 		InitCommand = function(s) s:xy(320,54):maxwidth(120):zoom(0.65):align(0.5,0) end,
 		SetCommand = function(self)
 			local curTrail = GAMESTATE:GetCurrentTrail(GAMESTATE:GetMasterPlayerNumber())
-			if curTrail:IsSecret() then
+			if curTrail == nil or curTrail:IsSecret() then
 				self:settext("???")
 			else
 				local bpmlow = {}

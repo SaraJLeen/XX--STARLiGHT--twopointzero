@@ -7,9 +7,9 @@ local LastStyle = nil
 
 --Banner cache has been disabled because of severe artifacting it can cause
 local cached_banners = false
-local cached_jackets = false
-local cached_folder_banners = false
-local cached_folder_jackets = false
+local cached_jackets = true
+local cached_folder_banners = true
+local cached_folder_jackets = true
 
 return Def.ActorFrame{
 --Jacket

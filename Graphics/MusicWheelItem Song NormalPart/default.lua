@@ -1,3 +1,5 @@
+if GAMESTATE:IsCourseMode() then return Def.ActorFrame{} end
+
 local t = Def.ActorFrame{}
 
 local jk = LoadModule"Jacket.lua"

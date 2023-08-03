@@ -88,9 +88,17 @@ local function InputHandler(event)
 	if event.type == "InputEventType_Release" and player ~= nil and GAMESTATE:IsPlayerEnabled(player) then
 		if (event.GameButton == "Select")  then holding_select = false; end
 	end
-	if holding_select and event.type == "InputEventType_FirstPress" and player ~= nil and GAMESTATE:IsPlayerEnabled(player) then
+	if holding_select and event.type == "InputEventType_FirstPress" and MusicWheel ~= nil and player ~= nil and GAMESTATE:IsPlayerEnabled(player) and GAMESTATE:GetCurrentSong() ~= nil then
 		if (event.GameButton == "MenuUp") then
-			GetFaveSongs(player,true)
+			--GetFaveSongs(player,true)
+			local song = GAMESTATE:GetCurrentSong()
+			if PROFILEMAN:GetProfile(player):SongIsFavorite(song) then
+				--MESSAGEMAN:Broadcast("AddedFave")
+				SOUND:PlayOnce(THEME:GetPathS("GameplayAssist", "metronome measure"), true);
+			elseif PROFILEMAN:GetProfile(player):SongIsFavorite(song) ~= true then
+				--MESSAGEMAN:Broadcast("RemovedFave")
+				SOUND:PlayOnce(THEME:GetPathS("GameplayAssist", "metronome beat"), true);
+			end
 		end
 	end
   end
@@ -150,12 +158,12 @@ return Def.ActorFrame{
     playTopPressedActor()
     resetPressedActors()
   end;
-	AddedFaveMessageCommand=function(self)
-		SOUND:PlayOnce(THEME:GetPathS("GameplayAssist", "metronome measure"), true);
-	end;
-	RemovedFaveMessageCommand=function(self)
-		SOUND:PlayOnce(THEME:GetPathS("GameplayAssist", "metronome beat"), true);
-	end;
+	--AddedFaveMessageCommand=function(self)
+	--	SOUND:PlayOnce(THEME:GetPathS("GameplayAssist", "metronome measure"), true);
+	--end;
+	--RemovedFaveMessageCommand=function(self)
+	--	SOUND:PlayOnce(THEME:GetPathS("GameplayAssist", "metronome beat"), true);
+	--end;
   loadfile(THEME:GetPathB("","_cursor"))();
 };
 

@@ -364,7 +364,7 @@ local function AllPlayersReady()
 		end
 	end
 	-- if it hasn't returned false by now, surely it must be true, right? RIGHT???
-	ClearFaveCache()
+	--ClearFaveCache()
 	return true
 end
 

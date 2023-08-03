@@ -15,26 +15,22 @@ t[#t+1] = Def.ActorFrame{
 				ArtistChild:settext(wheelsong:GetDisplayArtist()):diffuse(MenuColor):strokecolor(ColorDarkTone(MenuColor))
 			end
 			--Trace("Setting stuff for song "..tostring(p.Song)..".");
-			if (FaveCount(PLAYER_1) + FaveCount(PLAYER_2)) > 0 then
-				local isFave = IsFavorite(wheelsong)
-				if isFave == 1 then
-					s:GetChild("Favorite"):visible(true):diffuse(GetFavoritesColor(PLAYER_1))
-				elseif isFave == 2 then
-					s:GetChild("Favorite"):visible(true):diffuse(GetFavoritesColor(PLAYER_2))
-				elseif isFave == 3 then
-					s:GetChild("Favorite"):visible(true):diffuse(Color.White):diffusetopedge(GetFavoritesColor(PLAYER_1)):diffusebottomedge(GetFavoritesColor(PLAYER_2))
-				else
-					s:GetChild("Favorite"):visible(false):diffuse(Color.White)
-				end
+			local isFave = IsFavorite(wheelsong)
+			if isFave == 1 then
+				s:GetChild("Favorite"):visible(true):diffuse(GetFavoritesColor(PLAYER_1))
+			elseif isFave == 2 then
+				s:GetChild("Favorite"):visible(true):diffuse(GetFavoritesColor(PLAYER_2))
+			elseif isFave == 3 then
+				s:GetChild("Favorite"):visible(true):diffuse(Color.White):diffusetopedge(GetFavoritesColor(PLAYER_1)):diffusebottomedge(GetFavoritesColor(PLAYER_2))
 			else
 				s:GetChild("Favorite"):visible(false):diffuse(Color.White)
 			end
 			--Trace("isFave is now "..tostring(isFave)..".");
 		end
 	end,
-	InitCommand=function(s) isFave = -1; s:queuecommand("Set") end,
-	AddedFaveMessageCommand=function(s) isFave = -1; s:queuecommand("Set") end,
-	RemovedFaveMessageCommand=function(s) isFave = -1; s:queuecommand("Set") end,
+	InitCommand=function(s) s:queuecommand("Set") end,
+	AddedFaveMessageCommand=function(s) s:queuecommand("Set") end,
+	RemovedFaveMessageCommand=function(s) s:queuecommand("Set") end,
 
 	Def.Sprite{
 		Texture="backing",

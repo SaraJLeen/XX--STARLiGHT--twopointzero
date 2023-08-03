@@ -1,3 +1,4 @@
+--[[
 local GetFileContents = function(path)
 	local contents = ""
 
@@ -105,32 +106,32 @@ function table_bininsert(t, value, fcomp)
 	table.insert( t,(iMid+iState),value )
 	return (iMid+iState)
 end
+--]]
 
 function FaveCount(pn)
-	if pn == PLAYER_1 and (not isFaveCacheP1) then GetFaveSongs(PLAYER_1) end
-	if pn == PLAYER_2 and (not isFaveCacheP2) then GetFaveSongs(PLAYER_2) end
-	if pn == PLAYER_1 then return faveCountP1 end
-	if pn == PLAYER_2 then return faveCountP2 end
-	return 0
+	--if pn == PLAYER_1 and (not isFaveCacheP1) then GetFaveSongs(PLAYER_1) end
+	--if pn == PLAYER_2 and (not isFaveCacheP2) then GetFaveSongs(PLAYER_2) end
+	--if pn == PLAYER_1 then return faveCountP1 end
+	--if pn == PLAYER_2 then return faveCountP2 end
+	--return 0
+	return #PROFILEMAN:GetProfile(pn):GetFavorites()
 end
 
 function IsFavorite(song)
+	--local ret = 0
+	--value = string.lower(song:GetSongDir())
+	--if not isFaveCacheP1 then GetFaveSongs(PLAYER_1) end
+	--if not isFaveCacheP2 then GetFaveSongs(PLAYER_2) end
+	--if table_binsearch(faveCacheP1,value) then ret = ret+1 end
+	--if table_binsearch(faveCacheP2,value) then ret = ret+2 end
+	--return ret
 	local ret = 0
-	value = string.lower(song:GetSongDir())
-	if not isFaveCacheP1 then GetFaveSongs(PLAYER_1) end
-	if not isFaveCacheP2 then GetFaveSongs(PLAYER_2) end
-	if table_binsearch(faveCacheP1,value) then ret = ret+1 end
-	if table_binsearch(faveCacheP2,value) then ret = ret+2 end
-	--for i = 1, #faveCacheP1 do
-	--	if faveCacheP1[i] == value then ret = ret+1 break end
-	--end
-	--for i = 1, #faveCacheP2 do
-	--	if faveCacheP2[i] == value then ret = ret+2 break end
-	--end
-	--Trace("Checking favorite status for "..value.."... "..tostring(ret)..".")
+	if PROFILEMAN:GetProfile(PLAYER_1):SongIsFavorite(song) then ret = ret+1 end
+	if PROFILEMAN:GetProfile(PLAYER_2):SongIsFavorite(song) then ret = ret+2 end
 	return ret
 end
 
+--[[
 function GetFaveSongs(pn,force)
 	local profileDir
 	if not force then
@@ -179,6 +180,7 @@ function GetFaveSongs(pn,force)
 	--PrintTable(faveSongs)
 	return faveSongs
 end
+--]]
 
 function GetFavoritesColor(get_pn)
 	for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do

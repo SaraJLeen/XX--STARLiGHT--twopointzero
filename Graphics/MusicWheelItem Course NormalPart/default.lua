@@ -24,6 +24,7 @@ return Def.ActorFrame{
 		Name="SongBanner";
 		InitCommand=function(s) s:scaletoclipped(512,160) end,
 		SetMessageCommand=function(self,params)
+			if not GAMESTATE:IsCourseMode() then return end
 			self:LoadFromCourse(params.Course);
 		end;
 	};

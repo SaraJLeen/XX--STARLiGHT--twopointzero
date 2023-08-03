@@ -52,7 +52,7 @@ t[#t+1] = Def.ActorFrame{
 		SetMessageCommand=function(self, param)
 			self:settext("")
 			local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
-			if not mw then return end
+			if not mw then self:GetChild("Favorite"):visible(false) return end
 			if mw:GetSelectedType() ~= 'WheelItemDataType_Portal' then return end
 			if not GAMESTATE:GetCurrentSong() then return end
 			self:settext(GAMESTATE:GetCurrentSong():GetDisplayFullTitle());
@@ -108,6 +108,28 @@ t[#t+1] = Def.ActorFrame{
 		end,
 		CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
 	},
+	Def.Sprite{
+		Name="Favorite",
+		Texture="fave",
+		InitCommand=function(s) s:halign(0):xy(-474+25,0+2):visible(false):diffuse(Color.White):zoom(0.5) end,
+		SetMessageCommand=function(s, p)
+			wheelsong = GAMESTATE:GetCurrentSong()
+			if wheelsong then
+				local isFave = IsFavorite(wheelsong)
+				if isFave == 1 then
+					s:visible(true):diffuse(GetFavoritesColor(PLAYER_1))
+				elseif isFave == 2 then
+					s:visible(true):diffuse(GetFavoritesColor(PLAYER_2))
+				elseif isFave == 3 then
+					s:visible(true):diffuse(Color.White):diffusetopedge(GetFavoritesColor(PLAYER_1)):diffusebottomedge(GetFavoritesColor(PLAYER_2))
+				else
+					s:visible(false):diffuse(Color.White)
+				end
+			else
+				s:visible(false):diffuse(Color.White)
+			end
+		end,
+	};
 };
 
 return t;

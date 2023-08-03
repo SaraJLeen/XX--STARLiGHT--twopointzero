@@ -1,7 +1,9 @@
+if GAMESTATE:IsCourseMode() then return Def.ActorFrame{} end
+
 local t = Def.ActorFrame{}
 
-local wheel = ThemePrefs.Get("WheelType");
+local jk = LoadModule"Jacket.lua"
 
-t[#t+1] = LoadActor(wheel.."/default.lua")
+t[#t+1] = LoadActor(ThemePrefs.Get("WheelType").."/default.lua",jk)
 
 return t;
