@@ -65,8 +65,6 @@ t[#t+1] = Def.ActorFrame{
           s:Load(THEME:GetPathB("ScreenEvaluationNormal","decorations/judgments ex"))
         end
       else
-      end
-      else
         if ex_score then
           s:Load(THEME:GetPathB("ScreenEvaluationNormal","decorations/judgments ex almost"))
         else

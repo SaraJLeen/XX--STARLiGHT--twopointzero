@@ -361,7 +361,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
         self:xy(pn=="PlayerNumber_P2" and SCREEN_RIGHT-134 or SCREEN_LEFT+134,_screen.cy-310)
         self:settext(name)
       end;
-    }
+    };
   }
 end;
 
