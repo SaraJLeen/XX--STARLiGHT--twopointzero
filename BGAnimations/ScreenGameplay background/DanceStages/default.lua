@@ -4,7 +4,7 @@
 --Author: Enciso0720
 --Last Update: 20220126
 
-local StagesFolder="/DanceStages/"
+local StagesFolder=DanceStagesFolder
 
 local t = Def.ActorFrame{
 	SPos = GAMESTATE:GetSongPosition();

@@ -284,7 +284,7 @@ end
 
 function GetAllDanceStagesNames()
     local DanceStagesList = {}
-    local _DanceStagesList = FILEMAN:GetDirListing("/DanceStages/", true, false)
+    local _DanceStagesList = FILEMAN:GetDirListing(DanceStagesFolder, true, false)
     table.remove(_DanceStagesList,IndexKey(_DanceStagesList,"StageMovies"))
     -- SortList(_DanceStagesList,DanceStagesList,"%(A%)")
     -- SortList(_DanceStagesList,DanceStagesList,"%(X2%)")

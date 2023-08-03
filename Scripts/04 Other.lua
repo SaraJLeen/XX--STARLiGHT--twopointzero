@@ -1,3 +1,6 @@
+--DanceStagesFolder = "/DanceStages/"
+DanceStagesFolder = "/Appearance/DanceStages/"
+
 function UseStaticBackground()
 	if ReadPrefFromFile("OptionRowGameplayBackground") ~= nil then
 		if GetUserPref("OptionRowGameplayBackground")=='DanceStages' then

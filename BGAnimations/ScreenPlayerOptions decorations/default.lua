@@ -331,8 +331,8 @@ for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
 					-- Trace("Charname: "..charName..". Name: "..name)
 					-- Trace("Name: "..name)
 					if (name) and (name ~= "") and (string.lower(name) ~= "default") and (string.lower(name) ~= "random") then
-						if FILEMAN:DoesFileExist("/DanceStages/"..name.."/card.png") then
-							self:Load("/DanceStages/"..name.."/card.png")
+						if FILEMAN:DoesFileExist(DanceStagesFolder..name.."/card.png") then
+							self:Load(DanceStagesFolder..name.."/card.png")
 			    	 			self:scaletofit(0,0,268,640)
 							self:xy(pn == PLAYER_1 and _screen.cx-800 or _screen.cx+800,SCREEN_TOP+896)
 				    			self:finishtweening();
