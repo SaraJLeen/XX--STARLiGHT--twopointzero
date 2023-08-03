@@ -1048,144 +1048,8 @@ function StepsListing()
 	return t
 end
 
---[[function Gauge()
-	local choice_names = {'Normal', 'Life4', 'Risky', 'Risky+'}
-
-	if not GAMESTATE:IsCourseMode() then
-		if IsExtraStage1() then 
-			choice_names = {'Life4', 'Risky', 'Risky+'}
-		elseif IsExtraStage2() then
-			choice_names = {'Risky', 'Risky+'}
-		end
-	end
-	
-	local t = {
-		Name="Gauge",
-		LayoutType = "ShowAllInRow",
-		SelectType = "SelectOne",
-		OneChoiceForAllPlayers = false,
-		ExportOnChange = true,
-		Choices = choice_names,
-		LoadSelections = function(self, list, pn)
-			local thing = GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Preferred")
-			local poptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
-			local soptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Song")
-			local stoptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Stage")
-			local coptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Current")
-			
-			if not IsAnExtraStage() then
-				--FUCK IT. CHECK THEM ALL. I FUCKING HATE THIS SHIT. WHY DOESN'T THIS SHIT JUST APPLY TO POPTIONS AND BE DONE WITH IT. WHOSE FUCKING IDEA WAS THIS.
-				if coptions:LifeSetting(0) then
-					list[1] = true
-					SCREENMAN:SystemMessage("Should be Normal")
-				elseif  coptions:LifeSetting(1) then
-					if coptions:BatteryLives(1) then
-						list[2] = true
-						SCREENMAN:SystemMessage("Should be LIFE4")
-					elseif coptions:BatteryLives(1) then
-						if getenv("RiskyMode") == 0 then
-							list[3] = true
-							SCREENMAN:SystemMessage("Should be RISKY")
-						else
-							list[4] = true
-							SCREENMAN:SystemMessage("Should be RISKY+")
-						end
-					else
-						list[1] = true
-						SCREENMAN:SystemMessage("Shit's Fucked.")
-					end
-				else
-					list[1] = true
-					SCREENMAN:SystemMessage("Shit's Fucked.")
-				end
-			elseif IsExtraStage1() then
-				if poptions:BatteryLives() == 1 then
-					if getenv('RiskyMode') == 0 then
-						list[2] = true
-					else
-						list[3] = true
-					end
-				else
-					list[1] = true
-				end
-			else
-				list[1] = true
-			end
-			SCREENMAN:SystemMessage(thing)
-		end,
-		SaveSelections = function(self, list, pn)
-			local poptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
-			local soptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Song")
-			local stoptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Stage")
-			local coptions= GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Current")
-			if not IsAnExtraStage() then
-				if list[1] then
-					poptions:LifeSetting(0)
-					soptions:LifeSetting(0)
-					stoptions:LifeSetting(0)
-					coptions:LifeSetting(0)
-					setenv("RiskyMode",0)
-					SCREENMAN:SystemMessage("Should be Normal")
-				elseif list[2] then
-					poptions:LifeSetting(1)
-					poptions:BatteryLives(4)
-					soptions:LifeSetting(1)
-					soptions:BatteryLives(4)
-					stoptions:LifeSetting(1)
-					stoptions:BatteryLives(4)
-					coptions:LifeSetting(1)
-					coptions:BatteryLives(4)
-					setenv("RiskyMode",0)
-				elseif list[3] then
-					poptions:LifeSetting(1)
-					poptions:BatteryLives(1)
-					soptions:LifeSetting(1)
-					soptions:BatteryLives(1)
-					stoptions:LifeSetting(1)
-					stoptions:BatteryLives(1)
-					coptions:LifeSetting(1)
-					coptions:BatteryLives(1)
-					setenv("RiskyMode",0)
-				elseif list[4] then
-					poptions:LifeSetting(1)
-					poptions:BatteryLives(1)
-					soptions:LifeSetting(1)
-					soptions:BatteryLives(1)
-					stoptions:LifeSetting(1)
-					stoptions:BatteryLives(1)
-					coptions:LifeSetting(1)
-					coptions:BatteryLives(1)
-					setenv("RiskyMode",1)
-				end
-			elseif IsExtraStage1() then
-				if list[2] then
-					poptions:LifeSetting(1)
-					poptions:BatteryLives(1)
-					setenv("RiskyMode",0)
-				elseif list[3] then
-					poptions:LifeSetting(1)
-					poptions:BatteryLives(1)
-					setenv("RiskyMode",1)
-				else
-					poptions:LifeSetting(1)
-					poptions:BatteryLives(4)
-					setenv("RiskyMode",0)
-				end
-			elseif IsExtraStage2() then
-				if list[2] then
-					setenv("RiskyMode",1)
-				end
-				poptions:LifeSetting(1)
-				poptions:BatteryLives(1)
-			end
-		end,
-	};
-	setmetatable(t, t)
-	return t
-end]]
-
 function Gauge()
-	local choice_names = {'Normal', 'Life4', 'Risky'}
+	local choice_names = {'Normal', 'Life4', 'Risky', 'Risky+'}
 
 	if not GAMESTATE:IsCourseMode() then
 		if IsExtraStage1() then 
@@ -1204,15 +1068,19 @@ function Gauge()
 		Choices = choice_names,
 		LoadSelections = function(self, list, pn)
 			local po = GAMESTATE:GetPlayerState(pn):GetPlayerOptionsArray("ModsLevel_Preferred")
-			
+			local poptions = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
 			if not IsAnExtraStage() then
 				if table.search(po, '4Lives') then
-					list[2] = true
-				elseif table.search(po, '1Lives') then
-					list[3] = true
+					 list[2] = true
+				elseif table.search(po, "1Lives") then
+					if getenv("RiskyMode") == 1 then
+						list[4] = true
+					else
+						list[3] = true
+					end
 				else
 					list[1] = true
-				end
+				end	
 			elseif IsExtraStage1() then
 				if table.search(po, '1Lives') then
 					list[2] = true
@@ -1225,14 +1093,20 @@ function Gauge()
 		end,
 		SaveSelections = function(self, list, pn)
 			local mod = ''
-			
+			local poptions = GAMESTATE:GetPlayerState(pn):GetPlayerOptions("ModsLevel_Preferred")
 			if not IsAnExtraStage() then
 				if list[2] then
-					mod = '4 lives,battery,failimmediate'
+					mod = '4 lives,battery'
+					setenv("RiskyMode",0)
 				elseif list[3] then
-					mod = '1 lives,battery,failimmediate'
+					mod = '1 lives,battery'
+					setenv("RiskyMode",0)
+				elseif list[4] then
+					mod = '1 lives,battery'
+					setenv("RiskyMode",1)
 				else
-					mod = 'bar,failimmediate'
+					mod = 'bar'
+					setenv("RiskyMode",0)
 				end
 			elseif IsExtraStage1() then
 				if list[2] then
@@ -1246,12 +1120,14 @@ function Gauge()
 			
 			if mod ~= '' then
 				GAMESTATE:ApplyPreferredModifiers(pn, mod)
+				SCREENMAN:SystemMessage(GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Preferred"))
 			end
 		end,
 	};
 	setmetatable(t, t)
 	return t
 end
+
 
 function ListChooser()
 	local t = {
