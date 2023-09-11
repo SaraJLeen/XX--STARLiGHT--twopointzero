@@ -305,8 +305,7 @@ for i, item in ipairs(menu_items) do
 				end,
 				ShowLeftCommand= function(s) s:visible(true) end,
 				HideLeftCommand= function(s) s:visible(false) end,
-				PressLeftCommand= cmd(stoptweening; linear, .2; zoom, 2; linear, .2;
-															zoom, 1),
+				PressLeftCommand= function(s) s:stoptweening():linear(.2):zoom(2):linear(.2):zoom(1),
 			}
 			value_args[#value_args+1]= Def.ActorMultiVertex{
 				InitCommand= function(self)
@@ -322,8 +321,7 @@ for i, item in ipairs(menu_items) do
 				end,
 				ShowRightCommand= function(s) s:visible(true) end,
 				HideRightCommand= function(s) s:visible(false) end,
-				PressRightCommand= cmd(stoptweening; linear, .2; zoom, 2; linear, .2;
-															zoom, 1),
+				PressRightCommand= functions(s) s:stoptweening():linear(.2):zoom(2):linear(.2):zoom(1),
 			}
 		end
 		menuitemnew = Def.ActorFrame(value_args)

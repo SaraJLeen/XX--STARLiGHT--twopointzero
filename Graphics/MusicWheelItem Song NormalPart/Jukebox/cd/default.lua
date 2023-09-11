@@ -5,10 +5,10 @@ local t = Def.ActorFrame {
 	-- --CD Mask
 	-- Def.ActorFrame{
 	-- 	Name="CdMask";
-	-- 	InitCommand=cmd();
+	-- 	InitCommand=function(s);
 	-- 	Def.Sprite..{
 	--              Texture=THEME:GetPathG("", "MusicWheelItem Song NormalPart/cd/cd_mask"),
-	-- 		OnCommand=cmd(blend,'BlendMode_NoEffect';zwrite,true;clearzbuffer,false;);
+	-- 		OnCommand=function(s) s:blend('BlendMode_NoEffect'):zwrite(true):clearzbuffer(false),
 	-- 	};
 	-- };
 

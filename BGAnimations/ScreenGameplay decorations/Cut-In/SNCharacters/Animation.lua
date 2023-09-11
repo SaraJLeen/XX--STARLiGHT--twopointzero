@@ -173,7 +173,7 @@ Def.ActorFrame {
 	-- Left 1
 	Def.Sprite{
 		Texture="_Circles",
-		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
+		InitCommand=function(self) self:diffusealpha(0):blend('BlendMode_Add'):vertalign('VertAlign_Top'),
 		PopupCommand=function(self)
 			self:finishtweening();
 			self:sleep(0.17);
@@ -190,7 +190,7 @@ Def.ActorFrame {
 	-- Right 1
 	Def.Sprite{
 		Texture="_Circles",
-		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
+		InitCommand=function(self) self:diffusealpha(0):blend('BlendMode_Add'):vertalign('VertAlign_Top'),
 		PopupCommand=function(self)
 			self:finishtweening();
 			self:sleep(0.17);
@@ -207,7 +207,7 @@ Def.ActorFrame {
 	-- Center 2 Right
 	Def.Sprite{
 		Texture="_Circles",
-		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
+		InitCommand=function(self) self:diffusealpha(0):blend('BlendMode_Add'):vertalign('VertAlign_Top'),
 		PopupCommand=function(self)
 			self:finishtweening();
 			self:sleep(0.33);
@@ -224,7 +224,7 @@ Def.ActorFrame {
 	-- Center 2 Left
 	Def.Sprite{
 		Texture="_Circles",
-		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
+		InitCommand=function(self) self:diffusealpha(0):blend('BlendMode_Add'):vertalign('VertAlign_Top'),
 		PopupCommand=function(self)
 			self:finishtweening();
 			self:sleep(0.33);
@@ -241,7 +241,7 @@ Def.ActorFrame {
 	-- Right 3
 	Def.Sprite{
 		Texture="_Circles",
-		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
+		InitCommand=function(self) self:diffusealpha(0):blend('BlendMode_Add'):vertalign('VertAlign_Top'),
 		PopupCommand=function(self)
 			self:finishtweening();
 			self:sleep(0.53);
@@ -258,7 +258,7 @@ Def.ActorFrame {
 	-- Left 3 big
 	Def.Sprite{
 		Texture="_Circles",
-		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
+		InitCommand=function(self) self:diffusealpha(0):blend('BlendMode_Add'):vertalign('VertAlign_Top'),
 		PopupCommand=function(self)
 			self:finishtweening();
 			self:sleep(0.5);
@@ -275,7 +275,7 @@ Def.ActorFrame {
 	-- Left 4
 	Def.Sprite{
 		Texture="_Circles",
-		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
+		InitCommand=function(self) self:diffusealpha(0):blend('BlendMode_Add'):vertalign('VertAlign_Top'),
 		PopupCommand=function(self)
 			self:finishtweening();
 			self:sleep(0.63);
@@ -292,7 +292,7 @@ Def.ActorFrame {
 	-- Right 4 small
 	Def.Sprite{
 		Texture="_Circles",
-		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
+		InitCommand=function(self) self:diffusealpha(0):blend('BlendMode_Add'):vertalign('VertAlign_Top'),
 		PopupCommand=function(self)
 			self:finishtweening();
 			self:sleep(0.63);
@@ -309,7 +309,7 @@ Def.ActorFrame {
 	-- Right 5 big
 	Def.Sprite{
 		Texture="_Circles",
-		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
+		InitCommand=function(self) self:diffusealpha(0):blend('BlendMode_Add'):vertalign('VertAlign_Top'),
 		PopupCommand=function(self)
 			self:finishtweening();
 			self:sleep(0.86);
@@ -326,7 +326,7 @@ Def.ActorFrame {
 	-- Left 5
 	Def.Sprite{
 		Texture="_Circles",
-		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
+		InitCommand=function(self) self:diffusealpha(0):blend('BlendMode_Add'):vertalign('VertAlign_Top'),
 		PopupCommand=function(self)
 			self:finishtweening();
 			self:sleep(0.86);

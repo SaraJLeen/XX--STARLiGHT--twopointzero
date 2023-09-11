@@ -33,7 +33,7 @@ if potentialVideo then
     loadWorked = true
 	Def.Sprite{
 		Texture=potentialVideo,
-		InitCommand=cmd(FullScreen);	
+		InitCommand=function(s) s:FullScreen(),
 	};
 
 end
