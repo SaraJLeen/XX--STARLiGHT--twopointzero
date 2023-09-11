@@ -43,21 +43,21 @@ if (not HasVideo() and not PotentialModSong()) or (HasVideo() and VideoStage() a
 	
 ------- DANCESTAGE LOADER 1 -------
 
-t[#t+1] = LoadActor(StagesFolder..DanceStage.."/LoaderA.lua" )
+t[#t+1] = loadfile(StagesFolder..DanceStage.."/LoaderA.lua" )()
 
 -------------- CHARACTERS --------------
 
-t[#t+1] = LoadActor("Characters");
+t[#t+1] = loadfile(THEME:GetPathB("ScreenGameplay","background/DanceStages/Characters"))()
 
 ------- DANCESTAGE LOADER 2 -------
 
 if FILEMAN:DoesFileExist(StagesFolder..DanceStage.."/LoaderB.lua") then
-	t[#t+1] = LoadActor(StagesFolder..DanceStage.."/LoaderB.lua" )
+	t[#t+1] = loadfile(StagesFolder..DanceStage.."/LoaderB.lua" )()
 end
 
 ------- CAMERA -------
 
-	t[#t+1] = LoadActor(StagesFolder..DanceStage.."/Cameras.lua" )
+	t[#t+1] = loadfile(StagesFolder..DanceStage.."/Cameras.lua" )()
 
 
 	CamRan=1

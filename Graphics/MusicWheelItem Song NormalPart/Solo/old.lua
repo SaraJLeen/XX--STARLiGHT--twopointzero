@@ -104,7 +104,7 @@ t[#t+1] = Def.ActorFrame{
 for pn in EnabledPlayers() do
     t[#t+1] = Def.ActorFrame{
         OnCommand=function(s) s:x(pn==PLAYER_1 and -257 or 257) end,
-        LoadActor("../diff.lua", "Solo/diff.png", pn, 0.6);
+        loadfile("../diff.lua")("Solo/diff.png", pn, 0.6);
         Def.Sprite{
             Texture=ex.."Diff Outline.png";
             InitCommand=function(s) s:zoomx(pn==PLAYER_1 and 1 or -1) end,

@@ -2,7 +2,7 @@ return function(args)
 	local pn = args.Player
 
 	if not GAMESTATE:GetCurrentStyle() then
-		lua.ReportScriptError("we don't have a style.")
+		--lua.ReportScriptError("we don't have a style.")
 		return
 	end
 	-- Load preview notefield

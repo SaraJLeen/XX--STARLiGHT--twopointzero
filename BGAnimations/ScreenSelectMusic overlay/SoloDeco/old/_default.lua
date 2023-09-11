@@ -57,7 +57,7 @@ for pn in EnabledPlayers() do
 			InitCommand=function(s) s:y(10):blend(Blend.Add):zoom(1.35):diffuse(ColorMidTone(PlayerColor(pn))):diffusealpha(0.75) end,
 		};
         create_ddr_groove_radar("radar",0,20,pn,350,Alpha(PlayerColor(pn),0.25));
-        LoadActor(THEME:GetPathB("ScreenSelectMusic","overlay/_ShockArrow/default.lua"),pn)..{
+        loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/_ShockArrow/default.lua"))(pn)..{
             InitCommand=function(s)
                 s:zoom(0.6):xy(pn==PLAYER_1 and -260 or 260,130)
             end,
@@ -176,7 +176,7 @@ for pn in EnabledPlayers() do
 		}
 	end
 	if PREFSMAN:GetPreference("OnlyDedicatedMenuButtons") then
-		PS[#PS+1] = LoadActor("../InfoPanel",pn)..{
+		PS[#PS+1] = loadfile("../InfoPanel")(pn)..{
 			InitCommand=function(s) s:visible(false):y(_screen.cy+320):zoom(0.8):addx(pn==PLAYER_1 and 80 or -80) end,
 		};
 	end
@@ -297,7 +297,7 @@ return Def.ActorFrame{
                 end
             end,
         };
-        LoadActor("../DefaultDeco/BPM.lua",0)..{
+        loadfile("../DefaultDeco/BPM.lua")(0)..{
             InitCommand=function(s) s:xy(-350,40):zoom(1.1) end,
         }
     };]]

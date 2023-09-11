@@ -50,6 +50,7 @@ do
 			["piu 06 - prime"]			= "GroupMusic/group/PIU Prime (loop)";
 			["piu 07 - prime 2"]		= "GroupMusic/group/PIU Prime 2 (loop)";
 			["piu 08 - xx"]			= "GroupMusic/group/PIU XX";
+			["piu 09 - phoenix"]		= "GroupMusic/group/PIU Phoenix";
 			["piu 50 - pro ~ pro 2"]	= "GroupMusic/group/PIU Pro 2";
 			["piu 51 - infinity"]		= "GroupMusic/group/PIU Infinity";
 			["sara's classics"]			= "GroupMusic/group/KaW - Stepper";
@@ -111,6 +112,7 @@ do
 			["piu 06 - prime"]			= "GroupMusic/DDR Modern Course";
 			["piu 07 - prime 2"]		= "GroupMusic/DDR Modern Course";
 			["piu 08 - xx"]			= "GroupMusic/DDR Modern Course";
+			["piu 09 - phoenix"]		= "GroupMusic/DDR Modern Course";
 			["piu 50 - pro ~ pro 2"]	= "GroupMusic/DDR Modern Course";
 			["piu 51 - infinity"]		= "GroupMusic/DDR Modern Course";
 			["sara's classics"]			= "GroupMusic/DWI Course";

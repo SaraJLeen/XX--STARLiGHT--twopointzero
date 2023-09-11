@@ -56,7 +56,7 @@ function setting(self,screen,pn)
 end;
 
 local song_bpms= {}
-local bpm_text= "??? - ???"
+local bpm_text= ""
 local function format_bpm(bpm)
 	return ("%.0f"):format(bpm)
 end
@@ -73,6 +73,7 @@ local t = Def.ActorFrame{
 for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
 	-- Notefield Preview Area
 	-- TODO: Until I can deal with regenerating the preview, this has to be disabled.
+	if GAMESTATE:GetCurrentSteps(pn) then
 	t[#t+1] = Def.ActorFrame {
 		InitCommand=function(self)
 			local nf = self:GetChild("NoteField")
@@ -131,6 +132,7 @@ for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
 			isOnline = false,
 		}..{ Name="NoteField" },
 	}
+	end
 end
 
 local bars = Def.ActorFrame{}
@@ -173,7 +175,7 @@ for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
 		return text:gsub("%%", ToEnumShortString(pn));
 	end
 	t[#t+1] = Def.ActorFrame{
-		InitCommand=function(s) s:xy(pn == PLAYER_1 and _screen.cx-320 or _screen.cx+320,SCREEN_BOTTOM-100) end,
+		InitCommand=function(s) s:xy(pn == PLAYER_1 and _screen.cx-320 or _screen.cx+320,GAMESTATE:GetCurrentSteps(pn) and SCREEN_BOTTOM-100 or SCREEN_BOTTOM-250) end,
 		OnCommand=function(s) s:diffusealpha(1):sleep(0.05):diffusealpha(0):sleep(0.05):diffusealpha(1):sleep(0.05):diffusealpha(0):sleep(0.05):diffusealpha(1):sleep(0.05):diffusealpha(0):sleep(0.05):linear(0.05):diffusealpha(1) end,
 		OffCommand=function(s) s:diffusealpha(1):sleep(0.05):diffusealpha(0):sleep(0.05):diffusealpha(1):sleep(0.05):diffusealpha(0):sleep(0.05):diffusealpha(1):sleep(0.05):diffusealpha(0):sleep(0.05) 	ProfilePrefs.SaveAll() end,
 		Def.Sprite{
@@ -244,7 +246,7 @@ for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
 			local no_change= true
 			if mode == "x" then
 				if not song_bpms[1] then
-					text= "??? - ???"
+					text= ""
 				elseif song_bpms[1] == song_bpms[2] then
 					text= "x"..(speed/100).." ("..format_bpm(song_bpms[1] * speed*.01)..")"
 				else
@@ -288,7 +290,7 @@ for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
 	}
 end
 
-local bpm_text= "??? - ???"
+local bpm_text= ""
 local function format_bpm(bpm)
 	return ("%.0f"):format(bpm)
 end
@@ -564,7 +566,7 @@ for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
                     local no_change= true
                     if mode == "x" then
                         if not song_bpms[1] then
-                            text= "??? - ???"
+                            text= ""
                         elseif song_bpms[1] == song_bpms[2] then
                             text= "x"..(speed/100).." ("..format_bpm(song_bpms[1] * speed*.01)..")"
                         else
@@ -610,10 +612,11 @@ t[#t+1] = LoadFallbackB()
 --Totally didn't pull this from Outfox default lol -Inori
 -- Load all noteskins for the previewer.
 local icol = 2
-if GAMESTATE:GetCurrentStyle():ColumnsPerPlayer() < 2 then
-	icol = 1
-end
-local column = GAMESTATE:GetCurrentStyle():GetColumnInfo( GAMESTATE:GetMasterPlayerNumber(), 3 )
+if pn and GAMESTATE:GetCurrentSteps(pn) then
+  if GAMESTATE:GetCurrentStyle():ColumnsPerPlayer() < 2 then
+	  icol = 1
+  end
+ local column = GAMESTATE:GetCurrentStyle():GetColumnInfo( GAMESTATE:GetMasterPlayerNumber(), 3 )
 	for _,v in pairs(NOTESKIN:GetNoteSkinNames()) do
 		local noteskinset = NOTESKIN:LoadActorForNoteSkin( column["Name"] , "Tap Note", v )
 
@@ -628,6 +631,7 @@ local column = GAMESTATE:GetCurrentStyle():GetColumnInfo( GAMESTATE:GetMasterPla
 			t[#t+1] = Def.Actor{ Name="NS"..string.lower(v) }
 		end
 	end
+end
 
 
 return t

@@ -36,5 +36,5 @@ local function getbgloader()
 end
 
 return Def.ActorFrame{
-	LoadActor(getbgloader())
+	loadfile(THEME:GetPathB("ScreenGameplay","background/"..getbgloader()))()
 };

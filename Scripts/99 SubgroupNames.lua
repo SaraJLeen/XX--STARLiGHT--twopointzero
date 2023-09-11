@@ -3,6 +3,7 @@ local sg_internet = "Internet Ranking Version"
 local sg_linkver = "LINK Version"
 local sg_csver = "Home Version"
 local sg_ddr3plus = "PLUS"
+local sg_ddr3plus_scrapped = "PLUS Scrapped Song"
 local sg_ddr3korean1 = "Korean"
 local sg_ddr3korean2 = "Korean Ver.2"
 local sg_ddr4plus = "PLUS"
@@ -188,6 +189,7 @@ local subgroup_names = {
 		["rose"] = sg_ddr3korean2,
 		["shock"] = sg_ddr3korean2,
 		["starian"] = sg_ddr3korean2,
+		["total recall"] = sg_ddr3plus_scrapped,
 	};
 	["ddr 4thmix"] = {
 		["after the game"] = "konamix",

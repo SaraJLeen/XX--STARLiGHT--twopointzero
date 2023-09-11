@@ -31,7 +31,8 @@ local potentialVideo = Characters.GetDancerVideo(charName)
 
 if potentialVideo then
     loadWorked = true
-	t[#t+1] = LoadActor( potentialVideo )..{
+	Def.Sprite{
+		Texture=potentialVideo,
 		InitCommand=cmd(FullScreen);	
 	};
 

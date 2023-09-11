@@ -31,7 +31,8 @@ return Def.ActorFrame{
       OnCommand = function(s) s:queuecommand("Animate") end,
       AnimateCommand = function(s) s:x(_screen.cx-562):linear(0.8):addx(1500):sleep(7):queuecommand("Animate") end,
     };
-    LoadActor("xxlogo.png") .. {
+    Def.Sprite{
+      Texture="xxlogo.png",
     -- Using WriteOnFail here allows us to display only what is UNDER the
     -- mask instead of only what is NOT UNDER it.
     InitCommand = function(s) s:xy(_screen.cx+104,_screen.cy+16):MaskDest():ztestmode("ZTestMode_WriteOnFail") end,

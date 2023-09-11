@@ -1,1 +1,1 @@
-return LoadActor( THEME:GetPathB("ScreenOptionsService","background") );
+return loadfile( THEME:GetPathB("ScreenOptionsService","background") )();

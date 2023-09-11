@@ -2,7 +2,7 @@ local t = Def.ActorFrame{};
 
 for _, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
 	if (not GAMESTATE:GetCurrentSong():HasBGChanges()) then
-		t[#t+1] = LoadActor("Animation", pn)..{
+		t[#t+1] = loadfile("Animation")(pn)..{
 			InitCommand=function(self) self:CenterY()
 				if GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_TwoPlayersTwoSides" then
 					self:x(_screen.cx)

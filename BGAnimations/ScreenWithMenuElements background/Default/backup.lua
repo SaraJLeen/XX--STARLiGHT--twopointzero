@@ -28,7 +28,8 @@ local function meteor()
 		end,
 	}
 
-	m[#m+1] = LoadActor("../OLD/meteor-arrow") .. {
+	m[#m+1] = Def.Sprite{
+		Texture="../OLD/meteor-arrow",
 		AnimateCommand=function(s)
 			-- Start partially visible
 			s:diffusealpha(0)
@@ -41,7 +42,8 @@ local function meteor()
 		end,
 	}
 
-	m[#m+1] = LoadActor("../OLD/meteor-glow") .. {
+	m[#m+1] = Def.Sprite{
+		Texture="../OLD/meteor-glow",
 		AnimateCommand=function(s)
 			-- Glow is almost white, with a chance of being tinted slightly.
 			-- Invisible to start with.
@@ -59,7 +61,8 @@ local function meteor()
 end
 
 local t = Def.ActorFrame{
-	LoadActor("background")..{
+	m[#m+1] = Def.Sprite{
+		Texture="background",
 		OnCommand=function(s) s:Center():setsize(IsUsingWideScreen() and SCREEN_WIDTH or 1920,SCREEN_HEIGHT) end,
 	};
 };

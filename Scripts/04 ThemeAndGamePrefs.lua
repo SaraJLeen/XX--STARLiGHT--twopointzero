@@ -48,7 +48,7 @@ end;
 function ModeChoices()
 	local coinMode = GAMESTATE:GetCoinMode()
 	if coinMode == 'CoinMode_Home' then
-		return SN3Debug and "Options,Edit,GameStart,Customize,Jukebox,Exit" or "Options,Edit,GameStart,Customize,Exit"
+		return "Options,Edit,GameStart,Customize,Jukebox,Exit"
 	else
 		return "GameStart"
 	end

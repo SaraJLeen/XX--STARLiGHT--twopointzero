@@ -1,5 +1,7 @@
 local t = Def.ActorFrame {
-	LoadActor("backing");
+  Def.Sprite{
+	Texture="Backing",
+  }
 };
 
 t[#t+1] = Def.ActorFrame{

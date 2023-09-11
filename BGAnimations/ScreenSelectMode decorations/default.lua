@@ -1,18 +1,18 @@
 local t = Def.ActorFrame{
 	Def.ActorFrame{
 		OffCommand=function(s) s:finishtweening():sleep(0.2):accelerate(0.2):diffusealpha(0) end,
-	loadfile(THEME:GetPathB("","_Logo/default.lua"))()..{
-        InitCommand=function(s) s:Center() end,
-    };
-    Def.Sprite{
-        Texture=THEME:GetPathB("","_Logo/xxlogo.png"),
-        InitCommand=function(s) s:xy(_screen.cx+104,_screen.cy+16):blend(Blend.Add):diffusealpha(0):queuecommand("Anim") end,
-        AnimCommand=function(s) s:diffusealpha(0):sleep(1):linear(0.75):diffusealpha(0.3):sleep(0.1):linear(0.4):diffusealpha(0):queuecommand("Anim") end,
+		loadfile(THEME:GetPathB("","_Logo/default.lua"))()..{
+			InitCommand=function(s) s:Center() end,
+		};
+		Def.Sprite{
+			Texture=THEME:GetPathB("","_Logo/xxlogo.png"),
+			InitCommand=function(s) s:xy(_screen.cx+104,_screen.cy+16):blend(Blend.Add):diffusealpha(0):queuecommand("Anim") end,
+			AnimCommand=function(s) s:diffusealpha(0):sleep(1):linear(0.75):diffusealpha(0.3):sleep(0.1):linear(0.4):diffusealpha(0):queuecommand("Anim") end,
 			
-    };
-    loadfile(THEME:GetPathB("","_Dancer/default.lua"))()..{
-        InitCommand = function(s) s:xy(_screen.cx-540,_screen.cy+30) end,
-    };
+		};
+		loadfile(THEME:GetPathB("","_Dancer/default.lua"))()..{
+			InitCommand = function(s) s:xy(_screen.cx-540,_screen.cy+30) end,
+		};
 	}
 }
 
@@ -150,7 +150,7 @@ t[#t+1] = Def.ActorFrame {
 	Def.BitmapText{
 	Font="Common normal",
 	--Text=themeInfo["Name"] .. " " .. themeInfo["Version"] .. " by " .. themeInfo["Author"] .. (SN3Debug and " (debug mode)" or "") ,
-     Text="",
+	Text="",
 	InitCommand=function(s) s:halign(1):xy(SCREEN_RIGHT-10,SCREEN_TOP+90):diffusealpha(0):wrapwidthpixels(400) end,
 	OnCommand=function(s) s:sleep(0.3):decelerate(0.6):diffusealpha(0.5) end,
   };}

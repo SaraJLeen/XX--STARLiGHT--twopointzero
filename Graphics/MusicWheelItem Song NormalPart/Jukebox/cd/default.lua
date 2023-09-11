@@ -6,7 +6,8 @@ local t = Def.ActorFrame {
 	-- Def.ActorFrame{
 	-- 	Name="CdMask";
 	-- 	InitCommand=cmd();
-	-- 	LoadActor(THEME:GetPathG("", "MusicWheelItem Song NormalPart/cd/cd_mask"))..{
+	-- 	Def.Sprite..{
+	--              Texture=THEME:GetPathG("", "MusicWheelItem Song NormalPart/cd/cd_mask"),
 	-- 		OnCommand=cmd(blend,'BlendMode_NoEffect';zwrite,true;clearzbuffer,false;);
 	-- 	};
 	-- };

@@ -1,5 +1,6 @@
 local function CreditsText()
-	local text = LoadFont("_avenirnext lt pro bold/20px") .. {
+	local text = Def.BitmapText{
+		Font="_avenirnext lt pro bold/20px",
 		InitCommand=function(s) s:xy(_screen.cx,SCREEN_BOTTOM-16):zoom(1):strokecolor(color("0,0,0,1")):playcommand("Refresh") end,
 		RefreshCommand=function(self)
 		--Other coin modes
@@ -56,7 +57,8 @@ local function PlayerText( pn )
 
 			self:visible( bShow );
 		end,
-		LoadFont(Var "LoadingScreen","credits") .. {
+		Def.BitmapText{
+			Font=Var "LoadingScreen","credits",
 			InitCommand=function(s) s:maxwidth(325):strokecolor(Color.Black) end,
 			UpdateTextCommand=function(s)
 				local pname = PROFILEMAN:GetProfile(pn):GetDisplayName()

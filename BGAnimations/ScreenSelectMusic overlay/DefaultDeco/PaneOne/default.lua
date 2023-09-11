@@ -7,13 +7,16 @@ local t = Def.ActorFrame{
 };
 
 t[#t+1] = Def.ActorFrame{
-  LoadActor("Judge Pane")..{
+  Def.Sprite{
+    Texture="Judge Pane",
     InitCommand=function(s) s:zoomx(pn=="PlayerNumber_P2" and -1 or 1) end,
   };
-  LoadActor("BEST SCORE")..{
+  Def.Sprite{
+    Texture="BEST SCORE",
     InitCommand=function(s) s:xy(pn==PLAYER_2 and -2 or 2,-78) end,
   };
-  LoadActor("Judge Inner")..{
+  Def.Sprite{
+    Texture="Judge Inner",
     InitCommand=function(s)
       s:xy(-25,9)
     end,

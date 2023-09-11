@@ -24,7 +24,8 @@ end;
 
 
 local function CreditsText()
-	local text = LoadFont("_avenirnext lt pro bold/20px") .. {
+	local text = Def.BitmapText{
+		Font="_avenirnext lt pro bold/20px",
 		InitCommand=function(s) s:xy(_screen.cx,SCREEN_BOTTOM-16):zoom(1.3):strokecolor(color("0,0,0,1")):playcommand("Refresh") end,
 		RefreshCommand=function(self)
 		--Other coin modes
@@ -66,7 +67,8 @@ local function CreditsText()
 end;
 
 local function PlayerText( pn )
-	local text = LoadFont(Var "LoadingScreen","credits") .. {
+	local text = Def.BitmapText{
+		Font=Var "LoadingScreen","credits",
 		InitCommand=function(self)
 			self:name("Credits" .. PlayerNumberToString(pn))
 			ActorUtil.LoadAllCommandsAndSetXY(self,Var "LoadingScreen");
@@ -94,10 +96,11 @@ t[#t+1] = Def.ActorFrame {
 	PlayerText( PLAYER_1 );
   PlayerText( PLAYER_2 );
   Def.ActorFrame {
-    LoadActor(THEME:GetPathB("","_frame 3x3"),"rounded black",96,12) .. {
+    loadfile(THEME:GetPathB("","_frame 3x3")("rounded black",96,12) .. {
       Name="Background";
     };
-    LoadFont("Common Normal") ..  {
+    Def.BitmapText{
+      Font="Common Normal",
       Text="Test";
       Name="Time";
       InitCommand=function(s) s:zoom(0.675) end,

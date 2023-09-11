@@ -61,7 +61,8 @@ t[#t+1] = Def.ActorFrame{
    };
 -----------------------------
 -- Cutin background --
-LoadActor("Back") .. {
+Def.Sprite{
+  Texture=Back,
   InitCommand=function(self)
     self:setsize(200*sizemod,SCREEN_HEIGHT+(100*sizemod))
     self:diffusealpha(0)
@@ -170,7 +171,8 @@ Def.ActorFrame {
 		end
 	end;
 	-- Left 1
-	LoadActor("_Circles")..{
+	Def.Sprite{
+		Texture="_Circles",
 		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
 		PopupCommand=function(self)
 			self:finishtweening();
@@ -186,7 +188,8 @@ Def.ActorFrame {
 		end;
 	};
 	-- Right 1
-	LoadActor("_Circles")..{
+	Def.Sprite{
+		Texture="_Circles",
 		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
 		PopupCommand=function(self)
 			self:finishtweening();
@@ -202,7 +205,8 @@ Def.ActorFrame {
 		end;
 	};
 	-- Center 2 Right
-	LoadActor("_Circles")..{
+	Def.Sprite{
+		Texture="_Circles",
 		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
 		PopupCommand=function(self)
 			self:finishtweening();
@@ -218,7 +222,8 @@ Def.ActorFrame {
 		end;
 	};
 	-- Center 2 Left
-	LoadActor("_Circles")..{
+	Def.Sprite{
+		Texture="_Circles",
 		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
 		PopupCommand=function(self)
 			self:finishtweening();
@@ -234,7 +239,8 @@ Def.ActorFrame {
 		end;
 	};
 	-- Right 3
-	LoadActor("_Circles")..{
+	Def.Sprite{
+		Texture="_Circles",
 		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
 		PopupCommand=function(self)
 			self:finishtweening();
@@ -250,7 +256,8 @@ Def.ActorFrame {
 		end;
 	};
 	-- Left 3 big
-	LoadActor("_Circles")..{
+	Def.Sprite{
+		Texture="_Circles",
 		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
 		PopupCommand=function(self)
 			self:finishtweening();
@@ -266,7 +273,8 @@ Def.ActorFrame {
 		end;
 	};
 	-- Left 4
-	LoadActor("_Circles")..{
+	Def.Sprite{
+		Texture="_Circles",
 		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
 		PopupCommand=function(self)
 			self:finishtweening();
@@ -282,7 +290,8 @@ Def.ActorFrame {
 		end;
 	};
 	-- Right 4 small
-	LoadActor("_Circles")..{
+	Def.Sprite{
+		Texture="_Circles",
 		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
 		PopupCommand=function(self)
 			self:finishtweening();
@@ -298,7 +307,8 @@ Def.ActorFrame {
 		end;
 	};
 	-- Right 5 big
-	LoadActor("_Circles")..{
+	Def.Sprite{
+		Texture="_Circles",
 		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
 		PopupCommand=function(self)
 			self:finishtweening();
@@ -314,7 +324,8 @@ Def.ActorFrame {
 		end;
 	};
 	-- Left 5
-	LoadActor("_Circles")..{
+	Def.Sprite{
+		Texture="_Circles",
 		InitCommand=cmd(diffusealpha,0;blend,'BlendMode_Add';vertalign,top);
 		PopupCommand=function(self)
 			self:finishtweening();

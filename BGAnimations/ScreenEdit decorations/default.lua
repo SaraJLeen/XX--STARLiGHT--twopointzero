@@ -14,7 +14,7 @@ return Def.ActorFrame{
 --[[
 t[#t+1] = Def.ActorFrame{
     InitCommand=function(s) s:xy(_screen.cx-700,_screen.cy-300) end,
-    LoadActor(THEME:GetPathB("","ScreenSelectMusic overlay/2014Deco/_jacket back"));
+    Def.Sprite{Texture=THEME:GetPathB("","ScreenSelectMusic overlay/2014Deco/_jacket back")};
     Def.Banner{
         InitCommand=function(s)
             local song = GAMESTATE:GetCurrentSong()
@@ -24,8 +24,9 @@ t[#t+1] = Def.ActorFrame{
     },
     Def.ActorFrame{
         InitCommand=function(s) s:y(250) end,
-        LoadActor(THEME:GetPathB("","ScreenSelectMusic overlay/2014Deco/titlebox"));
-        LoadFont("_avenirnext lt pro bold/20px") .. {
+        Def.Sprite{Texture=THEME:GetPathB("","ScreenSelectMusic overlay/2014Deco/titlebox")};
+        Def.BitmapText{
+            Font="_avenirnext lt pro bold/20px",
             InitCommand = function(s) s:y(-8):maxwidth(400):maxheight(20):playcommand("Set") end,
             SetCommand = function(self)
                 local song = GAMESTATE:GetCurrentSong()
@@ -36,7 +37,8 @@ t[#t+1] = Def.ActorFrame{
                 end
             end,
         };
-        LoadFont("_avenirnext lt pro bold/20px") .. {
+        Def.BitmapText{
+            Font="_avenirnext lt pro bold/20px",
             InitCommand = function(s) s:y(20):maxwidth(400):maxheight(20):playcommand("Set") end,
             SetCommand = function(self)
                 local song = GAMESTATE:GetCurrentSong()

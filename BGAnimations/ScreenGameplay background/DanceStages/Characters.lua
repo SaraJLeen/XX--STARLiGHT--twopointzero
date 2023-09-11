@@ -112,7 +112,7 @@ end
 
 ------- DANCEROUTINES-------
 
-t[#t+1] = LoadActor("/Characters/DanceRepo/DRoutines.lua")
+t[#t+1] = loadfile("/Characters/DanceRepo/DRoutines.lua")()
 
 ------- CHARACTER POSITION -------
 
