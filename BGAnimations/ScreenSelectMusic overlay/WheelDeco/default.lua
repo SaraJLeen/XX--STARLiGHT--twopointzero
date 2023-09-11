@@ -74,7 +74,7 @@ local RecordPane = Def.ActorFrame{
 }
 
 for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
-  t[#t+1] = LoadActor(THEME:GetPathB("ScreenSelectMusic","overlay/_ShockArrow/default.lua"),pn)..{
+  t[#t+1] = loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/_ShockArrow/default.lua"))(pn)..{
 		InitCommand=function(s)
 			s:xy(pn==PLAYER_1 and SCREEN_LEFT+80 or SCREEN_LEFT+263,SCREEN_BOTTOM-200):zoom(0.25)
 		end,

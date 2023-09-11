@@ -1,10 +1,11 @@
-local t = Def.ActorFrame{
-    LoadActor("A")..{
+return Def.ActorFrame{
+    Def.Sprite{
+        Texture="A",
         InitCommand=function(s) s:zoomtoheight(1)
-            if GAMESTATE:IsCourseMode() == false then
+           if GAMESTATE:IsCourseMode() == false then
                 if ThemePrefs.Get("WheelType") == "A" or ThemePrefs.Get("WheelType") == "Wheel" then
                     s:visible(true)
-             else
+            else
                     s:visible(false)
                 end
             else
@@ -12,5 +13,4 @@ local t = Def.ActorFrame{
             end
         end,
     }
-};
-return t;
+}

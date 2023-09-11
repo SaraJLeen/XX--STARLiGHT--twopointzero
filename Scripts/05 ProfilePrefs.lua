@@ -28,6 +28,8 @@ local defaultPrefs =
 	guidelines_top_aligned = false,
 	scorelabel = "profile",
 	dancestage = "DEFAULT",
+	Judgment = "DEFAULT",
+	Combo = "DEFAULT"
 }
 local gameSeed = nil
 local machinePrefs = DeepCopy(defaultPrefs)

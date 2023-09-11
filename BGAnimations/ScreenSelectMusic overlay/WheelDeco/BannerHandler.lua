@@ -98,23 +98,24 @@ return Def.ActorFrame{
 			end
 		end,
 	},
-    LoadFont("_avenirnext lt pro bold/46px")..{
-        InitCommand=function(s) s:y(-20):visible(true):maxwidth(200):diffusebottomedge(color("#d8d8d8")):diffusetopedge(color("#8c8c8c")):strokecolor(Color.Black) end,
-        SetMessageCommand=function(self,params)
-          local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
-          local so = GAMESTATE:GetSortOrder();
-          if mw and  mw:GetSelectedType() == "WheelItemDataType_Section" then
-            local group = mw:GetSelectedSection()
-            if so == "SortOrder_Genre" then
-              self:settext(group):visible(true)
-            else
-              self:settext(""):visible(false)
-            end;
+    Def.BitmapText{
+      Font="_avenirnext lt pro bold/46px",
+      InitCommand=function(s) s:y(-20):diffusealpha(1):maxwidth(200):diffusebottomedge(color("#d8d8d8")):diffusetopedge(color("#8c8c8c")):strokecolor(Color.Black) end,
+      SetMessageCommand=function(self,params)
+        local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
+        local so = GAMESTATE:GetSortOrder();
+        if mw and  mw:GetSelectedType() == "WheelItemDataType_Section" then
+          local group = mw:GetSelectedSection()
+          if so == "SortOrder_Genre" then
+             self:settext(group)
           else
-            self:settext(""):visible(false)
-          end
-        end,
-      };
+            self:settext("")
+          end;
+        else
+          self:settext("")
+        end
+      end,
+    };
   };
   
   --Banner

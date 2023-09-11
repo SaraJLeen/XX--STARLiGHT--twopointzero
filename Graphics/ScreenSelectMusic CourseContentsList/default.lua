@@ -34,7 +34,8 @@ return Def.CourseContentsList {
 	Display = Def.ActorFrame {
 		InitCommand=function(s) s:setsize(402,28) end,
 		--------------Song Text
-		LoadFont("_avenirnext lt pro bold/20px") .. {
+		Def.BitmapText{
+			Font="_avenirnext lt pro bold/20px",
 			InitCommand=function(s) s:x(-210+10):maxwidth(362):halign(0) end,
 			SetSongCommand=function(self, params)
 				if params.Secret ==true then
@@ -65,7 +66,8 @@ return Def.CourseContentsList {
 					self:diffuse( CustomDifficultyToColor(params.Difficulty) );
 				end,
 			};
-			LoadFont("_avenirnext lt pro bold/20px") .. {
+			Def.BitmapText{
+				Font="_avenirnext lt pro bold/20px",
 				Name="Meter";
 				SetSongCommand=function(self, params)
 					self:diffuse(Color.White)
