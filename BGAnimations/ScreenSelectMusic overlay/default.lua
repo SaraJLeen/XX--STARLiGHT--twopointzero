@@ -1,6 +1,6 @@
 local Deco = Def.ActorFrame{};
 if not GAMESTATE:IsCourseMode() then
-	Deco[#Deco+1] = loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/"..ThemePrefs.Get("WheelType").."Deco"))();
+	Deco[#Deco+1] = loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/WheelDeco"))();
 end;
 
 local jk = LoadModule"Jacket.lua"

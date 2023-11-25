@@ -16,56 +16,6 @@ local function InputHandler(event)
     MESSAGEMAN:Broadcast("MouseLeftClick")
   end
   if MusicWheel ~= nil and getenv("OPList") == 0 then
-    if ThemePrefs.Get("WheelType") == "A" then
-      if event.GameButton == "MenuLeft" and GAMESTATE:IsPlayerEnabled(player) then
-        overlay:GetChild("MWChange"):play()
-      end
-      if event.GameButton == "MenuRight" and GAMESTATE:IsPlayerEnabled(player) then
-        overlay:GetChild("MWChange"):play()
-      end
-      if event.GameButton == "MenuDown" and GAMESTATE:IsPlayerEnabled(player) and PREFSMAN:GetPreference("OnlyDedicatedMenuButtons") then
-        if MusicWheel:GetSelectedType() == 'WheelItemDataType_Song' then
-          WheelMove(3)
-          if MusicWheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
-            WheelMove(-2)
-            if MusicWheel:GetSelectedType() == "WheelItemDataType_Song" then
-              WheelMove(2)
-              if MusicWheel:GetSelectedType() ~= "WheelItemDataType_Song" then
-                WheelMove(-1)
-                if MusicWheel:GetSelectedType() == "WheelItemDataType_Song" then
-                  WheelMove(1)
-                end
-              end
-            end
-          end
-        else
-          MusicWheel:Move(1)
-        end
-        MusicWheel:Move(0)
-        overlay:GetChild("MWChange"):play()
-      end
-      if event.GameButton == "MenuUp" and GAMESTATE:IsPlayerEnabled(player) and PREFSMAN:GetPreference("OnlyDedicatedMenuButtons") then
-        if MusicWheel:GetSelectedType() == 'WheelItemDataType_Song' then
-          WheelMove(-3)
-          if MusicWheel:GetSelectedType() ~= 'WheelItemDataType_Song' then
-            WheelMove(2)
-            if MusicWheel:GetSelectedType() == "WheelItemDataType_Song" then
-              WheelMove(-2)
-              if MusicWheel:GetSelectedType() ~= "WheelItemDataType_Song" then
-                WheelMove(1)
-                if MusicWheel:GetSelectedType() == "WheelItemDataType_Song" then
-                  WheelMove(-1)
-                end
-              end
-            end
-          end
-        else
-          WheelMove(-1)
-        end
-        WheelMove(0)
-        overlay:GetChild("MWChange"):play()
-      end
-    end
 	if #GAMESTATE:GetEnabledPlayers() < 2 and event.type == "InputEventType_FirstPress" and player ~= nil and GAMESTATE:IsPlayerEnabled(player) then
 		    if (StyleCode == 0 and event.GameButton == "MenuLeft")  then StyleCode = 1;
 		elseif (StyleCode == 1 and event.GameButton == "MenuLeft")  then StyleCode = 2;

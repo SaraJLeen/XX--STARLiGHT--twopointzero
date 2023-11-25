@@ -52,7 +52,7 @@ t[#t+1] = Def.ActorFrame{
 		SetMessageCommand=function(self, param)
 			self:settext("")
 			local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
-			if not mw then self:GetChild("Favorite"):visible(false) return end
+			if not mw then return end
 			if mw:GetSelectedType() ~= 'WheelItemDataType_Portal' then return end
 			if not GAMESTATE:GetCurrentSong() then return end
 			self:settext(GAMESTATE:GetCurrentSong():GetDisplayFullTitle());
@@ -70,7 +70,8 @@ t[#t+1] = Def.ActorFrame{
 			if not mw then return end
 			if mw:GetSelectedType() ~= 'WheelItemDataType_Portal' then return end
 			if not GAMESTATE:GetCurrentSong() then return end
-			self:settext(GAMESTATE:GetCurrentSong():GetDisplayArtist());
+			if GAMESTATE:GetCurrentSong():GetDisplayArtist() == "Unknown artist" then self:settext("?????")
+			else self:settext(GAMESTATE:GetCurrentSong():GetDisplayArtist()); end
 			self:diffuse(SongAttributes_GetMenuColor(GAMESTATE:GetCurrentSong())):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(GAMESTATE:GetCurrentSong())))
 		end,
 		CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,

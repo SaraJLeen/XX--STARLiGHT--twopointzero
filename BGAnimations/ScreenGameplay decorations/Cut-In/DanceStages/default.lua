@@ -3,7 +3,7 @@ local t = Def.ActorFrame{};
 for _, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
 	if FILEMAN:DoesFileExist("/Characters/"..WhichRead(pn).."/Cut-In") then
 		if (not HasVideo()) or (HasVideo() and VideoStage()) then
-			t[#t+1] = loadfile("Animation")(pn)..{
+			t[#t+1] = LoadActor("Animation", pn)..{
 				InitCommand=function(self) self:CenterY()
 					if GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_TwoPlayersTwoSides" then
 						self:x(_screen.cx)

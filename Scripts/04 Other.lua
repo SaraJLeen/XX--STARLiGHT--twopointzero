@@ -61,7 +61,7 @@ function dofile_safer(path, env)
 end
 
 function PrepareAllMainScreens()
-	return "ScreenWithMenuElements,ScreenMovie"
+	return ""
 	--return "ScreenMovie,ScreenTitleJoin,ScreenTitleMenu,ScreenWithMenuElements,ScreenCaution,ScreenMDSplash,ScreenSelectMusic,ScreenSelectCourse"
 end
 

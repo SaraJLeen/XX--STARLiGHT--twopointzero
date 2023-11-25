@@ -1,7 +1,7 @@
 local t = Def.ActorFrame{};
 
 if not GAMESTATE:IsCourseMode() then
-  t[#t+1] = loadfile(THEME:GetPathB("","ScreenSelectMusic underlay/"..ThemePrefs.Get("WheelType").."/default.lua"))();
+  t[#t+1] = loadfile(THEME:GetPathB("","ScreenSelectMusic underlay/Wheel/default.lua"))();
 end
 
 return t;

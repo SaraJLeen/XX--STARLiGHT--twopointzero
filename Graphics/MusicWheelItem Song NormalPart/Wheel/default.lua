@@ -12,7 +12,8 @@ t[#t+1] = Def.ActorFrame{
 			if TitleChild:GetText() ~= wheelsong:GetDisplayFullTitle() or ArtistChild:GetText() ~= wheelsong:GetDisplayArtist() then
 				local MenuColor = SongAttributes_GetMenuColor(wheelsong)
 				TitleChild:settext(wheelsong:GetDisplayFullTitle()):diffuse(MenuColor):strokecolor(ColorDarkTone(MenuColor))
-				ArtistChild:settext(wheelsong:GetDisplayArtist()):diffuse(MenuColor):strokecolor(ColorDarkTone(MenuColor))
+				if wheelsong:GetDisplayArtist() == "Unknown artist" then ArtistChild:settext("♪♪♪♪♪"):diffuse(MenuColor):strokecolor(ColorDarkTone(MenuColor))
+				else ArtistChild:settext(wheelsong:GetDisplayArtist()):diffuse(MenuColor):strokecolor(ColorDarkTone(MenuColor)) end
 			end
 			--Trace("Setting stuff for song "..tostring(p.Song)..".");
 			local isFave = IsFavorite(wheelsong)

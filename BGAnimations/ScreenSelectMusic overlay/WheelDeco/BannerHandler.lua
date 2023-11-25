@@ -6,7 +6,7 @@ local jk = LoadModule "Jacket.lua"
 local LastStyle = nil
 
 --Banner cache has been disabled because of severe artifacting it can cause
-local cached_banners = false
+local cached_banners = true
 local cached_jackets = true
 local cached_folder_banners = true
 local cached_folder_jackets = true
@@ -36,7 +36,15 @@ return Def.ActorFrame{
             self:Load(song:GetPreviewVidPath())
           else
 		if cached_jackets then
-			self:LoadFromCached("Jacket",jk.GetSongGraphicPath(song,"Jacket"))
+            if song.HasJacket and song:HasJacket() then
+                self:LoadFromCached("Jacket",song:GetJacketPath())
+            elseif song:HasBackground() then
+                self:LoadFromCached("Background",song:GetBackgroundPath())
+            elseif song:HasBanner() then
+                self:LoadFromCached("Banner",song:GetBannerPath())
+            else
+                self:LoadFromCached("Jacket", THEME:GetPathG("","MusicWheelItem fallback") );
+            end
 		else
 			self:Load(jk.GetSongGraphicPath(song,"Jacket"))
 		end
@@ -124,74 +132,92 @@ return Def.ActorFrame{
     OnCommand=function(s) s:addx(-800):sleep(0.3):decelerate(0.3):addx(800) end,
     OffCommand=function(s) s:sleep(0.3):decelerate(0.3):addx(-800) end,
     CurrentSongChangedMessageCommand=function(s) s:finishtweening():queuecommand("Set") end,
+  --[[
     Def.Quad{
       InitCommand=function(s)
         s:setsize(478,150):scaletofit(-239,-75,239,75):xy(-24,-20):diffuse(Color.Black) end,
     },
+  --]]
     Def.Banner{
+      InitCommand=function(s) s:visible(false) end,
       SetCommand=function(self,params)
         self:finishtweening()
-        local song = GAMESTATE:GetCurrentSong();
-        local so = GAMESTATE:GetSortOrder();
+        --local song = GAMESTATE:GetCurrentSong();
+        --local so = GAMESTATE:GetSortOrder();
         local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
         if not mw then return end
         --self:visible(true)
         if song then
 		  setenv("getgroupname","song");
-		if cached_banners then
+		--[[if cached_banners then
 			self:LoadFromCached("banner",jk.GetSongGraphicPath(song,"Banner"))
 		else
 			self:Load(jk.GetSongGraphicPath(song,"Banner"))
-		end
+		end--]]
         elseif mw:GetSelectedType() == 'WheelItemDataType_Random' then
 		setenv("getgroupname","random");
-		if cached_folder_banners then
+		--[[if cached_folder_banners then
 			self:LoadFromCached("Banner",THEME:GetPathG("","_banners/Random"))
 		else
 			self:Load(THEME:GetPathG("","_banners/Random"))
-		end
+		end--]]
         elseif mw:GetSelectedType() == 'WheelItemDataType_Roulette' then
 		setenv("getgroupname","random");
-		if cached_folder_banners then
+		--[[if cached_folder_banners then
 			self:LoadFromCached("Banner",THEME:GetPathG("","_banners/Roulette"))
 		else
 			self:Load(THEME:GetPathG("","_banners/Roulette"))
-		end
+		end--]]
         elseif mw:GetSelectedType() == 'WheelItemDataType_Custom' then
 		setenv("getgroupname","course");
-		if cached_folder_banners then
+		--[[if cached_folder_banners then
 			self:LoadFromCached("Banner",THEME:GetPathG("","_banners/COURSE"))
 		else
 			self:Load(THEME:GetPathG("","_banners/COURSE"))
-		end
+		end--]]
         elseif mw:GetSelectedSection() == "<Favorites>" then
 		setenv("getgroupname","favorites");
-		if cached_folder_banners then
+		--[[if cached_folder_banners then
 			if #GAMESTATE:GetEnabledPlayers() > 1 then self:LoadFromCached("Banner",THEME:GetPathG("","_banners/favesbg"))
 			else self:LoadFromCached("Banner",THEME:GetPathG("","_banners/favorites")) end
 		else
 			if #GAMESTATE:GetEnabledPlayers() > 1 then self:Load(THEME:GetPathG("","_banners/favesbg"))
 			else self:Load(THEME:GetPathG("","_banners/favorites")) end
-		end
+		end--]]
         elseif mw:GetSelectedType() == 'WheelItemDataType_Section' then
 		setenv("getgroupname",mw:GetSelectedSection());
-		if cached_folder_banners then
+		--[[if cached_folder_banners then
 			self:LoadFromCached("Banner",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Banner",so))
 		else
 			self:Load(jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Banner",so))
-		end
-        else
-		if cached_folder_banners then
+		end--]]
+        --else
+		--[[if cached_folder_banners then
 			self:LoadFromCached("Banner", THEME:GetPathG("","MusicWheelItem fallback") );
 		else
-			self:Load(THEME:GetPathG("","MusicWheelItem fallback") );
+			self:Load(THEME:GetPathG("","MusicWheelItem fallback") );--]]
+		end
+        if not GAMESTATE:GetCurrentSong() and mw:GetSelectedSection() == "<Favorites>" then
+			setenv("getgroupname","favorites");
+			if cached_folder_banners then
+				if #GAMESTATE:GetEnabledPlayers() > 1 then self:LoadFromCached("Banner",THEME:GetPathG("","_banners/favesbg"))
+				else self:LoadFromCached("Banner",THEME:GetPathG("","_banners/favorites")) end
+			else
+				if #GAMESTATE:GetEnabledPlayers() > 1 then self:Load(THEME:GetPathG("","_banners/favesbg"))
+				else self:Load(THEME:GetPathG("","_banners/favorites")) end
+			end
+			self:visible(true)
+		else
+			self:visible(false)
 		end
 		--self:visible(false)
-        end;
+        --end;
         self:scaletofit(-239,-75,239,75):xy(-24,-20)
         self:scaletofit(-239,-75,239,75):xy(-24,-20)
       end;
     },
+    --[[
+    --]]
 	Def.Sprite {
 		SetCommand=function(self)
 			if GAMESTATE:GetCurrentSong() then self:visible(false) return end

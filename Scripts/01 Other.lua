@@ -1,4 +1,4 @@
--- �R���{�ݒ�
+-- ???
 function JudgmentTransformCommand( self, params )
 	local x = 0
 	local y = -76
