@@ -1,5 +1,11 @@
-local st_rev = Enum.Reverse(StepsType)
-local diff_rev = Enum.Reverse(Difficulty)
+local st_rev = nil
+local diff_rev = nil
+if StepsType then
+	st_rev = Enum.Reverse(StepsType)
+end
+if Difficulty then
+	diff_rev = Enum.Reverse(Difficulty)
+end
 
 ClearLampColors = {
 	[0]={1,1,1,0},
@@ -25,6 +31,8 @@ return {
     --this function is basically a direct translation of the C++ code path that
     --SongUtil.GetPlayableSteps uses so it *should* return identical results.
     CompareSteps=function(a, b)
+    	if st_rev == nil then return 0 end
+    	if diff_rev == nil then return 0 end
         local st_a = st_rev[a:GetStepsType()]
         local st_b = st_rev[b:GetStepsType()]
         if st_a ~= st_b then

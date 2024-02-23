@@ -6,20 +6,31 @@ CustStage = 1
 for i=1,2 do
   t[#t+1] = Def.ActorFrame{
     InitCommand=function(s)
-      s:xy(i==1 and SCREEN_LEFT or SCREEN_RIGHT,SCREEN_BOTTOM-172)
+      s:xy(i==1 and SCREEN_LEFT-458 or SCREEN_RIGHT+458,SCREEN_BOTTOM-172)
     end,
-    OffCommand=function(s) s:smooth(0.2):diffusealpha(0) end,
+    OnCommand=function(s) s:decelerate(0.3):x(i==1 and SCREEN_LEFT or SCREEN_RIGHT) end,
+    OffCommand=function(s) s:accelerate(0.2):diffusealpha(0):x(i==1 and SCREEN_LEFT-458 or SCREEN_RIGHT+458) end,
     PlayerJoinedMessageCommand=function(s,p)
       if p.Player then
         s:queuecommand("Off")
         end
     end,
-    OffCommand=function(s) s:smooth(0.2):diffusealpha(0) end,
-    Def.Sprite{
-      Texture="Frame";
-      InitCommand=function(s)
-        s:zoomx(i==1 and 1 or -1):halign(0)
-      end,
+    Def.ActorFrame{
+      InitCommand=function(s) s:zoomx(i==1 and 1 or -1) end,
+      
+      Def.Sprite{
+        Texture="framebase.png";
+        InitCommand=function(s) s:halign(0) end,
+      };
+      Def.Sprite{
+        Texture="framelight.png",
+        InitCommand=function(s) s:x(444):diffusealpha(0.5) end,
+        OnCommand=function(s) s:sleep(0.5):smooth(0.3):diffusealpha(1):queuecommand("Anim") end,
+        OffCommand=function(s) s:stoptweening() end,
+        AnimCommand=function(s) s:diffuseramp():effectcolor1(Alpha(Color.White,0.5)):effectcolor2(Color.White)
+          :effectperiod(1)
+        end,
+      }
     };
     Def.Sprite{
       Texture=THEME:GetPathG("","_shared/P"..i.." BADGE");
@@ -27,36 +38,39 @@ for i=1,2 do
         s:x(i==1 and 100 or -100)
       end,
     };
-    Def.Sprite{
+    Def.BitmapText{
       Name="Messages",
-      InitCommand=function(s) s:xy(i==1 and 260 or -260,2):zoom(0.8):queuecommand("Set") end,
+      Font="_handel gothic itc std Bold/24px",
+      InitCommand=function(s) s:xy(i==1 and 140 or -140,-1):zoom(0.9):maxwidth(300):queuecommand("Set") end,
       SetCommand=function(s)
         local GetP1 = GAMESTATE:IsPlayerEnabled(PLAYER_1)
         local GetP2 = GAMESTATE:IsPlayerEnabled(PLAYER_2)
         local masterPlayer = GAMESTATE:GetMasterPlayerNumber()
         if i == 1 then
+          s:halign(0)
           if GetP1 == true and GAMESTATE:GetNumPlayersEnabled() == 1 then
-            s:Load(THEME:GetPathB("","ScreenSelectStyle decorations/P1here"));
+            s:settext(THEME:GetString("ScreenSelectStyle","P1here"))
           elseif GetP1 == false and GAMESTATE:PlayersCanJoin() and GAMESTATE:GetMasterPlayerNumber() == PLAYER_2 then
-            s:Load(THEME:GetPathB("","ScreenSelectStyle decorations/P1CanJoin"));
+            s:settext(THEME:GetString("ScreenSelectStyle","P1CanJoin"))
           elseif GetP1 == false and GAMESTATE:GetMasterPlayerNumber() == PLAYER_2  then
             if GAMESTATE:GetCoins() ~= GAMESTATE:GetCoinsNeededToJoin() and GAMESTATE:IsEventMode() == false then
-              s:Load(THEME:GetPathB("","ScreenSelectStyle decorations/credit"));
+              s:settext(THEME:GetString("ScreenSelectStyle","Credit"))
             end;
           else
-            s:Load(THEME:GetPathB("","ScreenSelectStyle decorations/P1here"));
+            s:settext(THEME:GetString("ScreenSelectStyle","P1here"))
           end;
         elseif i == 2 then
+          s:halign(1)
           if GetP2 == true and GAMESTATE:GetNumPlayersEnabled() == 1 then
-            s:Load(THEME:GetPathB("","ScreenSelectStyle decorations/P2here"));
+            s:settext(THEME:GetString("ScreenSelectStyle","P2here"))
           elseif GetP2 == false and GAMESTATE:GetMasterPlayerNumber() == PLAYER_1  then
             if GAMESTATE:GetCoins() ~= GAMESTATE:GetCoinsNeededToJoin()  and GAMESTATE:IsEventMode() == false then
-              s:Load(THEME:GetPathB("","ScreenSelectStyle decorations/credit"));
+              s:settext(THEME:GetString("ScreenSelectStyle","Credit"))
             else
-              s:Load(THEME:GetPathB("","ScreenSelectStyle decorations/P2CanJoin"));
+              s:settext(THEME:GetString("ScreenSelectStyle","P2CanJoin"))
             end;
           else
-            s:Load(THEME:GetPathB("","ScreenSelectStyle decorations/P2here"));
+            s:settext(THEME:GetString("ScreenSelectStyle","P2here"))
           end
         end
       end,

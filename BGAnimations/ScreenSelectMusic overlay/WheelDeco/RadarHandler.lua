@@ -1,3 +1,4 @@
+local Radar = LoadModule "DDR Groove Radar.lua"
 local pn = ({...})[1] --only argument to file
 local GR = {
     {-1,-112, "Stream"}, --STREAM
@@ -29,7 +30,7 @@ for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 	CurrentTrailP2ChangedMessageCommand=function(s) s:playcommand("Set") end,
         OnCommand=function(s) s:zoom(0):rotationz(-360):sleep(0.3):decelerate(0.4):zoom(1):rotationz(0) end,
         OffCommand=function(s) s:sleep(0.3):decelerate(0.3):rotationz(-360):zoom(0) end,
-        create_ddr_groove_radar("radar",0,0,pn,125,Alpha(PlayerColor(pn),0.25))
+        Radar.create_ddr_groove_radar("radar",0,0,pn,125,Alpha(PlayerColor(pn),0.25))
     }
     diffy[#diffy+1] = Def.ActorFrame{
       OnCommand=function(s)
