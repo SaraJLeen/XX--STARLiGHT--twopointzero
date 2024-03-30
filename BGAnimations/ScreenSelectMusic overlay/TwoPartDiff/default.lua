@@ -263,7 +263,11 @@ local function genScrollerFrame(pn)
 		},
 		-- Let's add input to this scroller.
 		ChangeStepsMessageCommand=function (self, param)
+			if not param then return end
+			if not param.Player then return end
+			if not pn then return end
 			if param.Player ~= pn then return end
+			if param.Direction ~= pn then return end
 			local dir = param.Direction
 			selection[pn] = selection[pn] + dir
 			self:SetDestinationItem( selection[pn]-1 )
