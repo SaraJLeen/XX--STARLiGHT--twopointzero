@@ -57,6 +57,7 @@ local function RivalScore(pn,rival)
 							local prof = PROFILEMAN:GetProfile(pns)
 							if(scores[rival]:GetName() == prof:GetDisplayName()) then
 								self:diffuse( PlayerColor(pns) )
+								self:diffusecolor((GetProfileColor(prof)))
 							end
 						end
 					else

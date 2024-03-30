@@ -25,11 +25,11 @@ local x_table = {
 --toasty loader
 for _, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
 	local song
-	if GAMESTATE:IsCourseMode() then
-		song = GAMESTATE:GetCurrentTrail(GAMESTATE:GetMasterPlayerNumber()):GetTrailEntries()[GAMESTATE:GetCurrentStageIndex()+1]:GetSong()
-	else
+	-- if GAMESTATE:IsCourseMode() then
+	-- 	song = GAMESTATE:GetCurrentTrail(GAMESTATE:GetMasterPlayerNumber()):GetTrailEntries()[GAMESTATE:GetCurrentStageIndex()+1]:GetSong()
+	-- else
 		song = GAMESTATE:GetCurrentSong()
-	end
+	-- end
 	if false and show_cutins and st ~= 'StepsType_Dance_Double' and ThemePrefs.Get("FlashyCombo") == true and song:HasBGChanges() == false then
 		--use ipairs here because i think it expects P1 is loaded before P2
 		if #Characters.GetAllCharacterNames() ~= 0 then
@@ -117,11 +117,11 @@ for _, pn in ipairs(GAMESTATE:GetEnabledPlayers()) do
 			local song
 			local dif = 0
 			
-			if GAMESTATE:IsCourseMode() then
-				song = GAMESTATE:GetCurrentTrail(GAMESTATE:GetMasterPlayerNumber()):GetTrailEntry(GAMESTATE:GetLoadingCourseSongIndex()-1):GetSong()
-			else
+			-- if GAMESTATE:IsCourseMode() then
+			-- 	song = GAMESTATE:GetCurrentTrail(GAMESTATE:GetMasterPlayerNumber()):GetTrailEntry(GAMESTATE:GetLoadingCourseSongIndex()-1):GetSong()
+			-- else
 				song = GAMESTATE:GetCurrentSong()
-			end
+			-- end
 			
 			if song then
 				local td = song:GetTimingData()

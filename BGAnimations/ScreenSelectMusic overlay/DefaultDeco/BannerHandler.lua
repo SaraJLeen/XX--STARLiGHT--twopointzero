@@ -88,9 +88,9 @@ local SongInfo = Def.ActorFrame{
     artist:diffusealpha(0):x(20):decelerate(0.25):x(0):diffusealpha(1)
 
     if song then
-      banner:Load(jk.GetSongGraphicPath(song,"Banner"))
-      title:visible(true):settext(song:GetDisplayFullTitle()):diffuse(SongAttributes_GetMenuColor(song)):y(-6):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(song)))
-      artist:visible(true):settext(song:GetDisplayArtist()):diffuse(SongAttributes_GetMenuColor(song)):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(song)))
+      banner:LoadFromCached("Banner",jk.GetSongGraphicPath(song,"Banner"))
+      title:visible(true):settext(song:GetDisplayFullTitle()):diffuse(SongAttributes.GetMenuColor(song)):y(-6):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(song)))
+      artist:visible(true):settext(song:GetDisplayArtist()):diffuse(SongAttributes.GetMenuColor(song)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(song)))
     elseif mw:GetSelectedType('WheelItemDataType_Section') then
       if mw:GetSelectedSection() == "" then
         banner:Load(THEME:GetPathG("","_banners/Random"))

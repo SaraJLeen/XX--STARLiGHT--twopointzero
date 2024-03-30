@@ -77,7 +77,15 @@ return Def.ActorFrame{
 		end
         elseif mw:GetSelectedType() == 'WheelItemDataType_Section' then
 		if cached_folder_jackets then
-			self:LoadFromCached("Jacket",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Jacket",so))
+            if mw:GetSelectedSection() == "" then
+              self:Load(THEME:GetPathG("","_jackets/Random"))
+            else
+              if jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Jacket",GAMESTATE:GetSortOrder()) ~= nil then
+                self:LoadFromCached("Jacket",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Jacket",GAMESTATE:GetSortOrder()))
+              else
+                self:Load(jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Jacket",GAMESTATE:GetSortOrder()))
+              end
+            end
 		else
 			self:Load(jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Jacket",so))
 		end

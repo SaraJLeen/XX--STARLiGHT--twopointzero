@@ -188,7 +188,7 @@ function GetAllCharacterNames()
 end
 
 function SelectCharacter()
-	Trace("Select character");
+	-- Trace("Select character");
 	local choiceList = GetAllCharacterNames()
     --for index, name in pairs(choiceList) do
     --    choiceListReverse[name] = index

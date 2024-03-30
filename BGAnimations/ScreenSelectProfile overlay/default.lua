@@ -15,6 +15,21 @@ local radar_nudge = 30
 
 function GetLocalProfiles()
 	local t = {}
+
+	local NoProfileCard = Def.ActorFrame{
+		Def.Sprite{
+			Texture=THEME:GetPathG("","ScreenSelectProfile/card.png"),
+		};
+		Def.BitmapText{
+			Font="_avenirnext lt pro bold/25px",
+			Text="Guest",
+			InitCommand=function(s) s:xy(-220,-15):halign(0):diffuse(color("#b5b5b5")):diffusetopedge(color("#e5e5e5"))
+				:maxwidth(400):zoom(1.1)
+			end,
+		};
+	}
+	-- t[#t+1] = NoProfileCard
+
 	for p = 0,PROFILEMAN:GetNumLocalProfiles()-1 do
 		local profile=PROFILEMAN:GetLocalProfileFromIndex(p);
 		local ProfileCard = Def.ActorFrame{
@@ -25,7 +40,7 @@ function GetLocalProfiles()
 				Font="_avenirnext lt pro bold/25px",
 				Text=profile:GetDisplayName(),
 				InitCommand=function(s) s:xy(-160,-15):halign(0):diffuse(color("#b5b5b5")):diffusetopedge(color("#e5e5e5"))
-					:maxwidth(400):zoom(1.1)
+					:maxwidth(400):zoom(1.1):diffusecolor((GetProfileColor(profile))):diffusetopedge(color("#e5e5e5"))
 				end,
 			};
 			Def.BitmapText{
@@ -135,7 +150,7 @@ function LoadPlayerStuff(Player)
 		Font="_avenirnext lt pro bold/25px",
 		Name = 'SelectedProfileText';
     	InitCommand=function(self) self:y(120):diffusealpha(0):maxwidth(400):strokecolor(Alpha(Color.Black,0.5)) end,
-		OnCommand=function(s) s:sleep(0.7):linear(0.2):diffusealpha(0.75) end,
+		OnCommand=function(s) s:sleep(0.7):linear(0.2):diffusealpha(0.5) end,
     	OffCommand=function(self)
       		self:diffusealpha(0)
     	end;
@@ -464,14 +479,19 @@ function UpdateInternal3(self, Player)
 			selSingle:visible(true)
 			selDouble:visible(true)
 			
-			if ind > 0 then
-				scroller:SetDestinationItem(ind-1);
-				seltext:settext(PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetDisplayName());
+			if ind <= 0 then
+				SCREENMAN:GetTopScreen():SetProfileIndex(Player, tonumber(PREFSMAN:GetPreference("DefaultLocalProfileID".. ToEnumShortString(Player))))
+				ind = SCREENMAN:GetTopScreen():GetProfileIndex(Player);
+			end
+			if ind >= 0 then
+				scroller:SetDestinationItem(ind);
+				seltext:settext(PROFILEMAN:GetLocalProfileFromIndex(ind):GetDisplayName());
+				seltext:diffusecolor(GetProfileColor(PROFILEMAN:GetLocalProfileFromIndex(ind)))
 
 				local RadarValueTableSingle = {};
 				local RadarValueTableDouble = {};
 
-				local profileID = PROFILEMAN:GetLocalProfileIDFromIndex(ind-1)
+				local profileID = PROFILEMAN:GetLocalProfileIDFromIndex(ind)
 				local prefs = ProfilePrefs.Read(profileID)
 				if SN3Debug then
 					ProfilePrefs.Save(profileID)
@@ -510,7 +530,7 @@ function UpdateInternal3(self, Player)
                 RadarValueTableDouble[5] = MyGrooveRadar.GetRadarData(profileID, 'double', 'chaos')
 				selGVRDoubleValue_Chaos:settext(string.format("%0.0f", RadarValueTableDouble[5]*100));
 
-				local time_secs = PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetTotalGameplaySeconds()
+				local time_secs = PROFILEMAN:GetLocalProfileFromIndex(ind):GetTotalGameplaySeconds()
 				local days = math.floor(time_secs/86400)
 				local hours = math.floor(math.mod(time_secs, 86400)/3600)
 				local minutes = math.floor(math.mod(time_secs,3600)/60)
@@ -526,16 +546,16 @@ function UpdateInternal3(self, Player)
 				else
 					selTTP:settext("No gameplay time");
 				end
-				if PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetTotalNumSongsPlayed() > 1 then
-					selTSP:settext(tostring(PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetTotalNumSongsPlayed()).." songs played");
-				elseif PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetTotalNumSongsPlayed() > 0 then
-					selTSP:settext(tostring(PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetTotalNumSongsPlayed()).." song played");
+				if PROFILEMAN:GetLocalProfileFromIndex(ind):GetTotalNumSongsPlayed() > 1 then
+					selTSP:settext(tostring(PROFILEMAN:GetLocalProfileFromIndex(ind):GetTotalNumSongsPlayed()).." songs played");
+				elseif PROFILEMAN:GetLocalProfileFromIndex(ind):GetTotalNumSongsPlayed() > 0 then
+					selTSP:settext(tostring(PROFILEMAN:GetLocalProfileFromIndex(ind):GetTotalNumSongsPlayed()).." song played");
 				else
 					selTSP:settext("No songs played");
 				end
 				--selLSP:settext("DDR 1st - Butterfly");
-				if PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetLastPlayedSong() then
-					local lastsong = PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetLastPlayedSong()
+				if PROFILEMAN:GetLocalProfileFromIndex(ind):GetLastPlayedSong() then
+					local lastsong = PROFILEMAN:GetLocalProfileFromIndex(ind):GetLastPlayedSong()
 					selLSP:settext(lastsong:GetDisplayArtist().." - "..lastsong:GetDisplayMainTitle())
 					if (Player==PLAYER_1 and LastColorP1 ~= SongAttributes_GetMenuColor(lastsong)) or (Player==PLAYER_2 and LastColorP2 ~= SongAttributes_GetMenuColor(lastsong)) then
 						selLSP:diffuse(SongAttributes_GetMenuColor(lastsong)):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(lastsong)))
@@ -546,8 +566,8 @@ function UpdateInternal3(self, Player)
 				else
 					selLSP:visible(false)
 				end
-				if PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetMostPopularSong() then
-					local favesong = PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetMostPopularSong()
+				if PROFILEMAN:GetLocalProfileFromIndex(ind):GetMostPopularSong() then
+					local favesong = PROFILEMAN:GetLocalProfileFromIndex(ind):GetMostPopularSong()
 					selFSP:settext(favesong:GetDisplayArtist().." - "..favesong:GetDisplayMainTitle())
 					if (Player==PLAYER_1 and FaveColorP1 ~= SongAttributes_GetMenuColor(favesong)) or (Player==PLAYER_2 and FaveColorP2 ~= SongAttributes_GetMenuColor(favesong)) then
 						selFSP:diffuse(SongAttributes_GetMenuColor(favesong)):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(favesong)))
@@ -627,8 +647,9 @@ function UpdateInternal3(self, Player)
 				local pastValues = GetOrCreateChild(GAMESTATE:Env(), 'PastRadarValues')
 				pastValues[Player] = DeepCopy(MyGrooveRadar.GetRadarTable(profileID))
 			else
-				if SCREENMAN:GetTopScreen():SetProfileIndex(Player, 1) then
+				if SCREENMAN:GetTopScreen():SetProfileIndex(Player, 0) then
 					scroller:SetDestinationItem(0);
+					joinframe:visible(false);
 					self:queuecommand('UpdateInternal2');
 				else
 					joinframe:visible(true);
@@ -739,26 +760,40 @@ local t = Def.ActorFrame{
 				ready[p.PlayerNumber] = true
 				s:queuecommand('UpdateInternal2');
 				if AllPlayersReady() then
-					SCREENMAN:GetTopScreen():Finish()
+					if SCREENMAN:GetTopScreen():GetProfileIndex(p.PlayerNumber) >= 0 then
+						SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen")
+					else
+						SCREENMAN:GetTopScreen():Finish()
+					end
 				end
 			end
 		end
 		if p.Name == 'Up' or p.Name == 'Up2' or p.Name == 'Up3' or p.Name == 'Up4' or p.Name == 'DownLeft' then
 			if GAMESTATE:IsHumanPlayer(p.PlayerNumber) and not ready[p.PlayerNumber] then
 				local ind = SCREENMAN:GetTopScreen():GetProfileIndex(p.PlayerNumber)
-				if ind > 1 then
+				if ind >= 1 then
 					if SCREENMAN:GetTopScreen():SetProfileIndex(p.PlayerNumber,ind-1) then
 						MESSAGEMAN:Broadcast("DirectionButton")
 						s:queuecommand("UpdateInternal2")
 					end
-				end
+				else
+					if SCREENMAN:GetTopScreen():SetProfileIndex(p.PlayerNumber, ind + PROFILEMAN:GetNumLocalProfiles()-1 ) then
+						MESSAGEMAN:Broadcast("DirectionButton");
+						s:queuecommand('UpdateInternal2');
+					end;
+				end;
 			end
 		end
 		if p.Name == 'Down' or p.Name == 'Down2' or p.Name == 'Down3' or p.Name == 'Down4' or p.Name == 'DownRight' then
 			if GAMESTATE:IsHumanPlayer(p.PlayerNumber) and not ready[p.PlayerNumber] then
 				local ind = SCREENMAN:GetTopScreen():GetProfileIndex(p.PlayerNumber);
-				if ind > 0 then
+				if ind < PROFILEMAN:GetNumLocalProfiles()-1 then
 					if SCREENMAN:GetTopScreen():SetProfileIndex(p.PlayerNumber, ind + 1 ) then
+						MESSAGEMAN:Broadcast("DirectionButton");
+						s:queuecommand('UpdateInternal2');
+					end;
+				else
+					if SCREENMAN:GetTopScreen():SetProfileIndex(p.PlayerNumber, 0 ) then
 						MESSAGEMAN:Broadcast("DirectionButton");
 						s:queuecommand('UpdateInternal2');
 					end;

@@ -25,6 +25,16 @@ Color = {
 
 	AutogenStep	=	color("1,1,0,1"),
 	ConvDiffStep	=	color("0.75,0.75,1,1"),
+	HoloBlue		= color("#33B5E5"),
+	HoloDarkBlue	= color("#0099CC"),
+	HoloPurple		= color("#AA66CC"),
+	HoloDarkPurple	= color("#9933CC"),
+	HoloGreen		= color("#99CC00"),
+	HoloDarkGreen	= color("#669900"),
+	HoloOrange		= color("#FFBB33"),
+	HoloDarkOrange	= color("#FF8800"),
+	HoloRed			= color("#FF4444"),
+	HoloDarkRed		= color("#CC0000"),
 -- Color Functions
 -- These functions alter colors in a certain way so that you can make
 -- new ones without having to copy a color or find a new one.

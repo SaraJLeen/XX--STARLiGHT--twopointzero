@@ -1,11 +1,9 @@
-local st_rev = nil
-local diff_rev = nil
-if StepsType then
-	st_rev = Enum.Reverse(StepsType)
-end
-if Difficulty then
-	diff_rev = Enum.Reverse(Difficulty)
-end
+-- Outfox updated the StepsType enumerator to ChartType for generalized
+-- naming schemes. Check for this while processing this line.
+local stTypeToCheck = ChartType or StepsType
+
+local st_rev = Enum.Reverse(stTypeToCheck)
+local diff_rev = Enum.Reverse(Difficulty)
 
 ClearLampColors = {
 	[0]={1,1,1,0},

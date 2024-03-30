@@ -129,12 +129,14 @@ function BeginOutDelay()
 	local song = GetSong()
 	local dif = 0
 	
-	if GAMESTATE:IsCourseMode() then
-		local numCourseSongs = #GAMESTATE:GetCurrentTrail(GAMESTATE:GetMasterPlayerNumber()):GetTrailEntries()
-		local j = (GAMESTATE:GetLoadingCourseSongIndex() == numCourseSongs-1) and 0 or 1
+	--if GAMESTATE:IsCourseMode() then
+	--	local numCourseSongs = #GAMESTATE:GetCurrentTrail(GAMESTATE:GetMasterPlayerNumber()):GetTrailEntries()
+	--	local j = (GAMESTATE:GetLoadingCourseSongIndex() == numCourseSongs-1) and 0 or 1
 		
-		song = GAMESTATE:GetCurrentTrail(GAMESTATE:GetMasterPlayerNumber()):GetTrailEntry(GAMESTATE:GetLoadingCourseSongIndex()-j):GetSong()
-	end
+	--	song = GAMESTATE:GetCurrentTrail(GAMESTATE:GetMasterPlayerNumber()):GetTrailEntry(GAMESTATE:GetLoadingCourseSongIndex()-j):GetSong()
+	--end
+
+        if not song then return 0 end
 	
 	local td = song:GetTimingData()
 	local bpm = round(td:GetBPMAtBeat(song:GetLastBeat()),3)
@@ -161,7 +163,7 @@ function BeginOutDelay()
 	
 	if STATSMAN:GetCurStageStats():AllFailed() then
 		dif = 0
-	elseif GAMESTATE:IsCourseMode() and (GAMESTATE:GetSongBeat() < song:GetLastBeat()-2) then
+	elseif GAMESTATE:IsCourseMode() and song and (GAMESTATE:GetSongBeat() < song:GetLastBeat()-2) then
 		--- yes, not zero
 		dif = 0.001
 	end

@@ -23,9 +23,9 @@ local SongInfo = Def.ActorFrame{
         banner:finishtweening()
 
         if song then
-            title:visible(true):settext(song:GetDisplayFullTitle()):diffuse(SongAttributes_GetMenuColor(song)):y(-6):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(song)))
-            artist:visible(true):settext(song:GetDisplayArtist()):diffuse(SongAttributes_GetMenuColor(song)):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(song)))
-            banner:Load(jk.GetSongGraphicPath(song,"Banner"))
+            title:visible(true):settext(song:GetDisplayFullTitle()):diffuse(SongAttributes.GetMenuColor(song)):y(-6):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(song)))
+            artist:visible(true):settext(song:GetDisplayArtist()):diffuse(SongAttributes.GetMenuColor(song)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(song)))
+            banner:LoadFromCached("Banner",jk.GetSongGraphicPath(song,"Banner"))
         elseif mw:GetSelectedType('WheelItemDataType_Section') then
             if mw:GetSelectedSection() == "" then
               banner:Load(THEME:GetPathG("","_banners/Random"))
@@ -33,7 +33,11 @@ local SongInfo = Def.ActorFrame{
             if mw:GetSelectedSection() ~= "" then
               title:visible(true):settext(SongAttributes_GetGroupName(mw:GetSelectedSection())):y(6):diffuse(SongAttributes_GetGroupColor(mw:GetSelectedSection())):strokecolor(ColorDarkTone(SongAttributes_GetGroupColor(mw:GetSelectedSection())))
               artist:settext(""):visible(false)
-              banner:Load(jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Banner",so))
+              if jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Banner",GAMESTATE:GetSortOrder()) ~= nil then
+				banner:LoadFromCached("Banner",jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Banner",GAMESTATE:GetSortOrder()))
+			else
+				banner:Load(jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Banner",GAMESTATE:GetSortOrder()))
+			end
             else
               title:settext(""):visible(false)
               artist:settext(""):visible(false)
@@ -189,7 +193,7 @@ return Def.ActorFrame{
 	end,
     RemoveCommand=function(s) s:RemoveChild("TwoPartDiff") end,
 	SongChosenMessageCommand=function(self)
-		self:AddChildFromPath(THEME:GetPathB("ScreenSelectMusic","overlay/TwoPartDiff"));
+		--self:AddChildFromPath(THEME:GetPathB("ScreenSelectMusic","overlay/TwoPartDiff"));
 	end;
     Def.Actor{
         Name="WheelActor",
@@ -223,4 +227,5 @@ return Def.ActorFrame{
     SongInfo;
     Arrows;
     t;
+    LoadActor("../TwoPartDiff")
 }

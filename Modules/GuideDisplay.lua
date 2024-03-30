@@ -39,6 +39,7 @@ local function sort_by_first_entry(tbl)
 end
 
 function GuideDisplay:SetSongAndSteps(song, steps)
+    if not song or not steps then return nil end
     local timing = steps:GetTimingData()
     local last_beat = song:GetLastBeat()
     self.last_beat = last_beat

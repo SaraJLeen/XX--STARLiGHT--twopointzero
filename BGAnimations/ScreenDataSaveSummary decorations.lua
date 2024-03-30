@@ -127,7 +127,7 @@ local function LoadPlayerStuff(Player)
 		Font='_avenirnext lt pro bold/25px',
 		Name='SelectedProfileText', 
 		InitCommand=function(self)
-			self:xy(-160,-15):halign(0):zoom(1.1):diffuse(color('#b5b5b5')):diffusetopedge(color('#e5e5e5')):diffusealpha(0):maxwidth(400)
+			self:xy(-160,-15):halign(0):zoom(1.1):diffuse(color('#b5b5b5')):diffusecolor((GetProfileColor(PROFILEMAN:GetProfile(Player)))):diffusetopedge(color('#e5e5e5')):diffusealpha(0):maxwidth(400)
 		end,
 		OnCommand=function(s) s:sleep(0.7):linear(0.2):diffusealpha(1) end,
 		['Player' .. pname(Player) .. 'FinishMessageCommand']=function(s) s:sleep(0.3):diffusealpha(0) end,

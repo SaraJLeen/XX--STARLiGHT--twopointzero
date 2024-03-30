@@ -7,7 +7,17 @@ local function CreditsText()
 			if GAMESTATE:IsEventMode() then self:settext('EVENT MODE') return end
 			if GAMESTATE:GetCoinMode()=='CoinMode_Free' then self:settext(' ') return end
 			if GAMESTATE:GetCoinMode()=='CoinMode_Home' then self:settext(' ') return end
-			if GAMESTATE:GetCoinMode()=='CoinMode_Pay' then self:settext(" ") return end
+			if GAMESTATE:GetCoinMode()=='CoinMode_Pay' then
+				local coins=GAMESTATE:GetCoins()
+				local coinsPerCredit=PREFSMAN:GetPreference('CoinsPerCredit')
+				local credits=math.floor(coins/coinsPerCredit)
+				local remainder=math.mod(coins,coinsPerCredit)
+				local add = ''
+				if coinsPerCredit > 1 then
+					add = " ("..remainder.."/"..coinsPerCredit..")"
+				end
+				self:settext("CREDIT(S): "..credits..add)
+			end
 		end;
 		UpdateVisibleCommand=function(self)
 			local screen = SCREENMAN:GetTopScreen();
@@ -36,6 +46,7 @@ local function PlayerText( pn )
 		end,
 		UpdateTextCommand=function(s)
 			s:settext(PROFILEMAN:GetProfile(pn):GetDisplayName())
+			s:diffusecolor((GetProfileColor(PROFILEMAN:GetProfile(pn))))
 		end;
 		UpdateVisibleCommand=function(self)
 			local screen = SCREENMAN:GetTopScreen();

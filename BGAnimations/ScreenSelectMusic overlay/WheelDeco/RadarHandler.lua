@@ -281,7 +281,7 @@ end
 							for _,pns in pairs(GAMESTATE:GetEnabledPlayers()) do
 								local prof = PROFILEMAN:GetProfile(pns)
 								if(scores[rival]:GetName() == prof:GetDisplayName()) then
-									c.Text_name:diffuse( PlayerColor(pns) )
+									c.Text_name:diffusecolor( (GetProfileColor(PROFILEMAN:GetProfile(pns)) ) )
 								end
 							end
 						end
