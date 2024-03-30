@@ -118,7 +118,7 @@ return Def.ActorFrame{
 	end,
 	RemoveCommand=function(s) s:RemoveChild("TwoPartDiff") end,
 	SongChosenMessageCommand=function(self)
-		self:AddChildFromPath(THEME:GetPathB("ScreenSelectMusic","overlay/TwoPartDiff"));
+		-- self:AddChildFromPath(THEME:GetPathB("ScreenSelectMusic","overlay/TwoPartDiff"));
 	end;
 	Def.Sprite{
 		Texture="Header.png",
@@ -164,11 +164,15 @@ return Def.ActorFrame{
 						s:Load(THEME:GetPathG("","MusicWheelItem Song NormalPart/Jukebox/cd/"..diskImage));
 						s:zoomtowidth(475):zoomtoheight(475);
 					else
-						s:Load(jk.GetSongGraphicPath(song,"CD"))
+						s:LoadFromCached("Disc",jk.GetSongGraphicPath(song,"CD"))
 					end
 				elseif mw:GetSelectedType('WheelItemDataType_Section') then
 					s:ztest(0)
-					s:Load(jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Jacket",so))
+					if jk.GetGroupGraphicPath(p.Text,"Jacket",GAMESTATE:GetSortOrder()) ~= nil then
+						s:LoadFromCached("Jacket",jk.GetGroupGraphicPath(p.Text,"Jacket",GAMESTATE:GetSortOrder()))
+					else
+						s:Load(jk.GetGroupGraphicPath(mw:GetSelectedSection(),"Jacket",so))
+					end
 				else
 					s:Load( THEME:GetPathG("","MusicWheelItem fallback") );
 				end
@@ -233,4 +237,5 @@ return Def.ActorFrame{
 	StandardDecorationFromFileOptional("StageDisplay","StageDisplay")..{
 		InitCommand=function(s) s:xy(_screen.cx-234,_screen.cy-270):zoom(1):draworder(100):halign(0) end,
 	};
+	LoadActor("../TwoPartDiff"),
 }

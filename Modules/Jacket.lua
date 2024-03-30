@@ -5,6 +5,7 @@ end
 local Jacket = {
     GetSongGraphicPath=function(song,type,fallback)
         local fbg = THEME:GetPathG("MusicWheelItem", "fallback")
+        local ran = math.random(1,100)
         --i.e. 
         if type == "Banner" then
             if song.HasBanner and song:HasBanner() then

@@ -197,7 +197,7 @@ end
 function JudgmentTransformCommand( self, params )
 	local x = 0
 	local y = -76
-	-- ???o?[?X???IY?2?Y’e?A?Z?“?^?[?a?i?{
+	-- リバース時のY軸設定、センターが基本
 	if params.bReverse then y = 67 end
 	-- This makes no sense and wasn't even being used due to misspelling.
 	-- if bCentered then y = y * 2 end

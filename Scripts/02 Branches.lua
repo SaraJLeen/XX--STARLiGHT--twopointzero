@@ -93,6 +93,10 @@ Branch.TitleMenu = function()
 	end
 end
 
+Branch.AfterProfile = function()
+	return "ScreenSelectStyle"
+end
+
 Branch.AfterSelectStyle = function()
 	if IsNetConnected() then
 		ReportStyle()
@@ -103,7 +107,11 @@ Branch.AfterSelectStyle = function()
 	if IsNetConnected() then
 		return "ScreenNetRoom"
 	end
-	return "ScreenProfileLoad"
+	if GAMESTATE:IsAnyHumanPlayerUsingMemoryCard() then
+        return "ScreenProfileLoad"
+    else
+        return "ScreenCaution"
+    end
 
 	--return CHARMAN:GetAllCharacters() ~= nil and "ScreenSelectCharacter" or "ScreenGameInformation"
 end

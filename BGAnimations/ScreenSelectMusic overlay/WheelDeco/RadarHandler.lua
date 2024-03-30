@@ -1,4 +1,3 @@
-local Radar = LoadModule "DDR Groove Radar.lua"
 local pn = ({...})[1] --only argument to file
 local GR = {
     {-1,-112, "Stream"}, --STREAM
@@ -7,6 +6,7 @@ local GR = {
     {108,72, "Freeze"}, --FREEZE
     {120,-43, "Chaos"}, --CHAOS
 };
+local Radar = LoadModule "DDR Groove Radar.lua"
 
 local lab = Def.ActorFrame{};
 local radars = Def.ActorFrame{}
