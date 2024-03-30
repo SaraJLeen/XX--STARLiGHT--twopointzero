@@ -239,15 +239,15 @@ function LoadPlayerStuff(Player)
 		{120,-43, "Chaos"}, --CHAOS
 	};
 
-	for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
+	--for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 		t[#t+1] = loadfile(THEME:GetPathG("ScreenSelectProfile", "GrooveRadar" ))(1,0.2,0.2,0.2,0.5,Player,'single')..{
-			--Name = "GVR"..ToEnumShortString(Player).."S"; --Removal fixes warning -- No apparent ill effects...
+			Name = "GVR"..ToEnumShortString(Player).."S"; --Removal fixes warning -- No apparent ill effects...
 			InitCommand=function(s) s:xy(0,120-fsp_nudge):zoom(1):diffusealpha(0):diffuse(PlayerColor(PLAYER_1)) end,
 			OnCommand=function(s) s:sleep(0.9):linear(0.05):diffusealpha(1) end,
 			OffCommand=function(s) s:sleep(0.2):linear(0.2):diffusealpha(0) end,
 		};
 		t[#t+1] = loadfile(THEME:GetPathG("ScreenSelectProfile", "GrooveRadar" ))(1,0.2,0.2,0.2,0.5,Player,'double')..{
-			--Name = "GVR"..ToEnumShortString(Player).."D"; --Removal fixes warning -- No apparent ill effects...
+			Name = "GVR"..ToEnumShortString(Player).."D"; --Removal fixes warning -- No apparent ill effects...
 			InitCommand=function(s) s:xy(0,120-fsp_nudge):zoom(1):diffusealpha(0):diffuse(PlayerColor(PLAYER_2)) end,
 			OnCommand=function(s) s:sleep(0.9):linear(0.05):diffusealpha(1) end,
 			OffCommand=function(s) s:sleep(0.2):linear(0.2):diffusealpha(0) end,
@@ -368,7 +368,7 @@ function LoadPlayerStuff(Player)
 				s:linear(0.1):diffusealpha(0):addx(-10)
 			end;
 		}
-	end
+	--end
 
 	return t;
 end
@@ -581,6 +581,7 @@ function UpdateInternal3(self, Player)
 				local singleTotalTrue = MyGrooveRadar.GetRadarData(profileID, 'single', 'stream') + MyGrooveRadar.GetRadarData(profileID, 'single', 'voltage') + MyGrooveRadar.GetRadarData(profileID, 'single', 'air') + MyGrooveRadar.GetRadarData(profileID, 'single', 'freeze') + MyGrooveRadar.GetRadarData(profileID, 'single', 'chaos')
 				local singleTotal = math.floor((singleTotalTrue*100)/20)
 				if singleTotalTrue > 0 then
+					selGVRS:visible(true)
 					selSingle:settext(string.format("Single\nLv.%2d",math.max(singleTotal,1)))
 					selSingle:visible(true)
 					selGVRSingleValue_Stream:visible(true)
@@ -589,6 +590,7 @@ function UpdateInternal3(self, Player)
 					selGVRSingleValue_Freeze:visible(true)
 					selGVRSingleValue_Chaos:visible(true)
 				else
+					selGVRS:visible(false)
 					selSingle:visible(false)
 					selGVRSingleValue_Stream:visible(false)
 					selGVRSingleValue_Voltage:visible(false)
@@ -599,6 +601,7 @@ function UpdateInternal3(self, Player)
 				local doubleTotalTrue = MyGrooveRadar.GetRadarData(profileID, 'double', 'stream') + MyGrooveRadar.GetRadarData(profileID, 'double', 'voltage') + MyGrooveRadar.GetRadarData(profileID, 'double', 'air') + MyGrooveRadar.GetRadarData(profileID, 'double', 'freeze') + MyGrooveRadar.GetRadarData(profileID, 'double', 'chaos')
 				local doubleTotal = math.floor((doubleTotalTrue*100)/20)
 				if doubleTotalTrue > 0 then
+					selGVRD:visible(true)
 					selDouble:settext(string.format("Double\nLv.%2d",math.max(doubleTotal,1)))
 					selDouble:visible(true)
 					selGVRDoubleValue_Stream:visible(true)
@@ -607,6 +610,7 @@ function UpdateInternal3(self, Player)
 					selGVRDoubleValue_Freeze:visible(true)
 					selGVRDoubleValue_Chaos:visible(true)
 				else
+					selGVRD:visible(false)
 					selDouble:visible(false)
 					selGVRDoubleValue_Stream:visible(false)
 					selGVRDoubleValue_Voltage:visible(false)
