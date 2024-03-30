@@ -1,4 +1,6 @@
 local numwh = THEME:GetMetric("MusicWheel","NumWheelItems")+2
+local SongAttributes = LoadModule "SongAttributes.lua"
+local Radar = LoadModule "DDR Groove Radar.lua"
 local Arrows = Def.ActorFrame{};
 for i=1,2 do
 	Arrows[#Arrows+1] = Def.ActorFrame{
@@ -77,7 +79,7 @@ for pn in EnabledPlayers() do
 			Texture="RadarBase.png",
 			InitCommand=function(s) s:y(10):blend(Blend.Add):zoom(1.35):diffuse(ColorMidTone(PlayerColor(pn))):diffusealpha(0.75) end,
 		};
-		create_ddr_groove_radar("radar",0,20,pn,350,Alpha(PlayerColor(pn),0.25));
+		Radar.create_ddr_groove_radar("radar",0,20,pn,350,Alpha(PlayerColor(pn),0.25));
 		Def.BitmapText{
 			Font="_avenirnext lt pro bold/42px",
 			InitCommand=function(s) s:shadowlengthy(5):y(-180) end,
@@ -444,7 +446,7 @@ return Def.ActorFrame{
 			s:xy(SCREEN_LEFT,_screen.cy+80):diffusealpha(0)
 		end,
 		SetCommand=function(s)
-			s:finishtweening()
+			s:stoptweening()
 			local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
 			local so = ToEnumShortString(GAMESTATE:GetSortOrder())
 			if not mw then return end
@@ -454,7 +456,7 @@ return Def.ActorFrame{
 				s:linear(0.15):diffusealpha(0)
 			end
 		end,
-		CurrentSongChangedMessageCommand=function(s) s:playcommand("Set") end,
+		CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
 		Def.Sprite{ Texture="GLabel",
 			InitCommand=function(s) s:halign(0) end,
 			SetCommand=function(s)
@@ -487,13 +489,11 @@ return Def.ActorFrame{
 				if not mw then return end
 				if mw:GetSelectedSection() ~= "" and GAMESTATE:GetCurrentSong() then
 					if so == "Group" then
-						s:strokecolor(ColorDarkTone(SongAttributes_GetGroupColor(mw:GetSelectedSection())))
-						s:settext("GROUP/"..SongAttributes_GetGroupName(mw:GetSelectedSection()))
+						s:strokecolor(ColorDarkTone(SongAttributes.GetGroupColor(mw:GetSelectedSection())))
+						s:settext(THEME:GetString("ScreenSelectMusic","GLabelGROUP").."/"..SongAttributes.GetGroupName(mw:GetSelectedSection()))
 					elseif so == "Title" then
-						group = GAMESTATE:GetCurrentSong():GetGroupName()
-						if group == "<Favorites>" then group = string.match(GAMESTATE:GetCurrentSong():GetSongDir(), "/Songs/(.-)/") end
-						s:strokecolor(ColorDarkTone(SongAttributes_GetGroupColor(group)))
-						s:settext("From: "..SongAttributes_GetGroupName(group))
+						s:strokecolor(ColorDarkTone(SongAttributes.GetGroupColor(GAMESTATE:GetCurrentSong():GetGroupName())))
+						s:settext(THEME:GetString("ScreenSelectMusic","GLabelFrom")..": "..SongAttributes.GetGroupName(GAMESTATE:GetCurrentSong():GetGroupName()))
 					else
 						s:settext("")
 					end
@@ -525,10 +525,11 @@ return Def.ActorFrame{
 	loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/DefaultDeco/BPM.lua"))(0.5)..{
 		InitCommand=function(s) s:xy(_screen.cx,_screen.cy+120) end,
 		StartSelectingStepsMessageCommand=function(self)
-			self:sleep(0.3):decelerate(0.3):diffusealpha(0)
+			self:sleep(0.3):decelerate(0.3):diffusealpha(0):queuecommand("Hide")
 		end;
+		HideCommand=function(s) s:visible(false) end,
 		SongUnchosenMessageCommand=function(self)
-			self:linear(0.3):diffusealpha(1)
+			self:visible(true):linear(0.3):diffusealpha(1)
 		end;
 	};
 	Arrows;

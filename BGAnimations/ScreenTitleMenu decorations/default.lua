@@ -16,13 +16,13 @@ return Def.ActorFrame{
   Def.Sprite{
     InitCommand=function(s)
       if (MonthOfYear()+1) == 4 and DayOfMonth() == 1 then
-        s:Load(THEME:GetPathB("","_Logo/itglogo.png"))
+        s:Load(THEME:GetPathB("","_Logo/owologo.png"))
 	   if ANNOUNCER:GetCurrentAnnouncer() == "DDR Extreme Customized" then ANNOUNCER:SetCurrentAnnouncer("DDR Extreme Customized AF") end
       else
         s:Load(THEME:GetPathB("","_Logo/xxlogo.png"))
 	   if ANNOUNCER:GetCurrentAnnouncer() == "DDR Extreme Customized AF" then ANNOUNCER:SetCurrentAnnouncer("DDR Extreme Customized") end
       end
-      s:xy(_screen.cx+104,_screen.cy+16):blend(Blend.Add):diffusealpha(0)
+      s:xy(_screen.cx+102,_screen.cy+16):blend(Blend.Add):diffusealpha(0)
     end,
     OnCommand=function(s) s:sleep(0.45):diffusealpha(1):linear(1):diffusealpha(0):zoom(1.5):sleep(0):zoom(1):queuecommand("Anim") end,
     AnimCommand=function(s) s:diffusealpha(0):sleep(1):linear(0.75):diffusealpha(0.3):sleep(0.1):linear(0.4):diffusealpha(0):queuecommand("Anim") end,
