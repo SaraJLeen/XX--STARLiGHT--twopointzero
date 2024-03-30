@@ -4,9 +4,9 @@ local screenName = Var "LoadingScreen";
 
 local bars = Def.ActorFrame{}
 
-Trace("Loading row prefs")
+--Trace("Loading row prefs")
 LoadModule("Row.Prefs.lua")(LoadModule("Options.Prefs.lua"))
-Trace("Done")
+--Trace("Done")
 
 for i=1,7 do
 	bars[#bars+1] = Def.Quad{
