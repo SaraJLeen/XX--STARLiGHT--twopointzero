@@ -183,9 +183,9 @@ end
 --]]
 
 function GetProfileColor(profile,flag)
-	Trace("GetProfileColor called\n")
+	-- Trace("GetProfileColor called\n")
 	if profile then
-		Trace("Profile exists\n")
+		-- Trace("Profile exists\n")
 		if     profile:GetGUID() == "b3fa54eb35f58674" then	return color("#bd0078") --Pink-red
 		elseif profile:GetGUID() == "2269a6209c6291a3" then	return color("#369ad8") --Blue
 		elseif profile:GetGUID() == "5ad12c91e4ef0685" then	return color("#00c5db") --Cyan
@@ -195,7 +195,7 @@ function GetProfileColor(profile,flag)
 		end
 	end
 	if flag then return PlayerColor(flag) end --Use 1P/2P colors
-	Trace("Reached end...\n")
+	-- Trace("Reached end...\n")
 	return Color.White
 end
 

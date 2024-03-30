@@ -6,7 +6,7 @@ return Def.ActorFrame {
 		Texture="movie.avi",
 		InitCommand=function(s)
 			s:zoomtoheight(1080):Center();
-			Trace("Resetting background settings");
+			-- Trace("Resetting background settings");
 			SetUserPref("RandomRNG",false)
 			PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_RandomMovies');
 		end,
