@@ -47,7 +47,10 @@ return function(PData,ForEveryProfile)
 					end
 				end
 			else
-				Info[PData].Image = LoadModule("Config.Load.lua")("AvatarImage",config_loc)
+				local imagePath = LoadModule("Config.Load.lua")("AvatarImage",config_loc)
+				if imagePath and FILEMAN:DoesFileExist(imagePath) then
+					Info[PData].Image = imagePath
+				end
 			end
 		end	
 		return Info[PData]

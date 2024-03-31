@@ -1,6 +1,6 @@
 local SBG = GAMESTATE:GetSongOptionsObject("ModsLevel_Preferred")
 
-if GetUserPref("OptionRowGameplayBackground")=='DanceStages' and GetUserPref("UseBGMovies")~='true' then
+if ThemePrefs.Get("GameplayBackground")=='DanceStages' and GetUserPref("UseBGMovies")~='true' then
 	SBG:RandomBGOnly(false)
 	Trace("Setting DanceStage BG mode");
 else

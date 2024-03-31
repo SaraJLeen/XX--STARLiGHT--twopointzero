@@ -325,7 +325,7 @@ for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
 				end
 			end,
   			SetCommand=function(self)
-				if GetUserPref("OptionRowGameplayBackground")=='DanceStages' then
+				if ThemePrefs.Get("GameplayBackground")=='DanceStages' then
 					local profileID = GetProfileIDForPlayer(pn)
 					local pPrefs = ProfilePrefs.Read(profileID)
 					local stageName = pPrefs.dancestage
@@ -403,7 +403,7 @@ for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
 				end
 			end,
   			SetCommand=function(self)
-				if GetUserPref("OptionRowGameplayBackground")=='DanceStages' then
+				if ThemePrefs.Get("GameplayBackground")=='DanceStages' then
 					local charName = ResolveCharacterNameEn(pn)
 					local name = GAMESTATE:GetCharacter(pn):GetCharacterID() or ""
 					-- Trace("Charname: "..charName..". Name: "..name)
@@ -436,7 +436,7 @@ for _,pn in ipairs(GAMESTATE:GetHumanPlayers()) do
 					else
 						self:visible(false);
 					end
-				elseif GetUserPref("OptionRowGameplayBackground")=='SNCharacters' then
+				elseif ThemePrefs.Get("GameplayBackground")=='SNCharacters' then
 					local charName = ResolveCharacterNameSN(pn)
 					local name = (GAMESTATE:Env())['SNCharacter'..ToEnumShortString(pn)] or ""
 					--Trace("Charname: "..charName..". Name: "..name)

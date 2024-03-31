@@ -2,12 +2,8 @@
 DanceStagesFolder = "/Appearance/DanceStages/"
 
 function UseStaticBackground()
-	if ReadPrefFromFile("OptionRowGameplayBackground") ~= nil then
-		if GetUserPref("OptionRowGameplayBackground")=='DanceStages' then
-			return false
-		else
-			return true
-		end
+	if ThemePrefs.Get("GameplayBackground") then
+		return false
 	else
 		return true
 	end
@@ -21,9 +17,9 @@ function OptionNumber()
 	--A5: Appearance2, A6: Turn2, A7: Insert, A8: RemoveCombinations,
 	--A9: RemoveFeatures, A10: Scroll2, A11: Holds2, A12: Mines
 	--A13: Attacks, A14: PlayerAutoPlay, A15: Hide2, A16: Persp
-	if GetUserPref("OptionRowGameplayBackground")=='DanceStages' then
+	if ThemePrefs.Get("GameplayBackground")=='DanceStages' then
 		return "1,2,3,4,5,6,A1,A3,A4,A10,A16,7,13,Steps,12,E3,15,SelectStage" --,16"
-	elseif GetUserPref("OptionRowGameplayBackground")=='SNCharacters' then
+	elseif ThemePrefs.Get("GameplayBackground")=='SNCharacters' then
 		return "1,2,3,4,5,6,A1,A3,A4,A10,A16,7,13,Steps,12,E3,15" --,16"
 	else
 		return "1,2,3,4,5,6,A1,A3,A4,A10,A16,7,13,Steps,12,E3" --,16"
@@ -31,9 +27,9 @@ function OptionNumber()
 end
 
 function CharactersOption()
-	if GetUserPref("OptionRowGameplayBackground")=='DanceStages' then
+	if ThemePrefs.Get("GameplayBackground")=='DanceStages' then
 		return "lua,SelectCharacter()"
-	elseif GetUserPref("OptionRowGameplayBackground")=='SNCharacters' then
+	elseif ThemePrefs.Get("GameplayBackground")=='SNCharacters' then
 		return "lua,OptionRowCharacters()"
 	end
 end

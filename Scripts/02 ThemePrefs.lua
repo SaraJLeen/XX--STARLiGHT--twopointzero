@@ -117,6 +117,60 @@ local Prefs =
 		Default = false,
 		Choices = {"Off", "On"},
 		Values = {false,true}
+	},
+	GameplayBackground = 
+	{
+		Default = "Background",
+		Choices = {"Background", "Dance Stages", "SNCharacters"},
+		Values = {"Background", "DanceStages", "SNCharacters"}
+	},
+	CutInOverVideo = 
+	{
+		Default = false,
+		Choices = {"On", "Off"},
+		Values = {true,false}
+	},
+	RMStage = 
+	{
+		Default = "Jacket",
+		Choices = {"Random Movies", "Jacket"},
+		Values = {"Random Movies","Jacket"}
+	},
+	VideoOverStage = 
+	{
+		Default = false,
+		Choices = {"On", "Off"},
+		Values = {true,false}
+	},
+	BoomSync = 
+	{
+		Default = "Normal",
+		Choices = {"Normal", "BPM Sync"},
+		Values = {"Normal","BPM Sync"}
+	},
+	CharacterSync = 
+	{
+		Default = "Normal",
+		Choices = {"Normal", "BPM Sync"},
+		Values = {"Normal","BPM Sync"}
+	},
+	DiscoStars = 
+	{
+		Default = "Normal",
+		Choices = {"Normal", "A Few", "None"},
+		Values = {"Normal","A Few","None"}
+	},
+	CharaShadow = 
+	{
+		Default = false,
+		Choices = {"On", "Off"},
+		Values = {true,false}
+	},
+	SNEnv = 
+	{
+		Default = "Normal",
+		Choices = {"Intense","Colored","Normal"},
+		Values = {"Intense","Colored","Normal"}
 	}
 };
 

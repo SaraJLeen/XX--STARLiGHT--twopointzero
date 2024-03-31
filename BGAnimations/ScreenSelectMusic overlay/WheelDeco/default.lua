@@ -298,6 +298,30 @@ return Def.ActorFrame{
 		end,
 		CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
   };
+--[
+--is crap doesn't work right now despite my efforts
+--think the song file isn't loaded enough to detect if it has BGA
+  Def.Sprite{
+		Name="HasVideo",
+		Texture="VideoPlayer",
+		InitCommand=function(s) s:animate(0):zoom(0.7):xy(SCREEN_LEFT+527,_screen.cy-224):zoomy(0) end,
+		OnCommand=function(s) s:zoomy(0):sleep(0.3):bounceend(0.175):zoomy(0.7) end,
+  		OffCommand=function(s) s:sleep(0.2):bouncebegin(0.175):zoomy(0) end,
+		SetCommand=function(s,p)
+			local song = GAMESTATE:GetCurrentSong()
+			if song then
+				if song:HasBGChanges() or #song:GetBGChanges() then
+					s:visible(true)
+				else
+					s:visible(false)
+				end
+			else
+				s:visible(false)
+			end
+		end,
+		CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
+  };
+--]
   Def.BitmapText{
     Font="_avenirnext lt pro bold/36px",
     Name="LengthLabel";

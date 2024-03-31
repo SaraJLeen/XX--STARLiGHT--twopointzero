@@ -2,7 +2,9 @@
 --Please consider all the effort that has been made, so remember to play fair.
 --Enjoy! See you later alligator.
 --Author: Enciso0720
---Last Update: 20220126
+--Last Update: 20230813
+
+currentDanceStage = "default"
 
 function HasAnyCharacters(pn)
 	return GAMESTATE:IsPlayerEnabled(pn) and GAMESTATE:GetCharacter(pn):GetDisplayName() ~= "default"
@@ -171,15 +173,24 @@ function GetAllCharacterNames()
     -- SortList(_chars,chars,"%[JB%]")
     -- SortList(_chars,chars,"%[DW%]")
 	-- SortList(_chars,chars,"%[DDRII%]")
+    -- SortList(_chars,chars,"%(HP4%)")
     -- SortList(_chars,chars,"%[HP4%]")
+    -- SortList(_chars,chars,"%(HP3%)")
     -- SortList(_chars,chars,"%[HP3%]")
+    -- SortList(_chars,chars,"%(HP2%)")
     -- SortList(_chars,chars,"%[HP2%]")
+    -- SortList(_chars,chars,"%(HP1%)")
     -- SortList(_chars,chars,"%[HP1%]")
+    -- SortList(_chars,chars,"%(HP%)")
+    -- SortList(_chars,chars,"%[HP%]")
+    -- SortList(_chars,chars,"%(WINX%)")
+    -- SortList(_chars,chars,"%[WINX%]")
     -- SortList(_chars,chars,"%(5th%)")
     -- SortList(_chars,chars,"%(4th%)")
     -- SortList(_chars,chars,"%(3rd%)")
     -- SortList(_chars,chars,"%(2nd%)")
     -- SortList(_chars,chars,"%(1st%)")
+    -- SortList(_chars,chars,"%(CUSTOM%)")
     ReFillList(_chars,chars)
     table.remove(chars,IndexKey(chars,"DanceRepo"))
     table.remove(chars,IndexKey(chars,"default"))
@@ -293,7 +304,18 @@ function GetAllDanceStagesNames()
     -- SortList(_DanceStagesList,DanceStagesList,"%(2014%)")
     -- SortList(_DanceStagesList,DanceStagesList,"%(SN%)")
     -- SortList(_DanceStagesList,DanceStagesList,"%(DDRII%)")
+    -- SortList(_DanceStagesList,DanceStagesList,"%[DDRII%]")
     -- SortList(_DanceStagesList,DanceStagesList,"%(HP%)")
+    -- SortList(_DanceStagesList,DanceStagesList,"%[HP%]")
+    -- SortList(_DanceStagesList,DanceStagesList,"%(HP2%)")
+    -- SortList(_DanceStagesList,DanceStagesList,"%[HP2%]")
+    -- SortList(_DanceStagesList,DanceStagesList,"%(HP3%)")
+    -- SortList(_DanceStagesList,DanceStagesList,"%[HP3%]")
+    -- SortList(_DanceStagesList,DanceStagesList,"%(HP4%)")
+    -- SortList(_DanceStagesList,DanceStagesList,"%[HP3%]")
+    -- SortList(_DanceStagesList,DanceStagesList,"%(WINX3%)")
+    -- SortList(_DanceStagesList,DanceStagesList,"%[WINX3%]")
+    -- SortList(_DanceStagesList,DanceStagesList,"%(CUSTOM%)")
     ReFillList(_DanceStagesList,DanceStagesList)
 	table.remove(DanceStagesList,IndexKey(DanceStagesList,"default"))
 	table.insert(DanceStagesList,1,"DEFAULT")
@@ -345,8 +367,89 @@ function SelectDanceStage()
     return t;
 end;
 
+--------------------
+
+function CutInOverVideo()
+	local t = {
+		Name = "CutInOverVideo";
+		LayoutType = "ShowAllInRow";
+		SelectType = "SelectOne";
+		OneChoiceForAllPlayers = true;
+		ExportOnChange = true;
+		Choices = {"ON", "OFF" };
+		LoadSelections = 
+		function(self, list, pn)
+			if ReadPrefFromFile("CutInOverVideo") ~= nil then
+				if GetUserPref("CutInOverVideo")=='ON' then
+					list[1] = true
+				elseif GetUserPref("CutInOverVideo")=='OFF' then
+					list[2] = true
+				else
+					list[1] = true
+				end
+			else
+				WritePrefToFile("CutInOverVideo",'OFF');
+				list[2] = true;
+			end;
+		end;
+		SaveSelections = function(self, list, pn)
+			if list[1] then
+				WritePrefToFile("CutInOverVideo",'ON');
+			elseif list[2] then
+				WritePrefToFile("CutInOverVideo",'OFF');
+			else
+				WritePrefToFile("CutInOverVideo",'ON');
+			end;
+		end;
+	};
+	setmetatable( t, t );
+	return t;
+end
+
+
+function VideoOverStage()
+	local t = {
+		Name = "VideoOverStage";
+		LayoutType = "ShowAllInRow";
+		SelectType = "SelectOne";
+		OneChoiceForAllPlayers = true;
+		ExportOnChange = true;
+		Choices = {"ON", "OFF" };
+		LoadSelections = 
+		function(self, list, pn)
+			if ReadPrefFromFile("VideoOverStage") ~= nil then
+				if GetUserPref("VideoOverStage")=='ON' then
+					list[1] = true
+				elseif GetUserPref("VideoOverStage")=='OFF' then
+					list[2] = true
+				else
+					list[1] = true
+				end
+			else
+				WritePrefToFile("VideoOverStage",'OFF');
+				list[2] = true;
+			end;
+		end;
+		SaveSelections = function(self, list, pn)
+			if list[1] then
+				WritePrefToFile("VideoOverStage",'ON');
+			elseif list[2] then
+				WritePrefToFile("VideoOverStage",'OFF');
+			else
+				WritePrefToFile("VideoOverStage",'ON');
+			end;
+		end;
+	};
+	setmetatable( t, t );
+	return t;
+end
+
 function VoverS()
-	return true
+	if ThemePrefs.Get("VideoOverStage") == "On" then
+		return true
+	else
+		return false
+	end
 end
 
 function BoomSync()
@@ -423,6 +526,7 @@ function CharacterSync()
 	setmetatable( t, t );
 	return t;
 end
+
 
 function DiscoStars()
 	local t = {
@@ -502,6 +606,85 @@ function RMStage()
 	return t;
 end
 
+
+function CharaShadow()
+	local t = {
+		Name = "CharaShadow";
+		LayoutType = "ShowAllInRow";
+		SelectType = "SelectOne";
+		OneChoiceForAllPlayers = true;
+		ExportOnChange = true;
+		Choices = {"ON", "OFF" };
+		LoadSelections = 
+		function(self, list, pn)
+			if ReadPrefFromFile("CharaShadow") ~= nil then
+				if GetUserPref("CharaShadow")=='ON' then
+					list[1] = true
+				elseif GetUserPref("CharaShadow")=='OFF' then
+					list[2] = true
+				else
+					list[1] = true
+				end
+			else
+				WritePrefToFile("CharaShadow",'ON');
+				list[1] = true;
+			end;
+		end;
+		SaveSelections = function(self, list, pn)
+			if list[1] then
+				WritePrefToFile("CharaShadow",'ON');
+			elseif list[2] then
+				WritePrefToFile("CharaShadow",'OFF');
+			else
+				WritePrefToFile("CharaShadow",'ON');
+			end;
+		end;
+	};
+	setmetatable( t, t );
+	return t;
+end
+
+function SNEnv()
+	local t = {
+		Name = "SNEnv";
+		LayoutType = "ShowAllInRow";
+		SelectType = "SelectOne";
+		OneChoiceForAllPlayers = true;
+		ExportOnChange = true;
+		Choices = {"Intense", "Colored", "Normal"};
+		LoadSelections = 
+		function(self, list, pn)
+			if ReadPrefFromFile("SNEnv") ~= nil then
+				if GetUserPref("SNEnv")=='Intense' then
+					list[1] = true
+				elseif GetUserPref("SNEnv")=='Colored' then
+					list[2] = true
+				elseif GetUserPref("SNEnv")=='Normal' then
+					list[3] = true
+				else
+					list[1] = true
+				end
+			else
+				WritePrefToFile("SNEnv",'Intense');
+				list[1] = true;
+			end;
+		end;
+		SaveSelections = function(self, list, pn)
+			if list[1] then
+				WritePrefToFile("SNEnv",'Intense');
+			elseif list[2] then
+				WritePrefToFile("SNEnv",'Colored');
+			elseif list[3] then
+				WritePrefToFile("SNEnv",'Normal');
+			else
+				WritePrefToFile("SNEnv",'Intense');
+			end;
+		end;
+	};
+	setmetatable( t, t );
+	return t;
+end
+
 --------------------
 
 function Mate1()
@@ -534,7 +717,6 @@ function Mate1()
 setmetatable( t, t );
 return t;
 end;
-
 
 function Mate2()
 	local choiceList = GetAllCharacterNames()
@@ -598,6 +780,99 @@ setmetatable( t, t );
 return t;
 end;
 
+function Mate4()
+	local choiceList = GetAllCharacterNames()
+	local t = {
+		Name = "Mate4";
+		LayoutType = "ShowAllInRow";
+		SelectType = "SelectOne";
+		OneChoiceForAllPlayers = true;
+		ExportOnChange = true;
+		Choices = choiceList;
+
+		LoadSelections = 
+		function(self, list, pn)
+			if GetUserPref("Mate4") == nil then
+				SetUserPref("Mate4","None")
+			end
+			local DMLoad=GetUserPref("Mate4")
+			list[IndexKey(choiceList,DMLoad)]=true
+		end;
+
+		SaveSelections = 
+		function(self, list, pn)
+			for number=0,999 do
+				if list[number] then WritePrefToFile("Mate4",choiceList[number]);
+				end;
+			end;
+		end;
+	};        
+setmetatable( t, t );
+return t;
+end;
+
+function Mate5()
+	local choiceList = GetAllCharacterNames()
+	local t = {
+		Name = "Mate5";
+		LayoutType = "ShowAllInRow";
+		SelectType = "SelectOne";
+		OneChoiceForAllPlayers = true;
+		ExportOnChange = true;
+		Choices = choiceList;
+
+		LoadSelections = 
+		function(self, list, pn)
+			if GetUserPref("Mate5") == nil then
+				SetUserPref("Mate5","None")
+			end
+			local DMLoad=GetUserPref("Mate5")
+			list[IndexKey(choiceList,DMLoad)]=true
+		end;
+
+		SaveSelections = 
+		function(self, list, pn)
+			for number=0,999 do
+				if list[number] then WritePrefToFile("Mate5",choiceList[number]);
+				end;
+			end;
+		end;
+	};        
+setmetatable( t, t );
+return t;
+end;
+
+function Mate6()
+	local choiceList = GetAllCharacterNames()
+	local t = {
+		Name = "Mate6";
+		LayoutType = "ShowAllInRow";
+		SelectType = "SelectOne";
+		OneChoiceForAllPlayers = true;
+		ExportOnChange = true;
+		Choices = choiceList;
+
+		LoadSelections = 
+		function(self, list, pn)
+			if GetUserPref("Mate6") == nil then
+				SetUserPref("Mate6","None")
+			end
+			local DMLoad=GetUserPref("Mate6")
+			list[IndexKey(choiceList,DMLoad)]=true
+		end;
+
+		SaveSelections = 
+		function(self, list, pn)
+			for number=0,999 do
+				if list[number] then WritePrefToFile("Mate6",choiceList[number]);
+				end;
+			end;
+		end;
+	};        
+setmetatable( t, t );
+return t;
+end;
+
 function DSLoader()
 	local DanceStagesDir = GetAllDanceStagesNames()
 	table.remove(DanceStagesDir,IndexKey(DanceStagesDir,"DEFAULT"))
@@ -635,7 +910,17 @@ function DSLoader()
 	else
 	DanceStage = DanceStageSong()
 	end
+	currentDanceStage = DanceStage
 	return DanceStage
+end
+
+function ConvertOldCM(_oldCM)
+	local _CM = _oldCM
+	if _oldCM == 0 then _CM = 'CullMode_Back'
+	elseif _oldCM == 1 then _CM = 'CullMode_Front'
+	elseif _oldCM == 2 then _CM = 'CullMode_None'
+	end
+	return _CM
 end
 
 function VideoStage()

@@ -9,11 +9,11 @@ local List = {
 }
 
 if not GAMESTATE:IsDemonstration() then
-	if ThemePrefs.Get("FlashyCombo") == true and GetUserPref("OptionRowGameplayBackground")=='DanceStages' then
+	if ThemePrefs.Get("FlashyCombo") == true and ThemePrefs.Get("GameplayBackground")=='DanceStages' then
 		--if (not GetUserPref("SelectCharacter"..PLAYER_1) == "Random") or (not GetUserPref("SelectCharacter"..PLAYER_2) == "Random") then
 			t[#t+1] = loadfile(THEME:GetPathB("ScreenGameplay","decorations/Cut-In/DanceStages"))()
 		--end
-	elseif ThemePrefs.Get("FlashyCombo") == true and GetUserPref("OptionRowGameplayBackground")=='SNCharacters' then
+	elseif ThemePrefs.Get("FlashyCombo") == true and ThemePrefs.Get("GameplayBackground")=='SNCharacters' then
 		t[#t+1] = loadfile(THEME:GetPathB("ScreenGameplay","decorations/Cut-In/SNCharacters"))()
 	end
 end

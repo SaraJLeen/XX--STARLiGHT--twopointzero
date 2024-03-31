@@ -1,5 +1,5 @@
 return function()
-	if GAMESTATE:GetCurrentGame():GetName() == "dance" then
+	if GAMESTATE:GetCurrentGame():GetName() == "dance" or GAMESTATE:GetCurrentGame():GetName() == "groove" then
 		local Songs = SONGMAN:GetSongsInGroup("OutFox")
 		local Song
 		for _,song in ipairs(Songs) do

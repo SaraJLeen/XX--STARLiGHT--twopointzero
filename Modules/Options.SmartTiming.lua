@@ -53,13 +53,15 @@ return Def.ActorFrame{
     JudgmentWindowMessageCommand=function(self, params)
         local score = 'TapNoteScore_None'
 
+        local Window = OFMath.xabs(params.Window)
+
         -- lua.ReportScriptError( rin_inspect(self.TimingOrdering) )
 
         for _,v in pairs( self.TimingOrdering ) do
-            local CurTiming = GetWindowSeconds(v[2], self.Scale, self.Add)
+            local CurTiming = GetWindowSeconds(v[2], self.Scale, self.Add, params.Scale)
             if TNS[v[1]] and TNS[v[1]][1] == params.Type then
                 if TNS[v[1]] and TNS[v[1]][2] == "Timing" then params.timing = CurTiming break
-                else if (CurTiming >= params.Window and (CurTiming*-1) <= params.Window) then score = v[1] break end
+                else if (CurTiming >= Window and (CurTiming*-1) <= Window) then score = v[1] break end
                 end
             end
         end

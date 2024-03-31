@@ -17,15 +17,15 @@ if not GAMESTATE:IsCourseMode() then
 		Trace("Video RNG");
 		SetUserPref("RandomRNG",'false');
 		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_Off');
-	elseif (GetUserPref("OptionRowGameplayBackground")=='DanceStages') and math.random(1,100) <= 20 then
+	elseif (ThemePrefs.Get("GameplayBackground")=='DanceStages') and math.random(1,100) <= 20 then
 		Trace("Dance stage RNG");
 		SetUserPref("RandomRNG",'true');
 		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_RandomMovies');
-	elseif GetUserPref("OptionRowGameplayBackground")=='DanceStages' then
+	elseif ThemePrefs.Get("GameplayBackground")=='DanceStages' then
 		Trace("Dance stage");
 		SetUserPref("RandomRNG",'false');
 		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_Off');
-	elseif GetUserPref("OptionRowGameplayBackground")=='SNCharacters' then
+	elseif ThemePrefs.Get("GameplayBackground")=='SNCharacters' then
 		SetUserPref("RandomRNG",'false');
 		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_RandomMovies');
 	else

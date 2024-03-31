@@ -1,7 +1,7 @@
 local loader
 local function getbgloader()
-	--Trace("Option: "..tostring(GetUserPref("OptionRowGameplayBackground")).." | BGChanges: "..tostring(GAMESTATE:GetCurrentSong():HasBGChanges()).." ("..tostring(#GAMESTATE:GetCurrentSong():GetBGChanges())..") | HasVideo: "..tostring(HasVideo()).." | VideoStage: "..tostring(VideoStage()).." | Song: "..tostring(GAMESTATE:GetCurrentSong()).."")
-	if (GetUserPref("OptionRowGameplayBackground")=='DanceStages' and VideoStage() and (GAMESTATE:GetCurrentSong() and (GAMESTATE:GetCurrentSong():HasBGChanges() or #GAMESTATE:GetCurrentSong():GetBGChanges()>0 or HasVideo()))) then
+	--Trace("Option: "..tostring(ThemePrefs.Get("GameplayBackground")).." | BGChanges: "..tostring(GAMESTATE:GetCurrentSong():HasBGChanges()).." ("..tostring(#GAMESTATE:GetCurrentSong():GetBGChanges())..") | HasVideo: "..tostring(HasVideo()).." | VideoStage: "..tostring(VideoStage()).." | Song: "..tostring(GAMESTATE:GetCurrentSong()).."")
+	if (ThemePrefs.Get("GameplayBackground")=='DanceStages' and VideoStage() and (GAMESTATE:GetCurrentSong() and (GAMESTATE:GetCurrentSong():HasBGChanges() or #GAMESTATE:GetCurrentSong():GetBGChanges()>0 or HasVideo()))) then
 		-- Trace("Using dancestage loader; there is a video, but this is a video stage")
 		loader = "DanceStages"
 		SetUserPref("RandomRNG",'false');
@@ -11,17 +11,17 @@ local function getbgloader()
 		loader = "Background"
 		SetUserPref("RandomRNG",'false');
 		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_RandomMovies');
-	elseif GetUserPref("OptionRowGameplayBackground")=='DanceStages' and GetUserPref("RandomRNG")=='true' and not GAMESTATE:IsDemonstration() then
+	elseif ThemePrefs.Get("GameplayBackground")=='DanceStages' and GetUserPref("RandomRNG")=='true' and not GAMESTATE:IsDemonstration() then
 		-- Trace("Using BG loader because RNG dictated it")
 		loader = "Background"
 		SetUserPref("RandomRNG",'false');
 		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_RandomMovies');
-	elseif GetUserPref("OptionRowGameplayBackground")=='DanceStages' then
+	elseif ThemePrefs.Get("GameplayBackground")=='DanceStages' then
 		-- Trace("Using dancestage loader")
 		loader = "DanceStages"
 		SetUserPref("RandomRNG",'false');
 		PREFSMAN:SetPreference('RandomBackgroundMode','RandomBackgroundMode_Off');
-	elseif GetUserPref("OptionRowGameplayBackground")=='SNCharacters' then
+	elseif ThemePrefs.Get("GameplayBackground")=='SNCharacters' then
 		-- Trace("Using sncharacters loader")
 		loader = "SNCharacters"
 		SetUserPref("RandomRNG",'false');

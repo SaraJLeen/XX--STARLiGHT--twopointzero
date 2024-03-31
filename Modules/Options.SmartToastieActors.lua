@@ -1,17 +1,15 @@
-local Amount = 0
-local ToastyOffset = 0
-
-function ChecKCombo(Input, StartAmount, EveryIteration)
-	if Amount == 0 then Amount = StartAmount end
-	if Input >= Amount then
-		if EveryIteration then Amount = Amount+StartAmount
-		else Amount = math.huge end
-		return true
-	end
-	return false
-end
-
 return function(pn)
+	local Amount = 0
+	local function ChecKCombo(Input, StartAmount, EveryIteration)
+		if Amount == 0 then Amount= StartAmount end
+		if Input >= Amount then
+			if EveryIteration then Amount = Amount+StartAmount
+			else Amount = math.huge end
+			return true
+		end
+		return false
+	end
+
 	if not FILEMAN:DoesFileExist(CheckIfUserOrMachineProfile(pn-1).."/OutFoxPrefs.ini") then
 		return Def.ActorFrame {}
 	end
@@ -59,11 +57,12 @@ return function(pn)
 	end
 	
 	return Def.ActorFrame {
-		InitCommand=function(self) if tostring(ShortCom["Player"..pn]["InitCommand"]) ~= "false" and tostring(ShortCom["Player"..pn]["InitCommand"]) ~= "" then In = self loadstring("In:"..ShortCom["Player"..pn]["InitCommand"])() In = nil end end,
-		ComboChangedMessageCommand=function(self,params) 
+		InitCommand=function(self) if tostring(ShortCom["Player"..pn]["InitCommand"]) ~= "false" and tostring(ShortCom["Player"..pn]["InitCommand"]) ~= "" then loadstring("local self = ...; self:"..ShortCom["Player"..pn]["InitCommand"])(self) end end,
+		ComboChangedMessageCommand=function(self,params) 		
+			if params.Player ~= "PlayerNumber_P"..pn then return end
 			if params.PlayerStageStats:GetCurrentCombo() == 0 then Amount = 0 end
 			if ChecKCombo(params.PlayerStageStats:GetCurrentCombo(),tonumber(ShortCom["Default"]["ShowAt"]),ShortCom["Default"]["Iterate"]) then
-				if tostring(ShortCom["Player"..pn]["OnCommand"]) ~= "false" and tostring(ShortCom["Player"..pn]["OnCommand"]) ~= "" then In = self loadstring("In:"..ShortCom["Player"..pn]["OnCommand"])() In = nil end
+				if tostring(ShortCom["Player"..pn]["OnCommand"]) ~= "false" and tostring(ShortCom["Player"..pn]["OnCommand"]) ~= "" then loadstring("local self = ...; self:"..ShortCom["Player"..pn]["OnCommand"])(self) end
 				if ShortCom["Default"]["HasSound"] then
 					SOUND:PlayOnce("Appearance/Toasties/"..CurToast.."/"..ShortCom["Default"]["SoundFile"], true)
 				end

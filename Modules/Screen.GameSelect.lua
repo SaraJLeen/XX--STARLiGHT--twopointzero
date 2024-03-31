@@ -4,6 +4,7 @@ return function()
 
     local Info = {
         "Dance\n\nSingle (4 panels)\nSolo (6 panels)\nThree (3 panels)\nDouble (8 panels)\nSolo Double (12 panels)\nThree Double (6 panels)",
+        "Groove (mod supported version of Dance)\n\nSingle (4 panels)\nSolo (6 panels)\nThree (3 panels)\nDouble (8 panels)\nSolo Double (12 panels)\nThree Double (6 panels)",
         "Pump\n\nSingle (5 panels)\nHalfDouble (6 panels)\nDouble (10 panels)",
         "SMX\n\nSingle (5 panels)\nDual (6 panels)\nDouble (10 panels)",
         "Techno\n\nCross (4 panels)\nDiagonal (5 panels)\nSquare (8 panels)\nSquare+ (9 panels)\nCross Double (8 panels)\nDiagonal Double (10 panels)\nSquare Double (16 panels)\nSquare+ Double (18 panels)",
@@ -12,6 +13,7 @@ return function()
         "GDDM\n\n10-piece (8 drums, bass pedal, hi-hat pedal)\n9-piece (7 drums, bass pedal, hi-hat pedal)\n6-piece (5 drums, bass pedal)",
         "GDGF\n\nGuitar 5 (5 frets)\nBass 5 (5 frets, open strum)\nGuitar 6 (6 frets)\nGuitar 3 (3 frets)\nBass 3 (3 frets, open strum)",
         "GH\n\nSolo, Bass, Rhythm (5 frets)",
+        "RB\n\nDrums Easy, Drums Normal, Drums Pro",
         "Taitai\n\nSingle (drumhead/red, rim/blue)",
         "Bongo\n\nSingle (leftdrum, rightdrum, clap)",
         "Para\n\nSingle (5 sensors)\nDouble (10 sensors)",
@@ -21,12 +23,12 @@ return function()
         "DMX\n\nSingle (4 sensors)\nDouble (8 sensors)",
         "StepStage\n\nTwin (3 panel rows)\nSingle (6 panels)",
         --"lights",
-        "Boxing",
         "KickBox\n\nHuman\nQuadarm\nInsect\nArachnid"
     }
 
     local Choices = {
         "dance",
+        "groove",
         "pump",
         "smx",
         "techno",
@@ -35,6 +37,7 @@ return function()
         "gddm",
         "gdgf",
         "gh",
+        "rb",
         "taiko",
         "bongo",
         "para",
@@ -44,12 +47,12 @@ return function()
         "maniax",
         "stepstage",
         --"lights", -- should change this to another screen option.
-        "boxing",
         "kickbox"
     }
 	
 	local Themes = {
 		"XX-STARLiGHT-Sara", --dance
+		"XX-STARLiGHT-Sara", --groove
 		"XX-STARLiGHT-Sara", --pump
 		"XX-STARLiGHT-Sara", --smx
 		"XX-STARLiGHT-Sara", --techno
@@ -58,6 +61,7 @@ return function()
 		"XX-STARLiGHT-Sara", --gddm
 		"XX-STARLiGHT-Sara", --gdgf
 		"XX-STARLiGHT-Sara", --gh
+		"XX-STARLiGHT-Sara", --rb
 		"XX-STARLiGHT-Sara", --taiko
 		"XX-STARLiGHT-Sara", --bongo
 		"XX-STARLiGHT-Sara", --para
