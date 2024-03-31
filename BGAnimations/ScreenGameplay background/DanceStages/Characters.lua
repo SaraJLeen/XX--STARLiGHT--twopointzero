@@ -81,8 +81,10 @@ if GAMESTATE:IsDemonstration() then
 		}
 	end
 
-	if not BothPlayersEnabled() then
+	if (GAMESTATE:IsPlayerEnabled(PLAYER_1)) and (not BothPlayersEnabled()) then
 		table.remove(Listed,2)
+	elseif (GAMESTATE:IsPlayerEnabled(PLAYER_2)) and (not BothPlayersEnabled()) then
+		table.remove(Listed,1)
 	end
 
 	for i=1,#Listed do
