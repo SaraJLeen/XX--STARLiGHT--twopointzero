@@ -111,8 +111,6 @@ local function RivalScore(pn,rival)
 						if ThemePrefs.Get("ConvertScoresAndGrades") then
 							topscore = SN2Scoring.GetSN2ScoreFromHighScore(st, scores[rival]:GetScore())
 						end
-							topscore = scores[rival]:GetScore();
-						end
 					end;
 					if topscore == nil then self:settext("") return end
 					if topscore ~= 0  then
@@ -179,8 +177,6 @@ local function RivalScore(pn,rival)
 									if ThemePrefs.Get("ConvertScoresAndGrades") then
 										topscore = SN2Scoring.GetSN2ScoreFromHighScore(st, scores[rival]:GetScore())
 									end
-										topscore = scores[rival]:GetScore();
-									end
 								end;
 							if topscore == nil then self:diffusealpha(0) return end
 								local topgrade;
@@ -190,7 +186,6 @@ local function RivalScore(pn,rival)
 										topgrade = SN2Grading.ScoreToGrade(topscore, diff)
 									end
 									tier = topgrade
-									end
 									assert(topgrade);
 									if scores[rival]:GetScore()>1  then
 										if scores[rival]:GetScore()==1000000 and topgrade=="Grade_Tier07" then
