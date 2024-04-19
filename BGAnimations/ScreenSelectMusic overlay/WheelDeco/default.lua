@@ -3,7 +3,25 @@ if GAMESTATE:IsAnExtraStage() then
   ex = "ex_"
 end
 
-local t = Def.ActorFrame{};
+local t = Def.ActorFrame{
+  Def.Actor{
+    Name="WheelActor",
+    BeginCommand=function(s)
+			local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
+      mw:xy(_screen.cx+360,_screen.cy+20)
+		end,
+		OnCommand=function(s)
+			local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
+			mw:rotationy(30)
+				:addx(1100):sleep(0.412):linear(0.196):addx(-1100)
+			mw:SetDrawByZPosition(true)
+		end,
+		OffCommand=function(s)
+			local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
+			mw:bouncebegin(0.15):zoomx(3):diffusealpha(0)
+		end
+  };
+}
 
 local DescPane = Def.ActorFrame{
 	InitCommand = function(s) s:xy(SCREEN_LEFT+0,SCREEN_TOP+0):visible(true) end,

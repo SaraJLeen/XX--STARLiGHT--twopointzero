@@ -45,7 +45,7 @@ local function RivalScore(pn,rival)
 					local topscore=0;
 					if scores[rival] then
 						topscore = scores[rival]:GetScore();
-						if ThemePrefs.Get("ConvertScoresAndGrades") == true then
+						if ThemePrefs.Get("ConvertScoresAndGrades") then
 							topscore = SN2Scoring.GetSN2ScoreFromHighScore(st, scores[rival]:GetScore())
 						end
 					end;
@@ -108,8 +108,10 @@ local function RivalScore(pn,rival)
 					local topscore=0;
 					if scores[rival] then
 						topscore = scores[rival]:GetScore();
-						if ThemePrefs.Get("ConvertScoresAndGrades") == true then
+						if ThemePrefs.Get("ConvertScoresAndGrades") then
 							topscore = SN2Scoring.GetSN2ScoreFromHighScore(st, scores[rival]:GetScore())
+						end
+							topscore = scores[rival]:GetScore();
 						end
 					end;
 					if topscore == nil then self:settext("") return end
@@ -174,18 +176,21 @@ local function RivalScore(pn,rival)
 								local topscore=0;
 								if scores[rival] then
 									topscore = scores[rival]:GetScore();
-									if ThemePrefs.Get("ConvertScoresAndGrades") == true then
+									if ThemePrefs.Get("ConvertScoresAndGrades") then
 										topscore = SN2Scoring.GetSN2ScoreFromHighScore(st, scores[rival]:GetScore())
+									end
+										topscore = scores[rival]:GetScore();
 									end
 								end;
 							if topscore == nil then self:diffusealpha(0) return end
 								local topgrade;
 								if scores[rival] then
 									topgrade = scores[rival]:GetGrade();
-									if ThemePrefs.Get("ConvertScoresAndGrades") == true then
+									if ThemePrefs.Get("ConvertScoresAndGrades") then
 										topgrade = SN2Grading.ScoreToGrade(topscore, diff)
 									end
 									tier = topgrade
+									end
 									assert(topgrade);
 									if scores[rival]:GetScore()>1  then
 										if scores[rival]:GetScore()==1000000 and topgrade=="Grade_Tier07" then
