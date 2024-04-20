@@ -234,7 +234,7 @@ local t = Def.ActorFrame{
 	Def.BitmapText{
 		Font="_avenirnext lt pro bold/16px",
 		Text=THEME:GetString("ScreenEvaluation","BottomInstruct"),
-		InitCommand=function(s) s:y(210) end,
+		InitCommand=function(s) s:y(210):strokecolor(Color.Black) end,
 	},
     Def.ActorFrame{
 		InitCommand=function(s)

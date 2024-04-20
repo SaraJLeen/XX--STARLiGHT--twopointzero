@@ -13,7 +13,8 @@ local frames = {
   {"fancy cake", "fancy cake!!", "fancycake"},
   {"leeium", "leeium", "leeium"},
   {"SN3", "SuperNOVA3", "SN3"},
-  {"Off", "Off"},
+  {"A", "A", "A"},
+  {"Off", "Off", "Off"},
 };
 
 local function GetFrame(frames, key)

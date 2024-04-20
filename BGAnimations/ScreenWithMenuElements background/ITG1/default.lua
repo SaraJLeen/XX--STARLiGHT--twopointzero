@@ -3,7 +3,7 @@ local arrowcolor = color("#33DADA")
 local itg_magnify = 2.25
 return Def.ActorFrame{
 	
-	Def.Sprite..{ Texture="_shared background no streaks",InitCommand=function(self) self:Center() end },
+	LoadActor("_shared background no streaks")..{InitCommand=function(self) self:Center() end },
 
 	Def.ActorFrame{
 		InitCommand=function(self)

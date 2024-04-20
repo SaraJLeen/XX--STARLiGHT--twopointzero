@@ -1,4 +1,8 @@
 local BGOVERLAY = "bgoverlay"
+local arrows = "arrows"
+local dots = "dots"
+local BLOCK = "BLOCK"
+local TICKS = "TICKS"
 local streakcolor = color("#999983")
 local itg_magnify = 2.25
 local oldcol
@@ -49,7 +53,7 @@ return Def.ActorFrame{
 
 		-- upper top dots
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(-200):z(-400):customtexturerect(0.2,0,1.2,1):texcoordvelocity(-0.06,0):diffuse(streakcolor):diffusealpha(0.1)
 			end;
@@ -60,28 +64,28 @@ return Def.ActorFrame{
 			end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(-200):z(-200):customtexturerect(0.5,0,1.5,1):texcoordvelocity(0.03,0):diffuse(streakcolor):diffusealpha(0.1)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse(streakcolor):diffusealpha(0.1) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(-200):z(-100):customtexturerect(0.8,0,1.8,1):texcoordvelocity(0.06,0):diffuse(streakcolor):diffusealpha(0.15)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse(streakcolor):diffusealpha(0.15) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(-200):z(-050):customtexturerect(0.1,0,1.1,1):texcoordvelocity(0.06,0):diffuse( ColorLightTone(streakcolor) ):diffusealpha(0.15)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse( ColorLightTone(streakcolor) ):diffusealpha(0.15) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(-200):z(000):customtexturerect(0.1,0,1.1,1):texcoordvelocity(0.06,0):diffuse( ColorLightTone(streakcolor) ):diffusealpha(0.2)
 			end;
@@ -90,35 +94,35 @@ return Def.ActorFrame{
 
 		-- lower top dots
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(-100):z(-400):customtexturerect(0.4,0,1.4,1):texcoordvelocity(-0.06,0):diffuse(streakcolor):diffusealpha(0.1)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse(streakcolor):diffusealpha(0.1) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(-150):z(-200):customtexturerect(0.7,0,1.7,1):texcoordvelocity(0.03,0):diffuse(streakcolor):diffusealpha(0.1)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse(streakcolor):diffusealpha(0.1) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(-100):z(-100):customtexturerect(0.0,0,1.0,1):texcoordvelocity(0.06,0):diffuse(streakcolor):diffusealpha(0.15)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse(streakcolor):diffusealpha(0.15) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(-150):z(-50):customtexturerect(0.3,0,1.3,1):texcoordvelocity(0.06,0):diffuse( ColorLightTone(streakcolor) ):diffusealpha(0.15)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse( ColorLightTone(streakcolor) ):diffusealpha(0.15) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(-150):z(000):customtexturerect(0.3,0,1.3,1):texcoordvelocity(0.06,0):diffuse( ColorLightTone(streakcolor) ):diffusealpha(0.2)
 			end;
@@ -127,35 +131,35 @@ return Def.ActorFrame{
 
 		-- upper bottom dots
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(100):z(-400):customtexturerect(0.0,0,1.0,1):texcoordvelocity(-0.06,0):diffuse(streakcolor):diffusealpha(0.1)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse(streakcolor):diffusealpha(0.1) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(150):z(-200):customtexturerect(0.3,0,1.3,1):texcoordvelocity(0.03,0):diffuse(streakcolor):diffusealpha(0.1)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse(streakcolor):diffusealpha(0.1) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(100):z(-100):customtexturerect(0.6,0,1.6,1):texcoordvelocity(0.06,0):diffuse(streakcolor):diffusealpha(0.15)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse(streakcolor):diffusealpha(0.15) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(150):z(-050):customtexturerect(0.9,0,1.9,1):texcoordvelocity(0.06,0):diffuse( ColorLightTone(streakcolor) ):diffusealpha(0.15)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse( ColorLightTone(streakcolor) ):diffusealpha(0.15) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(150):z(000):customtexturerect(0.9,0,1.9,1):texcoordvelocity(0.06,0):diffuse( ColorLightTone(streakcolor) ):diffusealpha(0.2)
 			end;
@@ -164,35 +168,35 @@ return Def.ActorFrame{
 
 		-- lower bottom dots
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(200):z(-400):customtexturerect(0.8,0,1.8,1):texcoordvelocity(-0.06,0):diffuse(streakcolor):diffusealpha(0.1)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse(streakcolor):diffusealpha(0.1) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(200):z(-200):customtexturerect(0.1,0,1.1,1):texcoordvelocity(0.03,0):diffuse(streakcolor):diffusealpha(0.1)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse(streakcolor):diffusealpha(0.1) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(200):z(-100):customtexturerect(0.4,0,1.4,1):texcoordvelocity(0.06,0):diffuse(streakcolor):diffusealpha(0.15)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse(streakcolor):diffusealpha(0.15) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(200):z(-050):customtexturerect(0.7,0,1.7,1):texcoordvelocity(0.06,0):diffuse( ColorLightTone(streakcolor) ):diffusealpha(0.15)
 			end;
 			UpdateColoringMessageCommand=function(s) s:finishtweening():linear(0.5):diffuse( ColorLightTone(streakcolor) ):diffusealpha(0.15) end;
 		},
 		
-		Def.Sprite{ Texture="dots",
+		Def.Sprite{ Texture=dots,
 			InitCommand=function(self)
 				self:zoom(1.5*itg_magnify):y(200):z(000):customtexturerect(0.7,0,1.7,1):texcoordvelocity(0.06,0):diffuse( ColorLightTone(streakcolor) ):diffusealpha(0.2)
 			end;

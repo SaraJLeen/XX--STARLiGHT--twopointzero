@@ -14,6 +14,8 @@ local frames = {
   {"SN3","SuperNOVA3"},
   {"NG2","Next Generation 2"},
   {"Retrowave","Retrowave"},
+  {"ITG1","In The Groove"},
+  {"ITG2","In The Groove 2"},
 };
 
 local function GetFrame(frames, key)

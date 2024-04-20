@@ -10,6 +10,7 @@ do
 			["fancy cake"] = "MenuMusic/common/fancycake (loop).ogg";
 			["leeium"] = "MenuMusic/common/leeium (loop).ogg";
 			["SN3"] = "MenuMusic/common/SN3 (loop).ogg";
+			["A"] = "MenuMusic/common/A (loop).ogg";
 			["Off"] = "_silent.ogg";
 		};
 		profile = {
@@ -21,6 +22,7 @@ do
 			["fancy cake"] = "MenuMusic/profile/fancycake (loop).ogg";
 			["leeium"] = "MenuMusic/profile/leeium (loop).ogg";
 			["SN3"] = "MenuMusic/profile/SN3 (loop).ogg";
+			["A"] = "MenuMusic/profile/A (loop).ogg";
 			["Off"] = "_silent.ogg";
 		};
 		results = {
@@ -32,6 +34,7 @@ do
 			["fancy cake"] = "MenuMusic/results/fancycake (loop).ogg";
 			["leeium"] = "MenuMusic/common/leeium (loop).ogg";
 			["SN3"] = "MenuMusic/common/SN3 (loop).ogg";
+			["A"] = "MenuMusic/results/A (loop).ogg";
 			["Off"] = "_silent.ogg";
 		};
 		music = {
@@ -43,6 +46,7 @@ do
 			["fancy cake"] = "MenuMusic/common/fancycake (loop).ogg";
 			["leeium"] = "MenuMusic/common/leeium (loop).ogg";
 			["SN3"] = "MenuMusic/common/SN3 (loop).ogg";
+			["A"] = "MenuMusic/common/A (loop).ogg";
 			["Off"] = "_silent.ogg";
 		};
 		stage = {
@@ -54,6 +58,7 @@ do
 			["fancy cake"] = "_Door.ogg";
 			["leeium"] = "MenuMusic/StageInfo/leeium.ogg";
 			["SN3"] = "MenuMusic/StageInfo/SN3.ogg";
+			["A"] = "_Door.ogg";
 			["Off"] = "_silent.ogg";
 		};
 		title = {
@@ -65,6 +70,7 @@ do
 			["fancy cake"] = "Title_In.ogg";
 			["leeium"] = "MenuMusic/Title/leeium.ogg";
 			["SN3"] = "Title_In.ogg";
+			["A"] = "Title_In.ogg";
 			["Off"] = "_silent.ogg";
 		};
 		options = {
@@ -78,6 +84,7 @@ do
 			["fancy cake"] = "MenuMusic/options/Default (loop).ogg";
 			["leeium"] = "MenuMusic/options/Default (loop).ogg";
 			["SN3"] = "MenuMusic/options/SN3 (loop).ogg";
+			["A"] = "MenuMusic/options/A (loop).ogg";
 			["Off"] = "_silent.ogg";
 		}
 	}

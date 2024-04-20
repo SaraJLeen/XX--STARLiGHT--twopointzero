@@ -6,5 +6,5 @@ Materials: 1
 0.000000 0.000000 0.000000 1.000000
 0.010000
 1.000000
-"ITG1/arrow sphere.png"
+"../ITG1/arrow sphere.png"
 ""

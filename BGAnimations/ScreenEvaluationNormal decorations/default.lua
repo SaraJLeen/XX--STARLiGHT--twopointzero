@@ -126,7 +126,7 @@ t[#t+1] = Def.ActorFrame{
     };
 	  Def.BitmapText{
       Font="_avenirnext lt pro bold/25px",
-		  InitCommand = function(s) s:maxwidth(400):playcommand("Set") end,
+		  InitCommand = function(s) s:maxwidth(400):playcommand("Set"):strokecolor(Color.Black) end,
       SetCommand = function(s)
         local SongOrCourse;
         if GAMESTATE:IsCourseMode() then
@@ -138,7 +138,7 @@ t[#t+1] = Def.ActorFrame{
 	  };
 	  Def.BitmapText{
       Font="_avenirnext lt pro bold/25px",
-		  InitCommand = function(s) s:y(20):maxwidth(400):playcommand("Set") end,
+		  InitCommand = function(s) s:y(20):maxwidth(400):playcommand("Set"):strokecolor(Color.Black) end,
       SetCommand = function(self)
         if not GAMESTATE:IsCourseMode() then
 			    local song = GAMESTATE:GetCurrentSong()
@@ -359,7 +359,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 			name = pn=="PlayerNumber_P2" and "PLAYER 2" or "PLAYER 1"
 		end
         self:xy(pn=="PlayerNumber_P2" and SCREEN_RIGHT-134 or SCREEN_LEFT+134,_screen.cy-310)
-        self:settext(name)
+        self:settext(name):strokecolor(Color.Black)
       end;
     };
   }

@@ -114,8 +114,9 @@ t[#t+1] = Def.ActorFrame{
 		Texture="fave",
 		InitCommand=function(s) s:halign(0):xy(-474+25,0+2):visible(false):diffuse(Color.White):zoom(0.5) end,
 		SetMessageCommand=function(s, p)
+			local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
 			wheelsong = GAMESTATE:GetCurrentSong()
-			if wheelsong then
+			if wheelsong and mw:GetSelectedType() == 'WheelItemDataType_Portal' then
 				local isFave = IsFavorite(wheelsong)
 				if isFave == 1 then
 					s:visible(true):diffuse(GetFavoritesColor(PLAYER_1))

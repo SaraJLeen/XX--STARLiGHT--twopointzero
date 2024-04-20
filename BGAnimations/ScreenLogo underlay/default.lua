@@ -1,3 +1,4 @@
+SetRandomTheme()
 
 setenv("FixStage",0)
 

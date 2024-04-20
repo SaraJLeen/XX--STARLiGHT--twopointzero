@@ -13,6 +13,11 @@ local radars = Def.ActorFrame{}
 local diffy = Def.ActorFrame{}
 local rivalspanel = Def.ActorFrame{}
 
+local ver = ""
+if ThemePrefs.Get("SV") == "onepointzero" then
+  ver = "1_"
+end
+
 for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
     radars[#radars+1] = Def.ActorFrame{
           SetCommand=function(s)
@@ -71,6 +76,8 @@ for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
             s:diffuse(Color.White)
             if song then
               local steps = GAMESTATE:GetCurrentSteps(pn)
+			s:strokecolor(Color.HoloBlue)
+			s:diffuse(Color.White)
 			if steps ~= nil then
 	              local value = steps:GetMeter()
 				local diff = steps:GetDifficulty();
@@ -84,17 +91,36 @@ for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 				elseif mt == '_MeterType_DDR' then
 					s:settext("Old "..value.."")
 				end
+			if mt == '_MeterType_Pump' then
+				s:strokecolor(Color.HoloDarkOrange)
+			elseif mt == '_MeterType_ITG' then
+				s:strokecolor(Color.HoloDarkRed)
+			elseif mt == '_MeterType_DDR' then
+				s:strokecolor(Color.HoloDarkGreen)
+			end
+
 			else
 				s:settext("")
 			end
 			--Trace("Diff: "..tostring(diff)..".")
-              if steps and steps:IsAutogen() then
-				s:diffuse(Color.AutogenStep)
+			if steps and steps:IsAutogen() then
+				s:diffuse(Color.Black)
+				mt = SongAttributes_GetMeterType(song)
+				if mt == '_MeterType_Pump' then
+					s:diffuse(ColorDarkTone(Color.HoloDarkOrange))
+				elseif mt == '_MeterType_ITG' then
+					s:diffuse(ColorDarkTone(Color.HoloDarkRed))
+				elseif mt == '_MeterType_DDR' then
+					s:diffuse(ColorDarkTone(Color.HoloDarkGreen))
+				end
+				s:strokecolor(Color.AutogenStep)
 			end
             else
               s:settext("")
             end
-            s:strokecolor(color("#1f1f1f")):y(28)
+            s:y(28)
+            s:shadowcolor(Color.Black)
+            s:shadowlength(2.0)
           end,
           CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
           ["CurrentSteps"..ToEnumShortString(pn).."ChangedMessageCommand"]=function(s) s:queuecommand("Set") end,
@@ -115,7 +141,9 @@ for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
             else
               s:settext("")
             end
-            s:strokecolor(color("#1f1f1f")):y(28)
+            s:strokecolor(Color.HoloBlue)
+            s:shadowcolor(Color.Black)
+            s:shadowlength(2.0)
             s:y(60)
             if (pn==PLAYER_1) then
               s:x(30)
@@ -144,7 +172,7 @@ for i,v in ipairs(GR) do
             s:sleep(i/10):linear(0.1):diffusealpha(0):addx(-10)
         end;
         Def.Sprite{
-            Texture=THEME:GetPathB("ScreenSelectMusic","overlay/RadarHandler/RLabels"),
+            Texture=THEME:GetPathB("ScreenSelectMusic","overlay/RadarHandler/"..ver.."RLabels"),
             OnCommand=function(s) s:animate(0):setstate(i-1) end,
         };
         Def.BitmapText{
@@ -162,7 +190,7 @@ for i,v in ipairs(GR) do
                     else
                         s:settext("")
                     end
-                s:strokecolor(color("#1f1f1f")):y(28)
+                s:strokecolor(color("#1f1f1f")):shadowcolor(Color.Black):shadowlength(2.0):y(28)
                 if GAMESTATE:GetNumPlayersEnabled() == 2 then
                     s:x(pn==PLAYER_2 and 30 or -30)
                 else
@@ -413,7 +441,7 @@ return Def.ActorFrame{
         OnCommand=function(s) s:zoom(0):rotationz(-360):sleep(0.4):decelerate(0.4):zoom(1):rotationz(0) end,
         OffCommand=function(s) s:sleep(0.3):decelerate(0.3):rotationz(-360):zoom(0) end,
         Def.Sprite{
-            Texture=THEME:GetPathB("ScreenSelectMusic","overlay/RadarHandler/GrooveRadar base"),
+            Texture=THEME:GetPathB("ScreenSelectMusic","overlay/RadarHandler/"..ver.."GrooveRadar base"),
         };
         Def.Sprite{
             Texture=THEME:GetPathB("ScreenSelectMusic","overlay/RadarHandler/sweep"),

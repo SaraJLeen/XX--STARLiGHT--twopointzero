@@ -58,7 +58,7 @@ for i = StageCheck(), mStages do
 				Name="Title",
 				Font="_avenirnext lt pro bold/42px",
 				BeginCommand=function(s)
-					s:x(26):settext(sssong:GetDisplayFullTitle()):maxwidth(400)
+					s:x(26):settext(sssong:GetDisplayFullTitle()):maxwidth(400):strokecolor(Color.Black)
 				end,
 			};
 		};
@@ -132,7 +132,7 @@ for i = StageCheck(), mStages do
 				Name="Stage",
 				Font="_avenirnext lt pro bold/36px",
 				InitCommand=function(s)
-					s:xy(pn==PLAYER_1 and 36 or -36,-20):maxwidth(190):zoomy(0.8):zoomx(0.92):halign(pn==PLAYER_1 and 1 or 0)
+					s:xy(pn==PLAYER_1 and 36 or -36,-20):maxwidth(190):zoomy(0.8):zoomx(0.92):halign(pn==PLAYER_1 and 1 or 0):strokecolor(Color.Black)
 				end,
 				BeginCommand=function(s)
 					local maxStages = PREFSMAN:GetPreference('SongsPerPlay')
@@ -221,7 +221,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 		end
 		
         s:xy(pn==PLAYER_2 and SCREEN_RIGHT-134 or SCREEN_LEFT+134,_screen.cy-300)
-        s:settext(name)
+        s:settext(name):strokecolor(Color.Black)
       end;
     }
   }

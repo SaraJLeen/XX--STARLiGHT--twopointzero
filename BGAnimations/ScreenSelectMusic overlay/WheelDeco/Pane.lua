@@ -149,7 +149,7 @@ t[#t+1] = Def.ActorFrame{
   };
   Def.Sprite{
     Texture="Judge Stroke",
-    InitCommand=function(s) s:xy(230,5) end,
+    InitCommand=function(s) s:xy(230,5):visible(false) end,
   };
   Def.Quad{
     InitCommand=function(s) s:xy(400,-30):zoom(0.2) end,
@@ -215,6 +215,8 @@ t[#t+1] = Def.ActorFrame{
     SetCommand=function(self)
       self:settext("")
       self:strokecolor(Color.Black)
+      self:shadowcolor(Color.Black)
+      self:shadowlength(2.0)
 
       local st=GAMESTATE:GetCurrentStyle():GetStepsType()
       local song=GAMESTATE:GetCurrentSong()
@@ -269,10 +271,12 @@ t[#t+1] = Def.ActorFrame{
     CurrentCourseChangedMessageCommand=function(s) s:queuecommand("Set") end,
     Def.BitmapText{
       Font="_avenirnext lt pro bold/25px";
-      InitCommand=function(s) s:xy(-65,-66):zoom(0.5) end,
+      InitCommand=function(s) s:xy(-65,-68):zoom(0.5) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
         self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
         myScoreSet = TopRecord(pn);
         local temp = myScoreSet["topDate"];
         if (myScoreSet["SongOrCourse"]==1) then
@@ -287,12 +291,27 @@ t[#t+1] = Def.ActorFrame{
         end
       end;
     };
+    Def.BitmapText{
+      File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
+      InitCommand=function(s) s:halign(1):x(-45):y(-53):zoom(0.75) end,
+      BeginCommand=function(s) s:playcommand("Set") end,
+      SetCommand=function(self)
+	self:diffuse(Color.White)
+        self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
+        self:halign(1)
+        self:settext("MAX COMBO")
+      end;
+    };
     Def.RollingNumbers{
       File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
-      InitCommand=function(s) s:halign(1):y(-50):zoom(0.75) end,
+      InitCommand=function(s) s:halign(1):y(-53):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
         self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then
@@ -305,12 +324,27 @@ t[#t+1] = Def.ActorFrame{
         end;
       end;
     };
+    Def.BitmapText{
+      File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
+      InitCommand=function(s) s:halign(1):x(-45):y(-37):zoom(0.75) end,
+      BeginCommand=function(s) s:playcommand("Set") end,
+      SetCommand=function(self)
+	self:diffuse(color("#FFF4BAFF"))
+        self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
+        self:halign(1)
+        self:settext("MARVELOUS")
+      end;
+    };
     Def.RollingNumbers{
       File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
-      InitCommand=function(s) s:halign(1):y(-35):zoom(0.75) end,
+      InitCommand=function(s) s:halign(1):y(-37):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
         self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then
@@ -323,12 +357,27 @@ t[#t+1] = Def.ActorFrame{
         end;
       end;
     };
+    Def.BitmapText{
+      File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
+      InitCommand=function(s) s:halign(1):x(-45):y(-20):zoom(0.75) end,
+      BeginCommand=function(s) s:playcommand("Set") end,
+      SetCommand=function(self)
+	self:diffuse(color("#FFE345FF"))
+        self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
+        self:halign(1)
+        self:settext("PERFECT")
+      end;
+    };
     Def.RollingNumbers{
       File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
-      InitCommand=function(s) s:halign(1):y(-18):zoom(0.75) end,
+      InitCommand=function(s) s:halign(1):y(-20):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
         self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then
@@ -341,12 +390,27 @@ t[#t+1] = Def.ActorFrame{
         end;
       end;
     };
+    Def.BitmapText{
+      File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
+      InitCommand=function(s) s:halign(1):x(-45):y(-3):zoom(0.75) end,
+      BeginCommand=function(s) s:playcommand("Set") end,
+      SetCommand=function(self)
+	self:diffuse(color("#3DEA2FFF"))
+        self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
+        self:halign(1)
+        self:settext("GREAT")
+      end;
+    };
     Def.RollingNumbers{
       File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
-      InitCommand=function(s) s:halign(1):zoom(0.75) end,
+      InitCommand=function(s) s:halign(1):y(-3):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
         self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then
@@ -359,12 +423,27 @@ t[#t+1] = Def.ActorFrame{
         end;
       end;
     };
+    Def.BitmapText{
+      File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
+      InitCommand=function(s) s:halign(1):x(-45):y(14):zoom(0.75) end,
+      BeginCommand=function(s) s:playcommand("Set") end,
+      SetCommand=function(self)
+	self:diffuse(color("#5AD3FFFF"))
+        self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
+        self:halign(1)
+        self:settext("GOOD")
+      end;
+    };
     Def.RollingNumbers{
       File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
-      InitCommand=function(s) s:halign(1):y(16):zoom(0.75) end,
+      InitCommand=function(s) s:halign(1):y(14):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
         self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then
@@ -377,12 +456,27 @@ t[#t+1] = Def.ActorFrame{
         end;
       end;
     };
+    Def.BitmapText{
+      File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
+      InitCommand=function(s) s:halign(1):x(-45):y(31):zoom(0.75) end,
+      BeginCommand=function(s) s:playcommand("Set") end,
+      SetCommand=function(self)
+	self:diffuse(color("#FF9C00FF"))
+        self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
+        self:halign(1)
+        self:settext("O.K.")
+      end;
+    };
     Def.RollingNumbers{
       File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
-      InitCommand=function(s) s:halign(1):y(32):zoom(0.75) end,
+      InitCommand=function(s) s:halign(1):y(31):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
         self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then
@@ -395,12 +489,27 @@ t[#t+1] = Def.ActorFrame{
         end;
       end;
     };
+    Def.BitmapText{
+      File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
+      InitCommand=function(s) s:halign(1):x(-45):y(48):zoom(0.75) end,
+      BeginCommand=function(s) s:playcommand("Set") end,
+      SetCommand=function(self)
+	self:diffuse(color("#FF2860FF"))
+        self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
+        self:halign(1)
+        self:settext("MISS")
+      end;
+    };
     Def.RollingNumbers{
       File = THEME:GetPathF("","_avenirnext lt pro bold/20px");
       InitCommand=function(s) s:halign(1):y(48):zoom(0.75) end,
       BeginCommand=function(s) s:playcommand("Set") end,
       SetCommand=function(self)
         self:strokecolor(Color.Black)
+        self:shadowcolor(Color.Black)
+        self:shadowlength(2.0)
         self:Load("RollingNumbersJudgment");
         myScoreSet = TopRecord(pn)
         if (myScoreSet["SongOrCourse"]==1) then

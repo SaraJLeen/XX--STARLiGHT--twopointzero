@@ -109,6 +109,8 @@ for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 			s:halign(#GAMESTATE:GetEnabledPlayers() < 2 and 0.5 or (pn==PLAYER_1 and 0 or 1));
 			s:zoom(0.75)
 			s:strokecolor(color("0.2,0.9,1,0.5"))
+			s:shadowcolor(Color.Black)
+			s:shadowlength(2.0)
 			s:settext( "Shock Arrows" );
 			s:maxwidth(#GAMESTATE:GetEnabledPlayers() < 2 and 1080 or 540);
 			s:zoom(0);
@@ -316,7 +318,7 @@ return Def.ActorFrame{
 		end,
 		CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
   };
---[
+--[[
 --is crap doesn't work right now despite my efforts
 --think the song file isn't loaded enough to detect if it has BGA
   Def.Sprite{
@@ -339,7 +341,7 @@ return Def.ActorFrame{
 		end,
 		CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
   };
---]
+--]]
   Def.BitmapText{
     Font="_avenirnext lt pro bold/36px",
     Name="LengthLabel";
@@ -349,7 +351,10 @@ return Def.ActorFrame{
       s:y(400);
       s:halign(0.5);
       s:zoom(0.75)
-      s:strokecolor(Color.Black)
+      s:diffuse(Color.White)
+      s:strokecolor(ColorDarkTone(Color.White))
+      s:shadowcolor(Color.Black)
+      s:shadowlength(2.0)
       s:settext( "" );
     end,
     OnCommand=function(s)
@@ -371,7 +376,19 @@ return Def.ActorFrame{
     end,
     CurrentSongChangedMessageCommand=function(s)
       local song = GAMESTATE:GetCurrentSong()
+      s:diffuse(Color.White)
+      s:strokecolor(ColorDarkTone(Color.White))
       if song then
+        if song:IsLong() then
+          s:diffuse(Color.Red)
+          s:strokecolor(ColorDarkTone(Color.Red))
+        elseif song:IsMarathon() then
+          s:diffuse(Color.Orange)
+          s:strokecolor(ColorDarkTone(Color.Orange))
+        elseif song:MusicLengthSeconds() < 70 then
+          s:diffuse(Color.Green)
+          s:strokecolor(ColorDarkTone(Color.Green))
+        end
         if false and song:MusicLengthSeconds() < 60 then
             resultxt, discardtxt = math.modf(song:MusicLengthSeconds());
             s:settext( resultxt.."s" );
@@ -396,25 +413,36 @@ return Def.ActorFrame{
       s:valign(1.0);
       s:zoom(0.75)
       s:strokecolor(Color.Black)
+      s:shadowcolor(Color.Black)
+      s:shadowlength(2.0)
       s:settext( "" );
       s:maxwidth(410);
       s:maxheight(60);
-      s:vertspacing(-14)
+      s:vertspacing(0)
     end,
     OnCommand=function(s)
       s:sleep(0.5)
       s:decelerate(0.5)
       s:y(454);
+      if s:GetHeight() > 30 then
+        s:y(464)
+      end
       s:zoom(1)
       s:diffusealpha(1);
     end,
     OffCommand=function(s)
       s:decelerate(0.0)
       s:y(454);
+      if s:GetHeight() > 30 then
+        s:y(464)
+      end
       s:zoom(1)
       s:diffusealpha(1);
       s:decelerate(0.2)
       s:y(454);
+      if s:GetHeight() > 30 then
+        s:y(464)
+      end
       s:zoom(0.75)
       s:diffusealpha(0);
     end,
@@ -426,9 +454,15 @@ return Def.ActorFrame{
         --s:settext( SongAttributes_GetGroupName(group) );
 	s:settext( get_subgroup_name( SongAttributes_GetGroupName( group ), song ) );
         s:diffuse( SongAttributes_GetGroupColor(group) );
+        s:strokecolor(ColorDarkTone(SongAttributes_GetGroupColor(group)) );
       else
         s:settext( "" );
         s:diffuse(Color.White)
+        s:strokecolor(ColorDarkTone(Color.White) );
+      end
+      s:y(454);
+      if s:GetHeight() > 30 then
+        s:y(464)
       end
     end,
   };

@@ -60,8 +60,8 @@ local Prefs =
 	MenuBG =
 	{
 		Default = "Default",
-		Choices = { "Default", "2019", "2012", "SN1", "SN2", "SN3", "X1", "X2", "NG2" },
-		Values = { "Default", "OG", "OLD", "SN1", "SN2", "SN3", "X1", "X2", "NG2" }
+		Choices = { "Default", "2019", "2012", "SN1", "SN2", "SN3", "X1", "X2", "NG2", "ITG1", "ITG2" },
+		Values = { "Default", "OG", "OLD", "SN1", "SN2", "SN3", "X1", "X2", "NG2", "ITG1", "ITG2" }
 	},
 	MenuMusic =
 	{

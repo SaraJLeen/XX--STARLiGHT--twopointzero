@@ -1,3 +1,5 @@
+SetRandomTheme()
+
 local ver = ""
 if ThemePrefs.Get("SV") == "onepointzero" then
   ver = "1_"

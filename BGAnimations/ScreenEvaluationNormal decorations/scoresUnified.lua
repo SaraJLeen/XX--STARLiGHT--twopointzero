@@ -68,7 +68,7 @@ local function RivalScore(pn,rival)
 		};
 		Def.BitmapText{
 			Font="_avenirnext lt pro bold/36px",
-			InitCommand=function(s) s:x(260):halign(1):zoom(0.8) end,
+			InitCommand=function(s) s:x(260):halign(1):zoom(0.8):strokecolor(Color.Black) end,
 			BeginCommand=function(s) s:playcommand("Set") end,
 			SetCommand=function(self)
 				local SongOrCourse, StepsOrTrail;

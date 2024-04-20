@@ -24,14 +24,14 @@ t[#t+1] = Def.ActorFrame{
 	};
 	Def.BitmapText{
 		Font="_avenirnext lt pro bold/36px",
-		InitCommand=function(s) s:zoom(0.7):halign(1):x(14) end,
+		InitCommand=function(s) s:zoom(0.7):halign(1):x(14):strokecolor(Color.Black) end,
 		OnCommand=function(self)
 			self:settext("Calories from this song:");
 		end;
 	};
 	Def.BitmapText{
 		Font="_avenirnext lt pro bold/36px",
-		InitCommand=function(s) s:halign(1):x(274):zoom(0.8) end,
+		InitCommand=function(s) s:halign(1):x(274):zoom(0.8):strokecolor(Color.Black) end,
 		OnCommand=function(self)
 			local CaloriesMod = string.format("%04.2f",Calories)
 			self:settext(CaloriesMod.." kcal")	
@@ -42,14 +42,14 @@ t[#t+1] = Def.ActorFrame{
 	InitCommand=function(s) s:y(-52) end,
 	Def.BitmapText{
 		Font="_avenirnext lt pro bold/36px",
-		InitCommand=function(s) s:zoom(0.7):halign(1):x(14) end,
+		InitCommand=function(s) s:zoom(0.7):halign(1):x(14):strokecolor(Color.Black) end,
 		OnCommand=function(self)
 			self:settext("Calories today:");
 		end;
 	};
 	Def.BitmapText{
 		Font="_avenirnext lt pro bold/36px",
-		InitCommand=function(s) s:halign(1):x(274):zoom(0.8) end,
+		InitCommand=function(s) s:halign(1):x(274):zoom(0.8):strokecolor(Color.Black) end,
 		OnCommand=function(self)
 			local CaloriesMod = string.format("%04.2f",CaloriesToday)
 			self:settext(CaloriesMod.." kcal")	
@@ -73,7 +73,7 @@ t[#t+1] = Def.ActorFrame{
 	};
 	Def.BitmapText{
 		Font="_avenirnext lt pro bold/46px";
-		InitCommand=function(s) s:y(-54):zoom(1.1) end,
+		InitCommand=function(s) s:y(-54):zoom(1.1):strokecolor(Color.Black) end,
 		OnCommand=function(s)
 			s:settext(string.format("%0.0f%%",FoodInfo[3]*100))
 		end,
@@ -89,7 +89,7 @@ t[#t+1] = Def.ActorFrame{
 	};
 	Def.BitmapText{
 		Font="_avenirnext lt pro bold/20px",
-		InitCommand=function(s) s:xy(75,16):zoom(1.1):halign(1):wrapwidthpixels(300) end,
+		InitCommand=function(s) s:xy(75,16):zoom(1.1):halign(1):wrapwidthpixels(300):strokecolor(Color.Black) end,
 		OnCommand=function(s)
 			s:settext(FoodInfo[2]..string.format(" %dkcal",FoodInfo[1][2]))
 		end,
