@@ -19,6 +19,7 @@ do
 			["15 - ddr a"]				= "GroupMusic/group/DDR A (loop)";
 			["16 - ddr a20"]			= "GroupMusic/group/DDR A20 Plus";
 			["17 - ddr a3"]			= "GroupMusic/group/DDR A3";
+			["18 - ddr world"]			= "GroupMusic/group/DDR WORLD";
 			["50 - ddr supernova3"]		= "GroupMusic/group/DDR SuperNOVA 3";
 			["51 - ddr xx"]			= "GroupMusic/group/DDR XX";
 			["ace of arrows"]			= "GroupMusic/group/Connect -Arcade-";
@@ -81,6 +82,7 @@ do
 			["15 - ddr a"]				= "GroupMusic/DDR Modern Course";
 			["16 - ddr a20"]			= "GroupMusic/DDR Modern Course";
 			["17 - ddr a3"]			= "GroupMusic/DDR Modern Course";
+			["18 - ddr world"]			= "GroupMusic/DDR Modern Course";
 			["50 - ddr supernova3"]		= "GroupMusic/DDR Modern Course";
 			["51 - ddr xx"]			= "GroupMusic/DDR XX Course";
 			["ace of arrows"]			= "GroupMusic/DDR Modern Course";

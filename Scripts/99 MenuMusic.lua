@@ -79,7 +79,7 @@ do
 			--["saiiko"] = "MenuMusic/options/SN3 (loop).ogg";
 			["saiiko"] = "MenuMusic/options/128beat (loop).ogg";
 			["vortivask"] = "MenuMusic/options/djvortivask (loop).ogg";
-			["inori"] = "MenuMusic/options/Default (loop).ogg";
+			["inori"] = "MenuMusic/options/128beat (loop).ogg";
 			["RGTM"] = "MenuMusic/options/128beat (loop).ogg";
 			["fancy cake"] = "MenuMusic/options/Default (loop).ogg";
 			["leeium"] = "MenuMusic/options/Default (loop).ogg";
