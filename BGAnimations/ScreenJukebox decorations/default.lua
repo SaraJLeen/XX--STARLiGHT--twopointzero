@@ -29,7 +29,7 @@ t[#t+1] = Def.ActorFrame{
     OffCommand=function(s)
         s:diffusealpha(1):sleep(0.2):linear(0.2):diffusealpha(0)
     end,
-    Def.Banner{
+    Def.Sprite{
         SetCommand=function(s)
             local song = GAMESTATE:GetCurrentSong()
             if song then

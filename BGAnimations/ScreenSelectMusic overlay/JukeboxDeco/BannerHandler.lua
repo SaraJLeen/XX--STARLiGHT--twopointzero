@@ -14,7 +14,7 @@ return Def.ActorFrame{
       end
     end
   };
-	Def.Banner{
+	Def.Sprite{
     SetCommand=function(self,params)
       self:finishtweening()
       local song = GAMESTATE:GetCurrentSong();

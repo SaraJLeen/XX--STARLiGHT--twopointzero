@@ -2,7 +2,7 @@ local t = Def.ActorFrame{};
 local jk = ...
 
 t[#t+1] = Def.ActorFrame{
-	Def.Banner{
+	Def.Sprite{
 	Name="SongCD";
 	SetMessageCommand=function(self,params)
 		self:rotationz(-45)

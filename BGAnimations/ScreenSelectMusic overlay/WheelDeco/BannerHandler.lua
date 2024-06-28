@@ -24,19 +24,21 @@ return Def.ActorFrame{
     Def.Quad{
       InitCommand=function(s) s:diffuse(Color.Black):setsize(240,240):scaletofit(-120,-120,120,120):xy(-2,-4) end,
     },
-    Def.Banner{
+    Def.Sprite{
+      InitCommand=function(s) s:setsize(240,240):scaletofit(-120,-120,120,120) end,
       SetCommand=function(self,params)
         self:finishtweening()
         local song = GAMESTATE:GetCurrentSong();
         local so = GAMESTATE:GetSortOrder();
         local mw = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
+	local found = false
         if not mw then return end
         if song then
           if song:HasPreviewVid() then
             self:Load(song:GetPreviewVidPath())
           else
 		if cached_jackets then
-            if song.HasJacket and song:HasJacket() then
+            if song:HasJacket() then
                 self:LoadFromCached("Jacket",song:GetJacketPath())
             elseif song:HasBackground() then
                 self:LoadFromCached("Background",song:GetBackgroundPath())
@@ -146,7 +148,7 @@ return Def.ActorFrame{
         s:setsize(478,150):scaletofit(-239,-75,239,75):xy(-24,-20):diffuse(Color.Black) end,
     },
   --]]
-    Def.Banner{
+    Def.Sprite{
       InitCommand=function(s) s:visible(false) end,
       SetCommand=function(self,params)
         self:finishtweening()
@@ -158,7 +160,7 @@ return Def.ActorFrame{
         if song then
 		  setenv("getgroupname","song");
 		--[[if cached_banners then
-			self:LoadFromCached("banner",jk.GetSongGraphicPath(song,"Banner"))
+			self:LoadFromCached("Banner",jk.GetSongGraphicPath(song,"Banner"))
 		else
 			self:Load(jk.GetSongGraphicPath(song,"Banner"))
 		end--]]

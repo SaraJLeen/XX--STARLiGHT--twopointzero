@@ -15,7 +15,7 @@ return Def.ActorFrame{
 t[#t+1] = Def.ActorFrame{
     InitCommand=function(s) s:xy(_screen.cx-700,_screen.cy-300) end,
     Def.Sprite{Texture=THEME:GetPathB("","ScreenSelectMusic overlay/2014Deco/_jacket back")};
-    Def.Banner{
+    Def.Sprite{
         InitCommand=function(s)
             local song = GAMESTATE:GetCurrentSong()
             s:Load(song:GetJacketPath())

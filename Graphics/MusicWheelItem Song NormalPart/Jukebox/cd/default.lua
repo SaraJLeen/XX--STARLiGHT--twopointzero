@@ -12,7 +12,7 @@ local t = Def.ActorFrame {
 	-- 	};
 	-- };
 
-	Def.Banner {
+	Def.Sprite {
 		Name="SongCD";
 		SetMessageCommand=function (self,params)
 		song = params.Song;

@@ -17,7 +17,7 @@ return Def.ActorFrame{
 		Texture=THEME:GetPathG("","Common fallback banner");
 		InitCommand=function(s) s:scaletoclipped(512,160):visible(false) end,
 	};
-	Def.Banner {
+	Def.Sprite {
 		Name="SongBanner";
 		InitCommand=function(s) s:scaletoclipped(512,160):x(54.5):y(0):z(100) end,
 		SetMessageCommand=function(self,params)
