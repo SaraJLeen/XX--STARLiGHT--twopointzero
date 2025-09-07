@@ -34,8 +34,16 @@ function CourseItem(self)
 	end
 end
 
+function AWheelItems(self)
+	if IsUsingWideScreen() then
+		return 17
+	else
+		return 23
+	end
+end
+
 function ListOrPO(self)
-	if _VERSION == "Lua 5.3" then
+	if IsLuaVersionAtLeast(5, 3) then
 		return true
 	else
 		return false
@@ -43,7 +51,7 @@ function ListOrPO(self)
 end
 
 function SelectMenu(self)
-	if _VERSION == "Lua 5.3" then
+	if IsLuaVersionAtLeast(5, 3) then
 		return false
 	else
 		return true

@@ -3,7 +3,7 @@ local Player = Args.Player
 local NoteskinToUse = Args.NoteSkin
 local curgame = GAMESTATE:GetCurrentGame():GetName()
 
-local GameDirections = { ["dance"] = "Down", ["pump"] = "UpLeft" }
+local GameDirections = { ["dance"] = "Down", ["groove"] = "Down", ["pump"] = "UpLeft" }
 
 local nbox
 if NoteskinToUse ~= "EXIT" then
@@ -22,7 +22,7 @@ local AFTContainer = Def.ActorFrameTexture{
 	end,
 	Def.ActorFrame{
 		InitCommand=function(self) self:xy(100,100):zoom(1.5) end,
-		Def.Sprite{ Texture=THEME:GetPathB("ScreenSelectMusic","overlay/_OptionsList/optionIcon") },
+		Def.Sprite{ Texture=THEME:GetPathB("ScreenSelectMusic","decorations/_shared/_OptionsList/optionIcon") },
 		nbox
 	}
 }

@@ -9,7 +9,8 @@ local entryToPrefixMap = {
 	["towelpos"] = "TowelPos",
 	['dancestage'] = "DanceStage",
 	["Judgment"] = "Judgment",
-	["Combo"] = "Combo"
+	["Combo"] = "Combo",
+	["targetscore"] = "TargetScore"
 }
 
 function LoadFromProfilePrefs()

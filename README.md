@@ -24,10 +24,14 @@ It features a space/astronomy theme, offers a number of elements that make use o
 ## How to download
 For the latest cutting edge release:
 * Click on the **Code** button, then **Download ZIP** to download the theme.
- * You can also click [here](https://github.com/MidflightDigital/XX--STARLiGHT--twopointzero/archive/refs/heads/main.zip) to download it.
 
-For the latest stable release:
-* Click on the [Releases](https://github.com/MidflightDigital/XX--STARLiGHT--twopointzero/releases) options in the sidebar and download the latest dated release.
+~~* You can also click [here]() to download it.~~
+
+### **Please use the above instructions. The current release is severely outdated. We recommend that you download a GUI git client to simplify downloading and keeping the theme up to date!**
+
+~~For the latest stable release:~~
+
+~~* Click on the [Releases](https://github.com/MidflightDigital/XX--STARLiGHT--twopointzero/releases) options in the sidebar and download the latest dated release.~~
 
 ## Installation instructions
 
@@ -167,7 +171,7 @@ DJ Vortivask
 djVERTICAI
 
 ---
-Project XX STARLiGHT™& ©Midflight Digital.
+Project XX STARLiGHT?& cMidflight Digital.
 
 Project XX STARLiGHT and all related elements are trademarks of Midflight Digital.
 

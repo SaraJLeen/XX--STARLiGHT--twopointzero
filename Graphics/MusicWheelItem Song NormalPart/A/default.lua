@@ -1,35 +1,46 @@
+local SongAttributes = LoadModule "SongAttributes.lua"
 local top
 local jk = LoadModule"Jacket.lua"
 
 local function GetExpandedSectionIndex()
-	local mWheel
-	if SCREENMAN:GetTopScreen():GetChild("MusicWheel")  ~= nil then
-		mWheel = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
-		local curSections = mWheel:GetCurrentSections()
+	if ToEnumShortString(PREFSMAN:GetPreference("MusicWheelUsesSections")) ~= "Always" then return 0 end
 	
-		for i=1, #curSections do
-			if curSections[i] == GAMESTATE:GetExpandedSectionName() then
-				return i-1
-			end
+	local expandedSectionName = GAMESTATE:GetExpandedSectionName()
+	if expandedSectionName == '' then return 0 end
+	
+	local mWheel = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
+	if not mWheel then return 0 end
+	
+	local currentSections = mWheel:GetCurrentSections()
+	for index, name in ipairs(currentSections) do
+		if name == expandedSectionName then
+			return index
 		end
 	end
+	
+	return 0
 end
 
+
 local function SetXYPosition(self, param)
-	if GetExpandedSectionIndex() then
-		local index = param.Index-GetExpandedSectionIndex()-1
-		if index then
-			if index%3 == 0 then
-				self:x(-250):y(80)
-			elseif index%3 == 1 then
-				self:x(0):y(0)
-			else
-				self:x(250):y(-80)
-			end
-		
-			self:addy(-30)
-		end
+	local column = (param.Index - GetExpandedSectionIndex()) % 3
+	local width, height = 250, 80 -- height should be the same as the x-factor in ItemTransformFunction
+	
+	
+	local x, y
+	if column == 0 then
+		x = -width
+		y = 0
+	elseif column == 1 then
+		x = 0
+		y = -height
+	elseif column == 2 then
+		x = width
+		y = -height * 2
 	end
+	y = y + (height - 30)
+	
+	self:xy(x, y)
 end
 
 local clearglow = Def.ActorFrame{};
@@ -51,46 +62,24 @@ return Def.ActorFrame{
 	end;
 	SetMessageCommand=function(self,params)
 		local index = params.Index
+		local song = params.Song
+
+		local TB = self:GetChild("Textbox")
 		
 		if index ~= nil then
 			SetXYPosition(self, params)
 			self:zoom(params.HasFocus and 1.2 or 1);
 			self:name(tostring(params.Index))
 		end
+
+		if song and params.Type == "Song" then
+			self:GetChild("Jacket"):LoadFromCached("Jacket",jk.GetSongGraphicPath(song))
+			:scaletofit(-69,-69,69,69):xy(2,-1)
+
+			TB:GetChild("Title"):settext(song:GetDisplayMainTitle()):diffuse(SongAttributes.GetMenuColor(song)):strokecolor(ColorDarkTone(SongAttributes.GetMenuColor(song)))
+			:basezoom(0.7):maxwidth(200)
+		end
 	end;
-	quadButton(1)..{
-		InitCommand=function(s)
-			s:zoomto(304,172):visible(false)
-		end,
-		TopPressedCommand=function(self)
-			local newIndex = tonumber(self:GetParent():GetName())
-			local wheel = SCREENMAN:GetTopScreen():GetChild("MusicWheel")
-			local size = wheel:GetNumItems()
-			local move = newIndex-wheel:GetCurrentIndex()
-
-		if math.abs(move)>math.floor(size/2) then
-			if newIndex > wheel:GetCurrentIndex() then
-				move = (move)%size-size
-			else
-				move = (move)%size
-			end
-		end
-
-		wheel:Move(move)
-		wheel:Move(0)
-
-		-- TODO: play sounds.
-		if move == 0 and wheel:GetSelectedType() == 'WheelItemDataType_Section' then
-			if wheel:GetSelectedSection() == curFolder then
-				wheel:SetOpenSection("")
-				curFolder = ""
-			else
-				wheel:SetOpenSection(wheel:GetSelectedSection())
-				curFolder = wheel:GetSelectedSection()
-			end
-		end
-	end,
-	};
 	Def.Sprite{
 		Texture="backer",
 	},
@@ -99,13 +88,7 @@ return Def.ActorFrame{
 		InitCommand=function(s) s:diffusealpha(0.5) end,
 	},
 	Def.Sprite{
-		SetMessageCommand=function(s,p)
-			local song = p.Song
-			if song then
-				s:LoadFromCached("Jacket",jk.GetSongGraphicPath(song))
-			end
-			s:scaletofit(-69,-69,69,69):xy(2,-1)
-		end
+		Name="Jacket",
 	};
 	Def.ActorFrame{
 		Name="Textbox",
@@ -120,14 +103,8 @@ return Def.ActorFrame{
 			},
 		};
 		Def.BitmapText{
+			Name="Title",
 			Font="_avenirnext lt pro bold/20px",
-			SetMessageCommand=function(s,p)
-				local song = p.Song
-				if song then
-					s:settext(song:GetDisplayMainTitle()):diffuse(SongAttributes_GetMenuColor(song)):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(song)))
-				end
-				s:basezoom(0.7):maxwidth(200)
-			end,
 		}
 	};
 	clearglow;

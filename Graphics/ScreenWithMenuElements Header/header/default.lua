@@ -1,13 +1,17 @@
 local screen = Var "LoadingScreen"
 
 local pf = ""
-if screen == "ScreenSelectMusicExtra" then
+if IsAnExtraStage() then
   pf = "ex "
 end
 
 local ver = ""
 if ThemePrefs.Get("SV") == "onepointzero" then
   ver = "1_"
+end
+if IsAnExtraStage() then
+  pf = "ex "
+  ver = ""
 end
 
 return Def.ActorFrame{

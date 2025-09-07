@@ -74,7 +74,7 @@ t[#t+1] = Def.ActorFrame {
 				self:queuecommand("TitleSelectionPart2")
 			end;
 			TitleSelectionPart2Command=function(self, params)
-				self:Load(THEME:GetPathG("","_TitleImages/"..choice))
+				self:Load(THEME:GetPathB("ScreenSelectMode","decorations/Images/"..choice))
 				self:sleep(0.1)
 				self:accelerate(0.2);
 				self:croptop(0):cropbottom(0)

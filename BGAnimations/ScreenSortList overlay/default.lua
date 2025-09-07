@@ -51,6 +51,9 @@ local function input(event, param)
 			MESSAGEMAN:Broadcast("MusicWheelSort")
 			if sortorders[curIndex] == "EasyMeter" then
 				mw:ChangeSort("SortOrder_"..ToEnumShortString(steps:GetDifficulty()).."Meter")
+			elseif sortorders[curIndex] == "Preferred" then
+				mw:ChangeSort("SortOrder_Preferred")
+				SONGMAN:SetPreferredSongs("PreferredSongs.txt")
 			else
 				mw:ChangeSort("SortOrder_"..sortorders[curIndex])
 			end
@@ -189,7 +192,7 @@ local t = Def.ActorFrame{
 	CaptureCommand=function(s) 
 		SCREENMAN:GetTopScreen():AddInputCallback(input)
 		SCREENMAN:GetTopScreen():RemoveInputCallback(DDRInput(self))
-		SOUND:PlayOnce(THEME:GetPathS("_PHOTwON","back"))
+		SOUND:PlayOnce(THEME:GetPathS("Common","back"))
 	end,
 	Def.Sprite{
 		Texture="Backer",
@@ -233,7 +236,7 @@ local t = Def.ActorFrame{
 };
 
 t[#t+1] = Def.Sound{
-	File=THEME:GetPathS("", "MWChange/Default_MWC"),
+	File=THEME:GetPathS("", "MusicWheel/dance/Default/change.ogg"),
 	Name="change_sound",
 	SupportPan = false
 }
