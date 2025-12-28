@@ -123,6 +123,24 @@ local Prefs =
 		Choices = {"Off", "On"},
 		Values = {false,true}
 	},
+	PauseMenu = 
+	{
+		Default = false,
+		Choices = {"Off", "On"},
+		Values = {false,true},
+	},
+	MachinePrefsSaveToDisk = 
+	{
+		Default = false,
+		Choices = {"No", "Yes"},
+		Values = {false, true},
+	},
+	AutoSelectStyle = 
+	{
+		Default = '',
+		Choices = {'Off', 'Single', 'Double', 'Versus'},
+		Values = {'', 'single', 'double', 'versus'},
+	},
 	GameplayBackground = 
 	{
 		Default = "Background",
@@ -337,4 +355,3 @@ function JudgmentTransformCommand( self, params )
 	self:x( 0 )
 	self:y( params.bReverse and 67 or -76 )
 end
-

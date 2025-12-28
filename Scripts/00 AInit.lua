@@ -193,11 +193,11 @@ function fornumrange(s,e,it)
 	return num
 end
 
--- ?R???{???
+-- 
 function JudgmentTransformCommand( self, params )
 	local x = 0
 	local y = -76
-	-- リバース時のY軸設定、センターが基本
+	-- 
 	if params.bReverse then y = 67 end
 	-- This makes no sense and wasn't even being used due to misspelling.
 	-- if bCentered then y = y * 2 end
@@ -269,6 +269,7 @@ end
 	return "ScreenSelectMusic"
 end]]
 
+CustStage = 1
 function CustStageCheck()
     if not GAMESTATE:IsAnExtraStage() then
         if GAMESTATE:GetCurrentStage() == "Stage_Final" then
@@ -664,4 +665,38 @@ function IsAnExtraStage()
 	end
 	
 	return false
+end
+
+
+-- TODO: This function is deprecated and can be safely removed in the next major version: version Threepointzero.
+-- Right now this function is only used to revert an old workaround that was added to fix MusicWheelA's scrolling
+-- sound in the past. With the rework of MusicWheelA's vertical scrolling we don't need the workaround anymore.
+function UpdateMWC()
+	if ThemePrefs.Get('WheelType') ~= 'A' then return end
+	local mw_path = THEME:GetCurrentThemeDirectory() .. '/Sounds/MusicWheel change.redir'
+	local f = RageFileUtil.CreateRageFile()
+	local worked = f:Open(mw_path, 10)
+	if worked then
+		-- Revert old workaround patch done by old code
+		f:Write("MusicWheel/dance/Default/change.ogg")
+		f:Close()
+	elseif SN3Debug then
+		SCREENMAN:SystemMessage("Couldn't open MusicWheel change redir")
+	end
+	f:destroy()
+end
+
+local versionMajor, versionMinor
+function IsLuaVersionAtLeast(major, minor)
+	if versionMajor == nil or versionMinor == nil then
+		local maj, min = _VERSION:match("Lua (%d+)%.(%d+)")
+		if not maj or not min then
+			error("IsLuaVersionAtLeast: couldn't parse Lua version \"" .. _VERSION .. "\"")
+		end
+		versionMajor = tonumber(maj)
+		versionMinor = tonumber(min)
+	end
+	if major < versionMajor then return true end
+	if major > versionMajor then return false end
+	return minor < versionMinor
 end

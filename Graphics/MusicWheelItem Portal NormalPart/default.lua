@@ -1,9 +1,5 @@
-if GAMESTATE:IsCourseMode() then return Def.ActorFrame{} end
-
-local t = Def.ActorFrame{}
-
-local jk = LoadModule"Jacket.lua"
-
+local wheel = ThemePrefs.Get("WheelType");
 return Def.ActorFrame{
-    loadfile(THEME:GetPathG("MusicWheelItem","Portal NormalPart/"..ThemePrefs.Get("WheelType").."/default.lua"))(jk)
-} 
+    loadfile(THEME:GetPathG("MusicWheelItem","Portal NormalPart/"..wheel.."/default.lua"))()
+}
+
