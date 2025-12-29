@@ -57,7 +57,7 @@ local function MusicWheel_MoveY(deltaY)
   if VerticalScrollHandler then
     VerticalScrollHandler:MoveY(deltaY)
   else
-    MusicWheel:Move(deltaY) -- fallback just for good measure
+    --MusicWheel:Move(deltaY) -- fallback just for good measure
   end
 end
 
@@ -146,7 +146,7 @@ local function HandleInput_MusicWheelA(event)
   end
 end
 
-local function InputHandler(event
+local function InputHandler(event)
   UpdatePressedButtons(event)
   local pressType = ToEnumShortString(event.type)
   

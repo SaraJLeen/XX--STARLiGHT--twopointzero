@@ -1,3 +1,4 @@
+local ScoreAndGrade = LoadModule('ScoreAndGrade.lua')
 local t = Def.ActorFrame{};
 wheelsong = nil;
 
@@ -93,10 +94,6 @@ t[#t+1] = Def.ActorFrame{
 		end
 	end;
 	SetMessageCommand=function(self,params)
-		local fc = nil
-		if self then
-			fc = self:GetChild("Img_fc")
-		end
 		if params then
 			wheelsong = params.Song;
 			if wheelsong then
@@ -116,21 +113,16 @@ t[#t+1] = Def.ActorFrame{
 					else
 						profile = PROFILEMAN:GetMachineProfile();
 						self:visible(false)
-						fc:visible(false)
 						return
 					end;
 
 					scorelist = profile:GetHighScoreListIfExists(wheelsong,steps)
-					if scorelist == nil then self:visible(false) fc:visible(false) return end
+					if scorelist == nil then self:visible(false) return end
 					local scores = scorelist:GetHighScores();
-					if scores == nil then self:visible(false) fc:visible(false) return end
+					if scores == nil then self:visible(false) return end
 					local topscore=0;
 					if scores[1] then
-						if ThemePrefs.Get("ConvertScoresAndGrades") then
-							topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
-						else
-							topscore = scores[1]:GetScore()
-						end
+						topscore = scores[1]:GetScore()
 					end;
 
 					local topgrade;
@@ -142,61 +134,16 @@ t[#t+1] = Def.ActorFrame{
 						end
 						assert(topgrade);
 						if scores[1]:GetScore()>1  then
+							self:playcommand('SetScore', { Stats = scores[1], Steps = steps })
 							self:visible(true)
-							local RStats = scores[1]
-							local misses = 1
-							local boos = 0
-							local goods = 0
-							local greats = 0
-							local perfects = 0
-							local marvelous = 0
-							if RStats then
-								misses = RStats:GetTapNoteScore("TapNoteScore_Miss")+RStats:GetTapNoteScore("TapNoteScore_CheckpointMiss")
-								boos = RStats:GetTapNoteScore("TapNoteScore_W5")
-								goods = RStats:GetTapNoteScore("TapNoteScore_W4")
-								greats = RStats:GetTapNoteScore("TapNoteScore_W3")
-								perfects = RStats:GetTapNoteScore("TapNoteScore_W2")
-								marvelous = RStats:GetTapNoteScore("TapNoteScore_W1")
-							end
-							if fc and (misses+boos) == 0 and scores[1]:GetScore() > 0 and (marvelous+perfects)>0 then
-								if (greats+perfects) == 0 then
-									fc:visible(true):diffuse(GameColor.Judgment["JudgmentLine_W1"])
-									:glowblink():effectperiod(0.20)
-								elseif greats == 0 then
-									fc:visible(true):diffuse(GameColor.Judgment["JudgmentLine_W2"])
-									:glowshift()
-								elseif (misses+boos+goods) == 0 then
-									fc:visible(true):diffuse(GameColor.Judgment["JudgmentLine_W3"])
-									:stopeffect()
-								elseif (misses+boos) == 0 then
-									fc:visible(true):diffuse(GameColor.Judgment["JudgmentLine_W4"])
-									:stopeffect()
-								else
-									fc:visible(false)
-								end;
-								fc:diffusealpha(0.8);
-							else
-								if fc then
-									fc:visible(false)
-								end
-							end;
 						else
 							self:visible(false)
-							if fc then
-								fc:visible(false)
-							end
 						end;
 					else
 						self:visible(false)
-						if fc then
-							fc:visible(false)
-						end
 					end;
 				else
 					self:visible(false)
-					if fc then
-						fc:visible(false)
-					end
 				end;
 			end
 		end
@@ -205,83 +152,15 @@ t[#t+1] = Def.ActorFrame{
 	--CurrentTrailP1ChangedMessageCommand=function(s) s:queuecommand("Set") end,
 	CurrentStepsP1ChangedMessageCommand=function(s) s:queuecommand("Set") end,
 	--CurrentCourseChangedMessageCommand=function(s) s:queuecommand("Set") end,
-	Def.Quad{
-		InitCommand=function(s)
-			s:xy(0,0)
-			s:zoom(0.1)
+	ScoreAndGrade.CreateGradeActor{
+		Name='Grade',
+		Big=true,
+		AlternativeFC=true,
+		InitCommand=function(self)
+			self:xy(0,0):zoom(0.1)
+			self:GetChild('FullCombo'):zoom(1.5):xy(300,0)
 		end,
-		BeginCommand=function(s) s:playcommand("Set") end,
-		SetMessageCommand=function(self,params)
-			if params then
-				--local song = GAMESTATE:GetCurrentSong()
-				wheelsong = params.Song;
-				if wheelsong then
-					local steps = GAMESTATE:GetCurrentSteps(pn)
-					--Trace("Setting grade for song: "..tostring(wheelsong).." on steps "..tostring(steps)..".")
-
-					local profile, scorelist;
-					local text = "";
-					if wheelsong and steps then
-						local st = steps:GetStepsType();
-						local diff = steps:GetDifficulty();
-						steps = wheelsong:GetOneSteps(st,diff);
-					end
-					if wheelsong and steps then
-
-						if PROFILEMAN:IsPersistentProfile(pn) then
-							profile = PROFILEMAN:GetProfile(pn);
-						else
-							profile = PROFILEMAN:GetMachineProfile();
-							self:visible(false)
-							return
-						end;
-
-						scorelist = profile:GetHighScoreListIfExists(wheelsong,steps)
-						if scorelist == nil then self:visible(false) return end
-						local scores = scorelist:GetHighScores();
-						if scores == nil then self:visible(false) return end
-						local topscore=0;
-						if scores[1] then
-							if ThemePrefs.Get("ConvertScoresAndGrades") then
-								topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
-							else
-								topscore = scores[1]:GetScore()
-							end
-						end;
-
-						local topgrade;
-						if scores[1] then
-							topgrade = scores[1]:GetGrade();
-							local tier = scores[1]:GetGrade();
-							if ThemePrefs.Get("ConvertScoresAndGrades") then
-								tier = SN2Grading.ScoreToGrade(topscore, diff)
-							end
-							if topgrade == nil then self:visible(false) end
-							if scores[1]:GetScore()>1  then
-								self:LoadBackground(THEME:GetPathB("ScreenEvaluationNormal decorations/grade/GradeDisplayEval",ToEnumShortString(tier)));
-								self:visible(true)
-							else
-								self:visible(false)
-							end;
-						else
-							self:visible(false)
-						end;
-					else
-						self:visible(false)
-					end;
-				end
-			end
-		end;
-		--CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
-		--CurrentTrailP1ChangedMessageCommand=function(s) s:queuecommand("Set") end,
-		CurrentStepsP1ChangedMessageCommand=function(s) s:queuecommand("Set") end,
-		--CurrentCourseChangedMessageCommand=function(s) s:queuecommand("Set") end,
-	};
-	Def.Sprite{
-		Texture=THEME:GetPathG("Player","Badge FullCombo"),
-		Name="Img_fc",
-		InitCommand=function(s) s:zoom(0.35):xy(28,8):visible(false):draworder(-10) end,
-	};
+	},
 };
 end
 

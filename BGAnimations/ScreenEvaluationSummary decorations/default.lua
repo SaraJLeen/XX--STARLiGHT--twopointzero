@@ -15,6 +15,12 @@ t[#t+1] = Def.Sound{
 
 local dim_vol = 1
 
+for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
+	GAMESTATE:StoreRankingName(pn,PROFILEMAN:GetProfile(pn):GetDisplayName())
+end
+GAMESTATE:SaveLocalData();
+GAMESTATE:SaveProfiles();
+
 t[#t+1] = Def.Actor{
 	OffCommand=function(s)
 		s:queuecommand('Play')

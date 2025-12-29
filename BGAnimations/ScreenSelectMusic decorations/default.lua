@@ -1,49 +1,25 @@
 local Deco = Def.ActorFrame{};
 if not GAMESTATE:IsCourseMode() then
-	Deco[#Deco+1] = loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/WheelDeco"))();
+	Deco[#Deco+1] = loadfile(THEME:GetPathB("ScreenSelectMusic","decorations/Types/"..ThemePrefs.Get("WheelType").."/default.lua"))();
 end;
 
 local jk = LoadModule"Jacket.lua"
 
---Custom Music Preview breaks so much crap, let's just not. -Inori
-local function play_sample_music(self)
-    if GAMESTATE:IsCourseMode() then return end
-    local song = GAMESTATE:GetCurrentSong()
+local op = Def.ActorFrame{};
 
-    if song then
-        local songpath = song:GetMusicPath()
-        local sample_start = song:GetSampleStart()
-        local sample_len = song:GetSampleLength()
-
-        if songpath and sample_start and sample_len then
-          SOUND:PlayMusicPart(songpath, sample_start,sample_len, 1, 1.5, true, true)
-        else
-            SOUND:PlayMusicPart("", 0, 0)
-        end
-    end
+if THEME:GetMetric("ScreenSelectMusic","UseOptionsList") then
+	op[#op+1] = loadfile(THEME:GetPathB("ScreenSelectMusic","decorations/_shared/_OptionsList/default.lua"))();
 end
 
 return Def.ActorFrame{
-	OnCommand=function(s) SOUND:PlayOnce(THEME:GetPathS("","Music_In"))
-		setenv("OPList",0)
-	end,
+	Def.Actor{
+		OnCommand=function(s) 
+			setenv("OPList",0)
+		end,
+	};
 	PlayerJoinedMessageCommand=function(self,param)
 		SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectProfile"):StartTransitioningScreen("SM_GoToNextScreen")
   	end;
-	Deco;
-	loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/_OptionsList/default.lua"))();
-	loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/InputHandler.lua"))();
-	Def.Sound{
-		Name="MWChange",
-		File=THEME:GetPathS("","MWChange/Default_MWC.ogg"),
-		IsAction=true,
-	};
-	--[[Def.Actor{
-		CurrentSongChangedMessageCommand=function(self)
-			self:finishtweening():sleep(0.1):queuecommand("PlayMusicPreview")
-		end;
-		PlayMusicPreviewCommand=function(subself) play_sample_music() end,
-	};]]
 	CodeMessageCommand=function(s,p)
 		if p.PlayerNumber == PLAYER_1 then
 			if p.Name == "OpenOL" then
@@ -58,6 +34,22 @@ return Def.ActorFrame{
 			end
 		end
 	end,
+	OffCommand=function(s)
+		s:sleep(1):queuecommand("Dim")
+	end,
+	DimCommand=function(s) SOUND:DimMusic(0,math.huge) end,
+	Def.Sound{
+		File=THEME:GetPathS("","_swoosh in"),
+		OnCommand=function(s) s:play() end,
+	},
+	Def.Sound{
+		Name="MWChange",
+		File=THEME:GetPathS("","MusicWheel/dance/Default/change.ogg"),
+		IsAction=true,
+	};
+	Deco;
+	loadfile(THEME:GetPathB("ScreenSelectMusic","decorations/InputHandler.lua"))();
+	op;
 	Def.Sound{
 		File=THEME:GetPathS("","_swoosh out"),
 		OffCommand=function(s) s:sleep(1):queuecommand("Play") end,

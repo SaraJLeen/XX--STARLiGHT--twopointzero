@@ -153,7 +153,7 @@ t[#t+1] = Def.ActorFrame{
 		InitCommand=function(s) s:MaskSource(true) end,
     };
 	Def.Sprite{
-		Texture=THEME:GetPathB("","ScreenSelectMusic overlay/ADeco/grad.png"),
+		Texture=THEME:GetPathB("","ScreenSelectMusic decorations/Types/A/grad.png"),
 		InitCommand=function(s) s:setsize(102,144):diffusealpha(0.5):blend(Blend.Add):MaskDest():ztestmode("ZTestMode_WriteOnFail") end,
 		OnCommand=function(s) s:queuecommand("Anim") end,
 		AnimCommand=function(s) s:x(-480):sleep(4):smooth(1.5):x(480):queuecommand("Anim") end,
@@ -304,7 +304,7 @@ t[#t+1] = Def.ActorFrame{
 	};
 }
 
-t[#t+1] = loadfile(THEME:GetPathB("ScreenSelectMusic","overlay/_OptionsList/default.lua"))()..{
+t[#t+1] = loadfile(THEME:GetPathB("ScreenSelectMusic","decorations/_shared/_OptionsList/default.lua"))()..{
 	InitCommand=function(s) s:draworder(100) end,
 }
 

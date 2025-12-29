@@ -26,78 +26,60 @@ local function PlayerPanel()
 	t[#t+1] = Def.ActorFrame{
 		SetCommand=function(s)
 			local c = s:GetChildren()
-			local song = GAMESTATE:GetCurrentSong() or GAMESTATE:GetCurrentCourse()
-			if song then
-				local steps = GAMESTATE:GetCurrentSteps(pn) or GAMESTATE:GetCurrentTrail(pn)
-				if steps then
-					c.Bar_underlay:visible(true)
-					c.Text_name:settext(PROFILEMAN:GetProfile(pn):GetDisplayName())
-					scorelist = PROFILEMAN:GetProfile(pn):GetHighScoreListIfExists(song,steps)
-					if scorelist == nil then 
-						c.Text_score:settext("")
-						c.Img_grade:visible(false)
-						c.Img_fc:visible(false)
-						c.Text_judgments:settext("0\n0\n0\n0\n0\n0")
-						return
-					end
-					local scores = scorelist:GetHighScores()
-				if scores == nil then 
-					c.Text_score:settext("")
-					c.Img_grade:visible(false)
-					c.Img_fc:visible(false)
-					c.Text_judgments:settext("0\n0\n0\n0\n0\n0")
-					return
-				end
-				local topscore=0
-				local temp=#scores
-				if scores[1] then
-					if ThemePrefs.Get("ConvertScoresAndGrades") then
-						topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
-					else
-						topscore = scores[1]:GetScore()
-					end
-					RStats = scores[1]
-				end
-				if topscore == nil then 
-					c.Text_score:settext("")
-					c.Img_grade:visible(false)
-					c.Img_fc:visible(false)
-					c.Text_judgments:settext("0\n0\n0\n0\n0\n0")
-					return
-				end
-				if topscore ~= 0 then
-					local misses = RStats:GetTapNoteScore("TapNoteScore_Miss")+RStats:GetTapNoteScore("TapNoteScore_CheckpointMiss")
-					local boos = RStats:GetTapNoteScore("TapNoteScore_W5")
-					local goods = RStats:GetTapNoteScore("TapNoteScore_W4")
-					local greats = RStats:GetTapNoteScore("TapNoteScore_W3")
-					local perfects = RStats:GetTapNoteScore("TapNoteScore_W2")
-					local marvelous = RStats:GetTapNoteScore("TapNoteScore_W1")
-					c.Text_score:settext(commify(topscore))
-					for i=1,temp do
-						if scores[i] then
-							topscore = scores[i]
-							assert(topscore)
-							c.Text_judgmenttitles:diffusealpha(1)
-							c.Text_judgments:settext(topscore:GetTapNoteScore("TapNoteScore_W1").."\n"
-								..topscore:GetTapNoteScore("TapNoteScore_W2").."\n"
-								..topscore:GetTapNoteScore("TapNoteScore_W3").."\n"
-								..topscore:GetTapNoteScore("TapNoteScore_W4").."\n"
-								..topscore:GetHoldNoteScore("HoldNoteScore_Held").."\n"
-								..topscore:GetTapNoteScore("TapNoteScore_W5")+topscore:GetTapNoteScore("TapNoteScore_Miss")):diffusealpha(1)
-						else
-							c.Text_judgments:settext("0\n0\n0\n0\n0\n0")
-						end
-					end
-				else
-					c.Text_score:settext("")
-					c.Text_judgments:settext("0\n0\n0\n0\n0\n0")
-				end
+			
+			local SongOrCourse, StepsOrTrail
+			if GAMESTATE:IsCourseMode() then
+				SongOrCourse = GAMESTATE:GetCurrentCourse()
+				StepsOrTrail = GAMESTATE:GetCurrentTrail(pn)
+			else
+				SongOrCourse = GAMESTATE:GetCurrentSong()
+				StepsOrTrail = GAMESTATE:GetCurrentSteps(pn)
 			end
-		else
-			c.Text_score:settext("")
-			c.Text_judgments:settext("0\n0\n0\n0\n0\n0")
-		end
-	end,
+			
+			if not (SongOrCourse and StepsOrTrail) then
+				c.Text_name:settext('')
+				c.Text_score:visible(false)
+				c.Text_judgments:settext("0\n0\n0\n0\n0\n0")
+				c.Grade:visible(false)
+				return
+			end
+			
+			local profile
+			if PROFILEMAN:IsPersistentProfile(pn) then
+				profile = PROFILEMAN:GetProfile(pn)
+			else
+				profile = PROFILEMAN:GetMachineProfile()
+			end
+			local scores = profile:GetHighScoreList(SongOrCourse, StepsOrTrail):GetHighScores()
+			local score = scores[1]
+			
+			if not score then
+				c.Text_name:settext('')
+				c.Text_score:visible(false)
+				c.Text_judgments:settext("0\n0\n0\n0\n0\n0")
+				c.Grade:visible(false)
+				return
+			end
+			c.Text_name:settext(score:GetName())
+			c.Text_score:visible(true)
+			c.Grade:visible(true)
+			s:playcommand('SetScore', { Stats = score, Steps = StepsOrTrail })
+			
+			local marvelous = score:GetTapNoteScore("TapNoteScore_W1")
+			local perfects = score:GetTapNoteScore("TapNoteScore_W2")
+			local greats = score:GetTapNoteScore("TapNoteScore_W3")
+			local goods = score:GetTapNoteScore("TapNoteScore_W4")
+			local oks = score:GetHoldNoteScore("HoldNoteScore_Held")
+			local misses = score:GetTapNoteScore("TapNoteScore_W5")+score:GetTapNoteScore("TapNoteScore_Miss")+score:GetTapNoteScore("TapNoteScore_CheckpointMiss")
+			c.Text_judgments:settext(
+				marvelous .. '\n' ..
+				perfects .. '\n' ..
+				greats .. '\n' ..
+				goods .. '\n' ..
+				oks .. '\n' ..
+				misses
+			)
+		end,
 		Def.Sprite{
 			Name="Bar_underlay",
 			Texture="playerbacker",
@@ -109,27 +91,33 @@ local function PlayerPanel()
 			Name="Text_name",
 			InitCommand=function(s) s:y(-34):maxwidth(300/0.8):zoom(0.8) end,
 		},
+		ScoreAndGrade.CreateScoreRollingActor{
+			Name='Text_score',
+			Font='_avenirnext lt pro bold/25px',
+			Load='RollingNumbersSongData',
+			InitCommand=function(self)
+				self:xy(50,-6):zoom(1):halign(1)
+			end,
+		},
+		ScoreAndGrade.CreateGradeActor{
+  		Name='Grade',
+			InitCommand=function(self)
+				self:xy(70,-6)
+			end,
+		},
 		Def.BitmapText{
 			Font="Common normal",
-			Text="",
-			Name="Text_score",
-			InitCommand=function(s) s:xy(10,-6):halign(1) end,
-		},
-		LoadActor(THEME:GetPathG("","myMusicWheel/default.lua"),pn,1,"Player","Current",diff)..{
-			InitCommand=function(s) s:xy(40,-6) end,
+			Name="Text_judgmenttitles",
+			InitCommand=function(s) s:zoom(0.9):halign(0):addx(-140):addy(80) end,
+			OnCommand=function(s) s:settext("Marvelous\nPerfect\nGreat\nGood\nOK\nMiss") end,
 		},
 		Def.BitmapText{
-				Font="Common normal",
-				Name="Text_judgmenttitles",
-				InitCommand=function(s) s:zoom(0.9):halign(0):addx(-140):addy(80) end,
-				OnCommand=function(s) s:settext("Marvelous\nPerfect\nGreat\nGood\nOK\nMiss") end,
+			Font="Common normal",
+			Name="Text_judgments",
+			InitCommand=function(s) s:zoom(0.9):halign(1):addx(120):addy(80) end,
 		},
-		Def.BitmapText{
-				Font="Common normal",
-				Name="Text_judgments",
-				InitCommand=function(s) s:zoom(0.9):halign(1):addx(120):addy(80) end,
-		},
-}
+	}
+	return t
 end
 
 local difficulties = {
@@ -147,124 +135,96 @@ local function DifficultyPanel()
 			InitCommand=function(s) s:y((Difficulty:Reverse()[diff] * yspacing)) end,
 			SetCommand=function(s)
 				local c = s:GetChildren()
-				local song = GAMESTATE:GetCurrentSong() or GAMESTATE:GetCurrentCourse()
-				local bHasStepsTypeAndDifficulty = false
-				local curDiff
-				local steps
-				if song then
-					local st = GAMESTATE:GetCurrentStyle():GetStepsType()
-					if not GAMESTATE:IsCourseMode() then
-						bHasStepsTypeAndDifficulty = song:HasStepsTypeAndDifficulty(st, diff)
-						steps = song:GetOneSteps(st,diff)
-					else
-						steps = GAMESTATE:GetCurrentTrail(pn)
-					end
-					if steps then
-						if not GAMESTATE:IsCourseMode() then
-							local meter = steps:GetMeter()
-							c.Text_meter:settext(IsMeterDec(meter))
-							c.Text_meter:visible(true)
-						end
-						if GAMESTATE:GetCurrentSong() then
-							c.Text_difficulty:settext(GetDifficultyName(diff,GAMESTATE:GetCurrentSong())):visible(true)
-						else
-							c.Text_difficulty:settext(THEME:GetString("CustomDifficulty",ToEnumShortString(diff))):visible(true)
-						end
-						c.Text_difficulty:diffuse(CustomDifficultyToColor(diff))
-						local cursteps = GAMESTATE:GetCurrentSteps(pn) or GAMESTATE:GetCurrentTrail(player)
-						if cursteps then
-							curDiff = cursteps:GetDifficulty(pn)
-							if ToEnumShortString(curDiff) == ToEnumShortString(diff) then
-								c.Bar_underlay:diffuse(CustomDifficultyToColor(diff))
-							else
-								c.Bar_underlay:diffuse(Color.White)
-							end
-						end
-						scorelist = PROFILEMAN:GetProfile(pn):GetHighScoreListIfExists(song,steps)
-						if scorelist == nil then 
-							c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
-							c.Text_meter:settext("")
-							c.Text_difficulty:settext("")
-							c.Text_score:settext("")
-							c.Img_grade:visible(false)
-							c.Img_fc:visible(false)
-							return
-						end
-						local scores = scorelist:GetHighScores()
-						if scores == nil then 
-							c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
-							c.Text_meter:settext("")
-							c.Text_difficulty:settext("")
-							c.Text_score:settext("")
-							c.Img_grade:visible(false)
-							c.Img_fc:visible(false)
-							return
-						end
-						local topscore=0
-						local temp=#scores
-						if scores[1] then
-							if ThemePrefs.Get("ConvertScoresAndGrades") then
-								topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[1])
-							else
-								topscore = scores[1]:GetScore()
-							end
-							RStats = scores[1]
-						end
-						if topscore == nil then 
-							c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
-							c.Text_meter:settext("")
-							c.Text_difficulty:settext("")
-							c.Text_score:settext("")
-							c.Img_grade:visible(false)
-							c.Img_fc:visible(false)
-							return
-						end
-						if topscore ~= 0 then
-							c.Text_score:settext(commify(topscore))
-						else
-							c.Text_score:settext("")
-						end
-					else
-						c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
-						c.Text_meter:settext("")	
-						c.Text_difficulty:settext("")
-						c.Text_score:settext("")
-					end
+				
+				local SongOrCourse, StepsOrTrail, curDiff
+				if GAMESTATE:IsCourseMode() then
+					SongOrCourse = GAMESTATE:GetCurrentCourse()
+					StepsOrTrail = GAMESTATE:GetCurrentTrail(pn)
+					curDiff = StepsOrTrail:GetDifficulty()
 				else
-					c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
-					c.Text_meter:settext("")
-					c.Text_difficulty:settext("")
-					c.Text_score:settext("")
+					SongOrCourse = GAMESTATE:GetCurrentSong()
+					if SongOrCourse then
+						local stepType = GAMESTATE:GetCurrentStyle():GetStepsType()
+						StepsOrTrail = SongOrCourse:GetOneSteps(stepType, diff)
+					end
+					curDiff = GAMESTATE:GetCurrentSteps(pn):GetDifficulty()
 				end
+				
+				if not (SongOrCourse and StepsOrTrail) then
+					c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
+					c.Text_meter:visible(false)
+					c.Text_difficulty:visible(false)
+					c.Text_score:visible(false)
+					c.Grade:visible(false)
+					return
+				end
+				local diffColor = CustomDifficultyToColor(diff)
+				
+				c.Text_meter:visible(true)
+				c.Text_meter:settext(IsMeterDec(StepsOrTrail:GetMeter()))
+
+				c.Text_difficulty:visible(true)
+				c.Text_difficulty:settext(THEME:GetString('CustomDifficulty', ToEnumShortString(diff)))
+				c.Text_difficulty:diffuse(diffColor)
+				
+				if diff == curDiff then
+					c.Bar_underlay:diffuse(diffColor)
+				else
+					c.Bar_underlay:diffuse(Color.White)
+				end
+				
+				local profile
+				if PROFILEMAN:IsPersistentProfile(pn) then
+					profile = PROFILEMAN:GetProfile(pn)
+				else
+					profile = PROFILEMAN:GetMachineProfile()
+				end
+				local scores = profile:GetHighScoreList(SongOrCourse, StepsOrTrail):GetHighScores()
+				local score = scores[1]
+				
+				if not score then
+					c.Text_score:visible(false)
+					c.Grade:visible(false)
+					return
+				end
+				c.Text_score:visible(true)
+				c.Grade:visible(true)
+				
+				s:playcommand('SetScore', { Stats = score, Steps = StepsOrTrail })
 			end,
 			Def.ActorFrame{
-				Name="Bar_underlay",
+				Name='Bar_underlay',
 				Def.Quad{
-						InitCommand=function(s) s:setsize(312,26):faderight(0.75):diffusealpha(0.5) end,
+					InitCommand=function(s) s:setsize(312,26):faderight(0.75):diffusealpha(0.5) end,
 				},
 				Def.Quad{
-						InitCommand=function(s) s:y(-12):setsize(312,2):faderight(0.5):diffusealpha(0.5) end,
+					InitCommand=function(s) s:y(-12):setsize(312,2):faderight(0.5):diffusealpha(0.5) end,
 				},
 			},
 			Def.BitmapText{
-				Font="_avenirnext lt pro bold/25px",
-				Name="Text_meter",
+				Font='_avenirnext lt pro bold/25px',
+				Name='Text_meter',
 				InitCommand=function(s) s:x(-6):strokecolor(Alpha(Color.Black,0.5)) end,
 			},
 			Def.BitmapText{
-				Font="_avenirnext lt pro bold/20px",
-				Name="Text_difficulty",
+				Font='_avenirnext lt pro bold/20px',
+				Name='Text_difficulty',
 				InitCommand=function(s) s:x(-150):halign(0):strokecolor(Alpha(Color.Black,0.5)) end,
 			},
-			Def.BitmapText{
-				Name="Text_score",
-				Font="_avenirnext lt pro bold/20px",
-				InitCommand=function(s) s:x(120):halign(1):diffuse(Color.White):strokecolor(Color.Black) end,
+			ScoreAndGrade.CreateScoreActor{
+				Name='Text_score',
+				Font='_avenirnext lt pro bold/20px',
+				InitCommand=function(self)
+					self:x(120):halign(1):diffuse(Color.White):strokecolor(Color.Black)
+				end,
 			},
-			LoadActor(THEME:GetPathG("","myMusicWheel/default.lua"),pn,1,"Player","One",diff)..{
-				InitCommand=function(s) s:x(146) end,
-			}
-		},
+			ScoreAndGrade.CreateGradeActor{
+				Name='Grade',
+				InitCommand=function(self)
+					self:x(146)
+				end,
+			},
+		}
 	end
 	return t
 end
@@ -293,91 +253,88 @@ local function RivalsPanel()
 					c.Text_name:visible(false)
 					c.Grade:visible(false)
 					return
-					scorelist = PROFILEMAN:GetMachineProfile():GetHighScoreListIfExists(song,steps)
-				if scorelist == nil then
-					c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
-					c.Text_score:settext("")
-					c.Text_name:settext("")
-					c.Img_grade:visible(false)
-					c.Img_fc:visible(false) 
-					return
 				end
-				local scores = scorelist:GetHighScores()
-				local topscore = 0
-				if scores[rival] then
-					if ThemePrefs.Get("ConvertScoresAndGrades") then
-						topscore = SN2Scoring.GetSN2ScoreFromHighScore(steps, scores[rival])
-					else
-						topscore = scores[rival]:GetScore()
-					end
-				end
-				if topscore == nil then
-					c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
-					c.Text_score:settext("")
-					c.Text_name:settext("")
-					c.Img_grade:visible(false)
-					c.Img_fc:visible(false) 
-					return
-				end
-				RStats = scores[1]
-				if topscore ~= 0 then
-					c.Bar_underlay:diffuse(Color.White)
-					c.Text_score:settext(commify(topscore))
-					if scores[rival]:GetName() ~= nil then
-						if scores[rival]:GetName() == "" then
-							c.Text_name:settext("NO NAME")
-						else
-							c.Text_name:settext(scores[rival]:GetName())
-						end
-					else
-						c.Text_name:settext("STEP")
-					end
+				
+				local profile
+				if PROFILEMAN:IsPersistentProfile(pn) then
+					profile = PROFILEMAN:GetProfile(pn)
 				else
-					c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
-					c.Text_score:settext("")
-					c.Text_name:settext("")
+					profile = PROFILEMAN:GetMachineProfile()
 				end
-			else
-				c.Bar_underlay:diffuse(Alpha(Color.White,0.2))
-				c.Text_score:settext("")
-				c.Text_name:settext("")
-			end
-		end,
-		Def.ActorFrame{
-			Name="Bar_underlay",
-			Def.Quad{
-				InitCommand=function(s) s:setsize(312,26):faderight(0.75):diffusealpha(0.5) end,
+				local scores = profile:GetHighScoreList(SongOrCourse, StepsOrTrail):GetHighScores()
+				local score = scores[rival]
+				
+				if not score then
+					c.Bar_underlay:diffuse(Alpha(Color.White, 0.2))
+					c.Text_score:visible(false)
+					c.Text_name:visible(false)
+					c.Grade:visible(false)
+					return
+				end
+				c.Bar_underlay:diffuse(Color.White)
+				c.Text_score:visible(true)
+				c.Text_name:visible(true)
+				c.Grade:visible(true)
+				
+				if rival == 1 then
+					c.Bar_place:diffuse(color("#3cbbf6"))
+				elseif rival == 2 then
+					c.Bar_place:diffuse(color("#d6d7d4"))
+				elseif rival == 3 then
+					c.Bar_place:diffuse(color("#f6cc40"))
+				else
+					c.Bar_place:diffuse(color("#f22133"))
+				end
+				
+				local name = score:GetName()
+				if not name or name == ''  then
+					c.Text_name:settext('(NO NAME)')
+				else
+					c.Text_name:settext(name)
+				end
+				
+				s:playcommand('SetScore', { Stats = score, Steps = StepsOrTrail })
+			end,
+			Def.ActorFrame{
+				Name='Bar_underlay',
+				Def.Quad{
+					InitCommand=function(s) s:setsize(312,26):faderight(0.75):diffusealpha(0.5) end,
+				},
+				Def.Quad{
+					InitCommand=function(s) s:y(-12):setsize(312,2):faderight(0.5):diffusealpha(0.5) end,
+				},
 			},
 			Def.Quad{
-				InitCommand=function(s) s:y(-12):setsize(312,2):faderight(0.5):diffusealpha(0.5) end,
+				Name='Bar_place',
+				InitCommand=function(s) s:x(-140):setsize(20,20) end,
 			},
-		},
-		Def.Quad{
-			Name="Bar_place",
-			InitCommand=function(s) s:x(-140):setsize(20,20) end,
-			Name='Text_name',
 			Def.BitmapText{
-				Font="_avenirnext lt pro bold/25px",
-				Name="Text_place",
+				Font='_avenirnext lt pro bold/25px',
+				Name='Text_place',
 				Text=rival,
-					InitCommand=function(s) s:x(-140):strokecolor(Alpha(Color.Black,0.5)):zoom(0.7) end,
-				},
-				Def.BitmapText{
-					Name="Text_name",
-					Font="_avenirnext lt pro bold/20px",
-					InitCommand=function(s) s:x(-120):halign(0):diffuse(Color.White):strokecolor(Color.Black) end,
-				},
-				Def.BitmapText{
-					Name="Text_score",
-					Font="_avenirnext lt pro bold/20px",
-					InitCommand=function(s) s:x(120):halign(1):diffuse(Color.White):strokecolor(Color.Black) end,
-				},
-				LoadActor(THEME:GetPathG("","myMusicWheel/default.lua"),pn,rival,"Machine","Current",diff)..{
-				InitCommand=function(s) s:x(146) end,
-			}
+				InitCommand=function(s) s:x(-140):strokecolor(Alpha(Color.Black,0.5)):zoom(0.7) end,
+			},
+			Def.BitmapText{
+				Name='Text_name',
+				Font='_avenirnext lt pro bold/20px',
+				InitCommand=function(s) s:x(-120):halign(0):diffuse(Color.White):strokecolor(Color.Black) end,
+			},
+			ScoreAndGrade.CreateScoreActor{
+				Name='Text_score',
+				Font='_avenirnext lt pro bold/20px',
+				InitCommand=function(self)
+					self:x(120):halign(1):diffuse(Color.White):strokecolor(Color.Black)
+				end,
+			},
+			ScoreAndGrade.CreateGradeActor{
+				Name='Grade',
+				InitCommand=function(self)
+					self:x(146)
+				end,
+			},
 		}
-		end
-		return t
+	end
+	return t
 end
 
 local function RadarPanel()

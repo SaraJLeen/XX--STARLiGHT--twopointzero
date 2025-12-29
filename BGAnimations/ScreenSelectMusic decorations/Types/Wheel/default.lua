@@ -4,11 +4,29 @@ if GAMESTATE:IsAnExtraStage() then
 end
 
 local t = Def.ActorFrame{}
+local DescPane = Def.ActorFrame{
+	InitCommand = function(s) s:xy(SCREEN_LEFT+0,SCREEN_TOP+0):visible(true) end,
+	CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
+	loadfile(THEME:GetPathB("ScreenSelectMusic","decorations/Types/Wheel/GroupDesc.lua"))();
+}
 
 local RecordPane = Def.ActorFrame{
     InitCommand = function(s) s:xy(SCREEN_LEFT+470,SCREEN_BOTTOM-150) end,
       OnCommand=function(s) s:addy(600):sleep(0.4):decelerate(0.3):addy(-600) end,
     OffCommand=function(s) s:sleep(0.3):decelerate(0.3):addy(600) end,
+          SetCommand=function(s)
+            local song = GAMESTATE:GetCurrentSong();
+            if song then
+              s:visible(true)
+            else
+              s:visible(false)
+            end
+          end,
+          CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
+	CurrentStepsP1ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentStepsP2ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentTrailP1ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentTrailP2ChangedMessageCommand=function(s) s:playcommand("Set") end,
     Def.Sprite{
       Texture=ex.."RadarBack",
     };
@@ -99,6 +117,7 @@ return Def.ActorFrame{
     StandardDecorationFromFileOptional("StageDisplay","StageDisplay")..{
         InitCommand=function(s) s:xy(SCREEN_LEFT+340,_screen.cy-160):zoom(1) end,
     };
+	DescPane;
     RecordPane;
     t;
     Def.Sprite{
@@ -123,6 +142,19 @@ return Def.ActorFrame{
         InitCommand=function(self) self:xy(IsUsingWideScreen() and SCREEN_LEFT+408 or SCREEN_LEFT+330,SCREEN_CENTER_Y+80) end,
         OnCommand=function(s) s:zoom(IsUsingWideScreen() and 1 or 0.8):addx(-800):sleep(0.3):decelerate(0.3):addx(800) end,
         OffCommand=function(s) s:sleep(0.3):decelerate(0.3):addx(-800) end,
+          SetCommand=function(s)
+            local song = GAMESTATE:GetCurrentSong();
+            if song then
+              s:visible(true)
+            else
+              s:visible(false)
+            end
+          end,
+          CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
+	CurrentStepsP1ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentStepsP2ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentTrailP1ChangedMessageCommand=function(s) s:playcommand("Set") end,
+	CurrentTrailP2ChangedMessageCommand=function(s) s:playcommand("Set") end,
         Def.Sprite{
           Texture="DiffBacker",
         };
@@ -160,4 +192,128 @@ return Def.ActorFrame{
 		CurrentSongChangedMessageCommand=function(s) s:queuecommand("Set") end,
 	};
   loadfile(THEME:GetPathB("ScreenSelectMusic","decorations/_shared/TwoPartDiff"))(),
+  Def.BitmapText{
+    Font="_avenirnext lt pro bold/36px",
+    Name="LengthLabel";
+    InitCommand=function(s)
+      s:diffusealpha(0);
+      s:x(700);
+      s:y(400);
+      s:halign(0.5);
+      s:zoom(0.75)
+      s:diffuse(Color.White)
+      s:strokecolor(ColorDarkTone(Color.White))
+      s:shadowcolor(Color.Black)
+      s:shadowlength(2.0)
+      s:settext( "" );
+    end,
+    OnCommand=function(s)
+      s:sleep(0.5)
+      s:decelerate(0.5)
+      s:y(440);
+      s:zoom(1)
+      s:diffusealpha(1);
+    end,
+    OffCommand=function(s)
+      s:decelerate(0.0)
+      s:y(440);
+      s:zoom(1)
+      s:diffusealpha(1);
+      s:decelerate(0.2)
+      s:y(440);
+      s:zoom(0.75)
+      s:diffusealpha(0);
+    end,
+    CurrentSongChangedMessageCommand=function(s)
+      local song = GAMESTATE:GetCurrentSong()
+      s:diffuse(Color.White)
+      s:strokecolor(ColorDarkTone(Color.White))
+      if song then
+        if song:IsLong() then
+          s:diffuse(Color.Red)
+          s:strokecolor(ColorDarkTone(Color.Red))
+        elseif song:IsMarathon() then
+          s:diffuse(Color.Orange)
+          s:strokecolor(ColorDarkTone(Color.Orange))
+        elseif song:MusicLengthSeconds() < 70 then
+          s:diffuse(Color.Green)
+          s:strokecolor(ColorDarkTone(Color.Green))
+        end
+        if false and song:MusicLengthSeconds() < 60 then
+            resultxt, discardtxt = math.modf(song:MusicLengthSeconds());
+            s:settext( resultxt.."s" );
+        elseif song:MusicLengthSeconds() > 3600 then
+          s:settext( SecondsToHHMMSS(song:MusicLengthSeconds()) );
+        else
+          s:settext( SecondsToMSS(song:MusicLengthSeconds()) );
+        end
+      else
+        s:settext( "" );
+      end
+    end,
+  };
+  Def.BitmapText{
+    Font="_avenirnext lt pro bold/36px",
+    Name="GroupLabel";
+    InitCommand=function(s)
+      s:diffusealpha(0);
+      s:x(548);
+      s:y(414);
+      s:halign(1.0);
+      s:valign(1.0);
+      s:zoom(0.75)
+      s:strokecolor(Color.Black)
+      s:shadowcolor(Color.Black)
+      s:shadowlength(2.0)
+      s:settext( "" );
+      s:maxwidth(410);
+      s:maxheight(60);
+      s:vertspacing(0)
+    end,
+    OnCommand=function(s)
+      s:sleep(0.5)
+      s:decelerate(0.5)
+      s:y(454);
+      if s:GetHeight() > 30 then
+        s:y(464)
+      end
+      s:zoom(1)
+      s:diffusealpha(1);
+    end,
+    OffCommand=function(s)
+      s:decelerate(0.0)
+      s:y(454);
+      if s:GetHeight() > 30 then
+        s:y(464)
+      end
+      s:zoom(1)
+      s:diffusealpha(1);
+      s:decelerate(0.2)
+      s:y(454);
+      if s:GetHeight() > 30 then
+        s:y(464)
+      end
+      s:zoom(0.75)
+      s:diffusealpha(0);
+    end,
+    CurrentSongChangedMessageCommand=function(s)
+      local song = GAMESTATE:GetCurrentSong()
+      if song then
+        group = song:GetGroupName()
+        if group == "<Favorites>" then group = string.match(song:GetSongDir(), "/Songs/(.-)/") end
+        --s:settext( SongAttributes_GetGroupName(group) );
+	s:settext( get_subgroup_name( SongAttributes_GetGroupName( group ), song ) );
+        s:diffuse( SongAttributes_GetGroupColor(group) );
+        s:strokecolor(ColorDarkTone(SongAttributes_GetGroupColor(group)) );
+      else
+        s:settext( "" );
+        s:diffuse(Color.White)
+        s:strokecolor(ColorDarkTone(Color.White) );
+      end
+      s:y(454);
+      if s:GetHeight() > 30 then
+        s:y(464)
+      end
+    end,
+  };
 }

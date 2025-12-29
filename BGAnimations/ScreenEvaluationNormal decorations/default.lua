@@ -7,6 +7,11 @@ local ScoreAndGrade = LoadModule('ScoreAndGrade.lua')
 local TimingMode = LoadModule("Config.Load.lua")("SmartTimings","Save/OutFoxPrefs.ini") or "Unknown"
 if TimingMode == "Original" then TimingMode = "StepMania" end
 
+for _,pn in pairs(GAMESTATE:GetEnabledPlayers()) do
+	GAMESTATE:StoreRankingName(pn,PROFILEMAN:GetProfile(pn):GetDisplayName())
+end
+GAMESTATE:SaveLocalData();
+GAMESTATE:SaveProfiles();
 
 local t = LoadFallbackB();
 

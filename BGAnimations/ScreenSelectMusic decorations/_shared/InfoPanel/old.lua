@@ -564,10 +564,10 @@ local function RadarPanel()
         Def.ActorFrame{
             Name="Radar",
             Def.Sprite{
-                Texture=THEME:GetPathB("ScreenSelectMusic","overlay/RadarHandler/GrooveRadar base.png"),
+                Texture=THEME:GetPathB("","_shared/Radar/GrooveRadar base.png"),
             };
             Def.Sprite{
-                Texture=THEME:GetPathB("ScreenSelectMusic","overlay/RadarHandler/sweep.png"),
+                Texture=THEME:GetPathB("","_shared/Radar/sweep.png"),
                 InitCommand = function(s) s:zoom(1.275):spin():effectmagnitude(0,0,100) end,
             };
             create_ddr_groove_radar("radar",0,0,pn,125,Alpha(PlayerColor(pn),0.25));
@@ -579,7 +579,7 @@ local function RadarPanel()
                 s:xy(v[1],v[2])
             end;
             Def.Sprite{
-                Texture=THEME:GetPathB("ScreenSelectMusic","overlay/RadarHandler/RLabels"),
+                Texture=THEME:GetPathB("","_shared/Radar/RLabels"),
                 OnCommand=function(s) s:animate(0):setstate(i-1) end,
             };
             Def.BitmapText{

@@ -34,7 +34,7 @@ local function DrawDiffListItem(diff)
       local scores = profile:GetHighScoreList(song, steps):GetHighScores()
       local score = scores[1]
       if not score then
-        self:diffusealpha(0.5)
+        c.Score:visible(false)
         c.GradeFrame:visible(false)
         return
       end

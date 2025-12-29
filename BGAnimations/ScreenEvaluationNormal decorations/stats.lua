@@ -1,3 +1,5 @@
+local ScoreAndGrade = LoadModule('ScoreAndGrade.lua')
+
 local t = Def.ActorFrame{}
 
 local args = {...}

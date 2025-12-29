@@ -79,10 +79,14 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 			local song = GAMESTATE:GetCurrentSong()
 			local steps = GAMESTATE:GetCurrentSteps(pn)
 			if not (song and steps) then
+				c.JudgeText:visible(false)
+				c.JudgeFrame:visible(false)
 				c.Score:visible(false)
 				c.Grade:visible(false)
+				s:visible(false)
 				return
 			end
+			s:visible(true)
 			
 			local profile
 			if PROFILEMAN:IsPersistentProfile(pn) then
@@ -94,10 +98,14 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 			local scores = profile:GetHighScoreList(song, steps):GetHighScores()
 			local score = scores[1]
 			if not score then
+				c.JudgeText:visible(false)
+				c.JudgeFrame:visible(false)
 				c.Score:visible(false)
 				c.Grade:visible(false)
 				return
 			end
+			c.JudgeText:visible(true)
+			c.JudgeFrame:visible(true)
 			c.Score:visible(true)
 			c.Grade:visible(true)
 			
@@ -115,7 +123,8 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 			end,
 		},
 		Def.Sprite{
-			Texture='Judge Inner',
+			Name='JudgeText',
+			Texture='Judge Stroke',
 			InitCommand=function(s) s:xy(230,5) end,
 		},
 		ScoreAndGrade.CreateGradeActor{
@@ -123,7 +132,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 			Big=true,
 			InitCommand=function(self)
 				self:xy(400,-30):zoom(0.2)
-				self:GetChild('FullCombo'):zoom(1.5)
+				self:GetChild('FullCombo'):zoom(1.5):xy(250,0)
 			end,
 		},
 		ScoreAndGrade.CreateScoreRollingActor{
@@ -132,9 +141,11 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 			Load='RollingNumbersSongData',
 			InitCommand=function(self)
 				self:xy(400,15):zoom(0.8):strokecolor(Color.Black)
+				self:strokecolor(Color.Black):shadowcolor(Color.Black):shadowlength(2.0)
 			end,
 		},
 		Def.ActorFrame{
+			Name='JudgeFrame',
 			InitCommand=function(s) s:xy(325,6):halign(1) end,
 			SetCommand=function(self)
 				local scoreData = GetSongScoreData(pn)
@@ -150,6 +161,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 					end
 					self:visible(true)
 					self:settext(data.Date)
+					self:strokecolor(Color.Black):shadowcolor(Color.Black):shadowlength(2.0)
 				end,
 			},
 			Def.RollingNumbers{
@@ -161,6 +173,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 						return
 					end
 					self:targetnumber(data.MAXCombo)
+					self:strokecolor(Color.Black):shadowcolor(Color.Black):shadowlength(2.0)
 				end,
 			},
 			Def.RollingNumbers{
@@ -172,6 +185,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 						return
 					end
 					self:targetnumber(data.W1)
+					self:strokecolor(Color.Black):shadowcolor(Color.Black):shadowlength(2.0)
 				end,
 			},
 			Def.RollingNumbers{
@@ -183,6 +197,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 						return
 					end
 					self:targetnumber(data.W2)
+					self:strokecolor(Color.Black):shadowcolor(Color.Black):shadowlength(2.0)
 				end,
 			},
 			Def.RollingNumbers{
@@ -194,6 +209,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 						return
 					end
 					self:targetnumber(data.W3)
+					self:strokecolor(Color.Black):shadowcolor(Color.Black):shadowlength(2.0)
 				end,
 			},
 			Def.RollingNumbers{
@@ -205,6 +221,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 						return
 					end
 					self:targetnumber(data.W4)
+					self:strokecolor(Color.Black):shadowcolor(Color.Black):shadowlength(2.0)
 				end,
 			},
 			Def.RollingNumbers{
@@ -216,6 +233,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 						return
 					end
 					self:targetnumber(data.OK)
+					self:strokecolor(Color.Black):shadowcolor(Color.Black):shadowlength(2.0)
 				end
 			},
 			Def.RollingNumbers{
@@ -227,6 +245,7 @@ for _, pn in pairs(GAMESTATE:GetEnabledPlayers()) do
 						return
 					end
 					self:targetnumber(data.Miss)
+					self:strokecolor(Color.Black):shadowcolor(Color.Black):shadowlength(2.0)
 				end,
 			},
 		},

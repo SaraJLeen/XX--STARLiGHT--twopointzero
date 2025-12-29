@@ -171,9 +171,9 @@ function LoadPlayerStuff(Player)
 		InitCommand=function(s) s:y(120-fsp_nudge):hibernate(0.2) end,
 		OnCommand=function(s) s:zoom(0):rotationz(-360):decelerate(0.4):zoom(1):rotationz(0) end,
         OffCommand=function(s) s:decelerate(0.3):rotationz(-360):zoom(0) end,
-		Def.Sprite{Texture=THEME:GetPathB("","ScreenSelectMusic overlay/RadarHandler/"..ver.."GrooveRadar base"),};
+		Def.Sprite{Texture=THEME:GetPathB("ScreenSelectMusic","decorations/_shared/RadarHandler/GrooveRadar base"),};
 		Def.Sprite{
-			Texture=THEME:GetPathB("","ScreenSelectMusic overlay/RadarHandler/sweep"),
+			Texture=THEME:GetPathB("ScreenSelectMusic","decorations/_shared/RadarHandler/sweep"),
 			InitCommand = function(s) s:zoom(1.275):spin():effectmagnitude(0,0,100) end,
         	OnCommand = function(s) s:hibernate(0.4) end,
         	OffCommand=function(s) s:finishtweening():sleep(0.3):decelerate(0.3):rotationz(-360):zoom(0) end,
@@ -297,7 +297,7 @@ function LoadPlayerStuff(Player)
 					s:sleep(i/20):linear(0.1):diffusealpha(0):addx(-10)
 				end;
 				Def.Sprite{
-					Texture=THEME:GetPathB("ScreenSelectMusic","overlay/RadarHandler/"..ver.."RLabels"),
+					Texture=THEME:GetPathB("ScreenSelectMusic","decorations/_shared/RadarHandler/RLabels"),
 					OnCommand=function(s) s:animate(0):setstate(i-1) end,
 				};
 			};
@@ -589,7 +589,7 @@ function UpdateInternal3(self, Player)
 				--selLSP:settext("DDR 1st - Butterfly");
 				if PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetLastPlayedSong() then
 					local lastsong = PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetLastPlayedSong()
-					selLSP:settext(lastsong:GetDisplayArtist().." - "..lastsong:GetDisplayMainTitle())
+					selLSP:settext("Last: "..lastsong:GetDisplayArtist().." - "..lastsong:GetDisplayMainTitle().."")
 					if (Player==PLAYER_1 and LastColorP1 ~= SongAttributes_GetMenuColor(lastsong)) or (Player==PLAYER_2 and LastColorP2 ~= SongAttributes_GetMenuColor(lastsong)) then
 						selLSP:diffuse(SongAttributes_GetMenuColor(lastsong)):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(lastsong)))
 						if Player==PLAYER_1 then LastColorP1 = SongAttributes_GetMenuColor(lastsong) end
@@ -601,7 +601,7 @@ function UpdateInternal3(self, Player)
 				end
 				if PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetMostPopularSong() then
 					local favesong = PROFILEMAN:GetLocalProfileFromIndex(ind-1):GetMostPopularSong()
-					selFSP:settext(favesong:GetDisplayArtist().." - "..favesong:GetDisplayMainTitle())
+					selFSP:settext("Fave: "..favesong:GetDisplayArtist().." - "..favesong:GetDisplayMainTitle().."")
 					if (Player==PLAYER_1 and FaveColorP1 ~= SongAttributes_GetMenuColor(favesong)) or (Player==PLAYER_2 and FaveColorP2 ~= SongAttributes_GetMenuColor(favesong)) then
 						selFSP:diffuse(SongAttributes_GetMenuColor(favesong)):strokecolor(ColorDarkTone(SongAttributes_GetMenuColor(favesong)))
 						if Player==PLAYER_1 then FaveColorP1 = SongAttributes_GetMenuColor(favesong) end

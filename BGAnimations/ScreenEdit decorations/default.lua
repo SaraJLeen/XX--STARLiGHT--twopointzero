@@ -14,8 +14,8 @@ return Def.ActorFrame{
 --[[
 t[#t+1] = Def.ActorFrame{
     InitCommand=function(s) s:xy(_screen.cx-700,_screen.cy-300) end,
-    Def.Sprite{Texture=THEME:GetPathB("","ScreenSelectMusic overlay/2014Deco/_jacket back")};
-    Def.Sprite{
+    LoadActor(THEME:GetPathB("","ScreenSelectMusic overlay/2014Deco/_jacket back"));
+    Def.Banner{
         InitCommand=function(s)
             local song = GAMESTATE:GetCurrentSong()
             s:Load(song:GetJacketPath())
@@ -24,26 +24,24 @@ t[#t+1] = Def.ActorFrame{
     },
     Def.ActorFrame{
         InitCommand=function(s) s:y(250) end,
-        Def.Sprite{Texture=THEME:GetPathB("","ScreenSelectMusic overlay/2014Deco/titlebox")};
-        Def.BitmapText{
-            Font="_avenirnext lt pro bold/20px",
+        LoadActor(THEME:GetPathB("","ScreenSelectMusic overlay/2014Deco/titlebox"));
+        LoadFont("_avenirnext lt pro bold/20px") .. {
             InitCommand = function(s) s:y(-8):maxwidth(400):maxheight(20):playcommand("Set") end,
             SetCommand = function(self)
                 local song = GAMESTATE:GetCurrentSong()
                 if song then
-                    self:settext(song:GetDisplayFullTitle()):diffuse(SongAttributes_GetMenuColor(song))
+                    self:settext(song:GetDisplayFullTitle()):diffuse(SongAttributes.GetMenuColor(song))
                 else
                     self:settext""
                 end
             end,
         };
-        Def.BitmapText{
-            Font="_avenirnext lt pro bold/20px",
+        LoadFont("_avenirnext lt pro bold/20px") .. {
             InitCommand = function(s) s:y(20):maxwidth(400):maxheight(20):playcommand("Set") end,
             SetCommand = function(self)
                 local song = GAMESTATE:GetCurrentSong()
                 if song then
-                    self:settext(song:GetDisplayArtist()):diffuse(SongAttributes_GetMenuColor(song))
+                    self:settext(song:GetDisplayArtist()):diffuse(SongAttributes.GetMenuColor(song))
                 else
                     self:settext""
                 end
